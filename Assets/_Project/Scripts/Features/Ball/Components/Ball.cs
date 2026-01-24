@@ -1,8 +1,10 @@
 using System.Collections;
+using ColorOrCrash.Global.Components;
+using NocturneThree.ServiceLocator;
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace ColorOfCrash.Features.Ball.Components
+namespace ColorOrCrash.Features.Ball.Components
 {
     /// <summary>
     /// Colour configuration for managing the colour of ball.
@@ -32,6 +34,11 @@ namespace ColorOfCrash.Features.Ball.Components
         private Vector2 _direction;
         private SpriteRenderer _renderer;
         private IObjectPool<Ball> _pool;
+        private bool _isInsideArena = false;
+        private Collider2D _collider;
+
+        // width/height froom config
+        private float widthArea, heightArea;
 
         public BallColor CurrentColor => _ballColor;
 
@@ -39,6 +46,7 @@ namespace ColorOfCrash.Features.Ball.Components
         {
             _rb = GetComponent<Rigidbody2D>();
             _renderer = GetComponent<SpriteRenderer>();
+            _collider = GetComponent<Collider2D>();
 
             _rb.linearDamping = 0;
             _rb.interpolation = RigidbodyInterpolation2D.Interpolate;
@@ -46,37 +54,46 @@ namespace ColorOfCrash.Features.Ball.Components
 
         public void Initialize(BallColor color, Vector2 position, Vector2 dir, float speed, IObjectPool<Ball> pool)
         {
+            var manager = ServiceLocator.Get<GameManager>();
+            if(manager != null)
+            {
+                widthArea = manager.config.targetAreaWidth;
+                heightArea = manager.config.targetAreaHeight;
+            }
+
             _pool = pool;
             _ballColor = color;
             transform.position = position;
-            _direction = dir;
             _speed = speed;
+            _isInsideArena = false;
 
-            switch(color)
+            _renderer.color = color switch
             {
-                case BallColor.Red:
-                    _renderer.color = Color.red;
-                    break;
-                case BallColor.Blue:
-                    _renderer.color = Color.blue;
-                    break;
-                case BallColor.Yellow:
-                    _renderer.color = Color.yellow;
-                    break;
-                case BallColor.Green:
-                    _renderer.color = Color.green;
-                    break;
-            }
+                BallColor.Red => Color.red,
+                BallColor.Blue => Color.blue,
+                BallColor.Yellow => Color.yellow,
+                BallColor.Green => Color.green,
+                _ => Color.white
+            };
 
             gameObject.SetActive(true);
-            Vector2 throwDirection = new Vector2(dir.x, 0.5f).normalized;
-            _rb.linearVelocity = throwDirection * _speed;
+            _rb.linearVelocity = dir * _speed;
         }
 
         void Update()
         {
             float currentVelocity = _rb.linearVelocity.magnitude;
-            transform.Rotate(Vector3.forward * currentVelocity * rotationSpeedMultiplier * Time.deltaTime);
+            transform.Rotate(currentVelocity * rotationSpeedMultiplier * Time.deltaTime * Vector3.forward);
+
+            if (!_isInsideArena)
+            {
+                // Cek apakah posisi bola sudah berada di dalam batas targetArea
+                // Kamu bisa sesuaikan angka ini dengan ukuran targetAreaWidth/Height di config
+                if (Mathf.Abs(transform.position.x) < widthArea && Mathf.Abs(transform.position.y) < heightArea)
+                {
+                    _isInsideArena = true;
+                }
+            }
         }
 
         void FixedUpdate()

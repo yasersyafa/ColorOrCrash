@@ -1,12 +1,12 @@
 using System.Threading;
-using ColorOfCrash.Features.Ball.Models;
 using ColorOfCrash.Utils;
+using ColorOrCrash.Features.Ball.Models;
 using Cysharp.Threading.Tasks;
 using NocturneThree.ServiceLocator;
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace ColorOfCrash.Features.Ball.Components
+namespace ColorOrCrash.Features.Ball.Components
 {
     public class BallSpawner : MonoBehaviour, IGameService
     {

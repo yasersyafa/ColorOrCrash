@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a883ac14a9da84025a199fcb3996bce0, type: 3}
   m_Name: BallSpawnerConfig
   m_EditorClassIdentifier: 
-  spawnInterfal: 2
+  spawnInterfal: 5
   minSpeed: 3
   maxSpeed: 6
   ballPrefab: {fileID: 2876040622464414041, guid: 76d3a5b8fbec74d8db27a4b81abe2299, type: 3}
+  spawnRadius: 5
+  targetAreaWidth: 8
+  targetAreaHeight: 5
