@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf914afca1b467340bbe7b5bae81e683, type: 3}
+  m_Name: VinGameSettings
+  m_EditorClassIdentifier: 
+  redColor: {r: 1, g: 0.32156864, b: 0.8235294, a: 1}
+  greenColor: {r: 0.6431373, g: 0.9372549, b: 0, a: 1}
+  blueColor: {r: 0.19607843, g: 0.25490198, b: 0.8784314, a: 1}
+  whiteColor: {r: 1, g: 1, b: 1, a: 1}
+  playerMoveSpeed: 5.5
+  playerDashSpeed: 20
+  playerDashDuration: 0.08
+  playerDashCooldown: 0.1
+  startColorChangeInterval: 13
+  minColorChangeInterval: 7
+  colorChangeIntervalDecreasePerScore: 0.03
+  ballMinSpeed: 4
+  ballMaxSpeed: 5
+  ballSpawnInterval: 3.5
+  ballSpawnIntervalVariance: 1
+  ballColorTransitionDuration: 0.5
+  ballInvulnerableDuration: 0.5
+  maxBallsInScene: 10
+  ballSpawnScale: 0.5
+  startSpawnInterval: 3.5
+  minSpawnInterval: 1
+  spawnIntervalDecreasePerScore: 0.02
+  startMatchingColorChance: 0.7
+  minMatchingColorChance: 0.4
+  matchingChanceDecreasePerScore: 0.05
