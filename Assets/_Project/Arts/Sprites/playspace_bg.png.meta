@@ -1,0 +1,1521 @@
+fileFormatVersion: 2
+guid: 456e224d644e15b49866908d609d907e
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1692524200156277366
+    second: playspace_bg_0
+  - first:
+      213: -8385169095560389282
+    second: playspace_bg_1
+  - first:
+      213: 8255539358223728413
+    second: playspace_bg_2
+  - first:
+      213: -219615773556354921
+    second: playspace_bg_3
+  - first:
+      213: -4784132759571505319
+    second: playspace_bg_4
+  - first:
+      213: 8361836915475689063
+    second: playspace_bg_5
+  - first:
+      213: 9061947396557888152
+    second: playspace_bg_6
+  - first:
+      213: 4005675427012484972
+    second: playspace_bg_7
+  - first:
+      213: 6511749628652073898
+    second: playspace_bg_8
+  - first:
+      213: 8442288624466068363
+    second: playspace_bg_9
+  - first:
+      213: -3720948841467940868
+    second: playspace_bg_10
+  - first:
+      213: 227422906457689726
+    second: playspace_bg_11
+  - first:
+      213: 2113330330828867786
+    second: playspace_bg_12
+  - first:
+      213: 6555753941133865662
+    second: playspace_bg_13
+  - first:
+      213: 8262554306978768912
+    second: playspace_bg_14
+  - first:
+      213: 8093142260303765520
+    second: playspace_bg_15
+  - first:
+      213: -3657018792934052891
+    second: playspace_bg_16
+  - first:
+      213: -6805730474471708345
+    second: playspace_bg_17
+  - first:
+      213: 4136443991776131525
+    second: playspace_bg_18
+  - first:
+      213: 2540949220576094837
+    second: playspace_bg_19
+  - first:
+      213: 3106014166920578244
+    second: playspace_bg_20
+  - first:
+      213: -1944145261640639501
+    second: playspace_bg_21
+  - first:
+      213: 8641295862391835355
+    second: playspace_bg_22
+  - first:
+      213: 2872392251199189689
+    second: playspace_bg_23
+  - first:
+      213: 7512514782408519703
+    second: playspace_bg_24
+  - first:
+      213: 7205374659837210261
+    second: playspace_bg_25
+  - first:
+      213: -3914832547826863896
+    second: playspace_bg_26
+  - first:
+      213: -5258964317528132350
+    second: playspace_bg_27
+  - first:
+      213: -5370213106315792806
+    second: playspace_bg_28
+  - first:
+      213: 8510594227387390239
+    second: playspace_bg_29
+  - first:
+      213: 1912127978994380597
+    second: playspace_bg_30
+  - first:
+      213: 6958590672591785574
+    second: playspace_bg_31
+  - first:
+      213: 6647848243653886503
+    second: playspace_bg_32
+  - first:
+      213: 6666655804658413079
+    second: playspace_bg_33
+  - first:
+      213: 7726426941957435738
+    second: playspace_bg_34
+  - first:
+      213: -1115503967234755095
+    second: playspace_bg_35
+  - first:
+      213: -4320707314280018487
+    second: playspace_bg_36
+  - first:
+      213: -7055180152734175434
+    second: playspace_bg_37
+  - first:
+      213: 8087702210634278791
+    second: playspace_bg_38
+  - first:
+      213: -4252955234352970084
+    second: playspace_bg_39
+  - first:
+      213: -8974901557213725736
+    second: playspace_bg_40
+  - first:
+      213: -7357113811437800992
+    second: playspace_bg_41
+  - first:
+      213: -8572186790958244529
+    second: playspace_bg_42
+  - first:
+      213: 3707382114733485674
+    second: playspace_bg_43
+  - first:
+      213: -3530814511052010898
+    second: playspace_bg_44
+  - first:
+      213: -2395364465546273362
+    second: playspace_bg_45
+  - first:
+      213: 871190122983917326
+    second: playspace_bg_46
+  - first:
+      213: -8850422301268589463
+    second: playspace_bg_47
+  - first:
+      213: -7666516394815889073
+    second: playspace_bg_48
+  - first:
+      213: -8922529423799512315
+    second: playspace_bg_49
+  - first:
+      213: -319085942426252980
+    second: playspace_bg_50
+  - first:
+      213: 3438618944840711035
+    second: playspace_bg_51
+  - first:
+      213: 9092641074093930410
+    second: playspace_bg_52
+  - first:
+      213: -3850682500284891264
+    second: playspace_bg_53
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 180
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: playspace_bg_0
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 1668
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a85dee31532f288e0800000000000000
+      internalID: -1692524200156277366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_1
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 1708
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5d1a855225e1ab80800000000000000
+      internalID: -8385169095560389282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_2
+      rect:
+        serializedVersion: 2
+        x: 1068
+        y: 1718
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1f7e2c7e41919270800000000000000
+      internalID: 8255539358223728413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_3
+      rect:
+        serializedVersion: 2
+        x: 2168
+        y: 1708
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 790d9161e94c3fcf0800000000000000
+      internalID: -219615773556354921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_4
+      rect:
+        serializedVersion: 2
+        x: 1548
+        y: 1648
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95f5e634a985b9db0800000000000000
+      internalID: -4784132759571505319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_5
+      rect:
+        serializedVersion: 2
+        x: 3128
+        y: 1628
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76e2da82f563b0470800000000000000
+      internalID: 8361836915475689063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_6
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 1588
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89adb19152182cd70800000000000000
+      internalID: 9061947396557888152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_7
+      rect:
+        serializedVersion: 2
+        x: 2328
+        y: 1578
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6f1790f394079730800000000000000
+      internalID: 4005675427012484972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_8
+      rect:
+        serializedVersion: 2
+        x: 2658
+        y: 1558
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa3b61a59c16e5a50800000000000000
+      internalID: 6511749628652073898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_9
+      rect:
+        serializedVersion: 2
+        x: 1028
+        y: 1568
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b830f9856c8092570800000000000000
+      internalID: 8442288624466068363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_10
+      rect:
+        serializedVersion: 2
+        x: 2908
+        y: 1548
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cffe6ec3eb88c5cc0800000000000000
+      internalID: -3720948841467940868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_11
+      rect:
+        serializedVersion: 2
+        x: 1378
+        y: 1388
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7e8231bde7f72300800000000000000
+      internalID: 227422906457689726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_12
+      rect:
+        serializedVersion: 2
+        x: 2958
+        y: 1418
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac80d1e2dbe045d10800000000000000
+      internalID: 2113330330828867786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_13
+      rect:
+        serializedVersion: 2
+        x: 938
+        y: 1368
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb2b620c977bafa50800000000000000
+      internalID: 6555753941133865662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_14
+      rect:
+        serializedVersion: 2
+        x: 1678
+        y: 1368
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 018e7d48d5d7aa270800000000000000
+      internalID: 8262554306978768912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_15
+      rect:
+        serializedVersion: 2
+        x: 2118
+        y: 1308
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 010ab16a10e905070800000000000000
+      internalID: 8093142260303765520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_16
+      rect:
+        serializedVersion: 2
+        x: 2358
+        y: 1298
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ebec3698c8af3dc0800000000000000
+      internalID: -3657018792934052891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_17
+      rect:
+        serializedVersion: 2
+        x: 538
+        y: 1228
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 749201811303d81a0800000000000000
+      internalID: -6805730474471708345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_18
+      rect:
+        serializedVersion: 2
+        x: 1948
+        y: 1238
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c97d1b05e9976930800000000000000
+      internalID: 4136443991776131525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_19
+      rect:
+        serializedVersion: 2
+        x: 2688
+        y: 1218
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57a6eb48ad3434320800000000000000
+      internalID: 2540949220576094837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_20
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 1138
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c4c1aead67ca1b20800000000000000
+      internalID: 3106014166920578244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_21
+      rect:
+        serializedVersion: 2
+        x: 3108
+        y: 1118
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3fb96206f220505e0800000000000000
+      internalID: -1944145261640639501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_22
+      rect:
+        serializedVersion: 2
+        x: 788
+        y: 1028
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bda0be4adcc0ce770800000000000000
+      internalID: 8641295862391835355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_23
+      rect:
+        serializedVersion: 2
+        x: 1468
+        y: 968
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b2ff4ca889ccd720800000000000000
+      internalID: 2872392251199189689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_24
+      rect:
+        serializedVersion: 2
+        x: 2558
+        y: 958
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 710b45f3460d14860800000000000000
+      internalID: 7512514782408519703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_25
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 928
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59ea231d312aef360800000000000000
+      internalID: 7205374659837210261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_26
+      rect:
+        serializedVersion: 2
+        x: 1238
+        y: 868
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e074a71a88bba9c0800000000000000
+      internalID: -3914832547826863896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_27
+      rect:
+        serializedVersion: 2
+        x: 2308
+        y: 878
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 205f74ff0d76407b0800000000000000
+      internalID: -5258964317528132350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_28
+      rect:
+        serializedVersion: 2
+        x: 2998
+        y: 868
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5e66e5e1ab2975b0800000000000000
+      internalID: -5370213106315792806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_29
+      rect:
+        serializedVersion: 2
+        x: 878
+        y: 778
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f195ae6db54bb1670800000000000000
+      internalID: 8510594227387390239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_30
+      rect:
+        serializedVersion: 2
+        x: 1678
+        y: 788
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53fab09144e398a10800000000000000
+      internalID: 1912127978994380597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_31
+      rect:
+        serializedVersion: 2
+        x: 2698
+        y: 658
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66e0e293951e19060800000000000000
+      internalID: 6958590672591785574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_32
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 608
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 722c1bb71c6e14c50800000000000000
+      internalID: 6647848243653886503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_33
+      rect:
+        serializedVersion: 2
+        x: 1998
+        y: 628
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71ee5740228b48c50800000000000000
+      internalID: 6666655804658413079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_34
+      rect:
+        serializedVersion: 2
+        x: 1258
+        y: 598
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a51716a0e58c93b60800000000000000
+      internalID: 7726426941957435738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_35
+      rect:
+        serializedVersion: 2
+        x: 3108
+        y: 588
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e5fe6f4d0fe480f0800000000000000
+      internalID: -1115503967234755095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_36
+      rect:
+        serializedVersion: 2
+        x: 2088
+        y: 528
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9cd48e9f693c904c0800000000000000
+      internalID: -4320707314280018487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_37
+      rect:
+        serializedVersion: 2
+        x: 958
+        y: 478
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63fa4e1f707f61e90800000000000000
+      internalID: -7055180152734175434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_38
+      rect:
+        serializedVersion: 2
+        x: 1678
+        y: 498
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7876ff16f4a4d3070800000000000000
+      internalID: 8087702210634278791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_39
+      rect:
+        serializedVersion: 2
+        x: 2628
+        y: 468
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c96c0ca5fb77af4c0800000000000000
+      internalID: -4252955234352970084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_40
+      rect:
+        serializedVersion: 2
+        x: 588
+        y: 418
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8dbfc24b59eb27380800000000000000
+      internalID: -8974901557213725736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_41
+      rect:
+        serializedVersion: 2
+        x: 2958
+        y: 428
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e13129d7f746e990800000000000000
+      internalID: -7357113811437800992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_42
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 358
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4d53a0f789790980800000000000000
+      internalID: -8572186790958244529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_43
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 358
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6e635b0464437330800000000000000
+      internalID: 3707382114733485674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_44
+      rect:
+        serializedVersion: 2
+        x: 1148
+        y: 228
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6a43f4c8e6000fc0800000000000000
+      internalID: -3530814511052010898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_45
+      rect:
+        serializedVersion: 2
+        x: 1858
+        y: 238
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ead5583b5b4f1ced0800000000000000
+      internalID: -2395364465546273362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_46
+      rect:
+        serializedVersion: 2
+        x: 2388
+        y: 268
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0709441dc6171c00800000000000000
+      internalID: 871190122983917326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_47
+      rect:
+        serializedVersion: 2
+        x: 808
+        y: 208
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 964c0bcfecbfc2580800000000000000
+      internalID: -8850422301268589463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_48
+      rect:
+        serializedVersion: 2
+        x: 2548
+        y: 128
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f416a4635ff0b9590800000000000000
+      internalID: -7666516394815889073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_49
+      rect:
+        serializedVersion: 2
+        x: 2888
+        y: 108
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 503957c33cecc2480800000000000000
+      internalID: -8922529423799512315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_50
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 68
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c49ccd4a601629bf0800000000000000
+      internalID: -319085942426252980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_51
+      rect:
+        serializedVersion: 2
+        x: 1328
+        y: 58
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7bb82536bd68bf20800000000000000
+      internalID: 3438618944840711035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_52
+      rect:
+        serializedVersion: 2
+        x: 2078
+        y: 38
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa7be7bc1ec8f2e70800000000000000
+      internalID: 9092641074093930410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playspace_bg_53
+      rect:
+        serializedVersion: 2
+        x: 3028
+        y: 8
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08fb4b3faa0af8ac0800000000000000
+      internalID: -3850682500284891264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      playspace_bg_0: -1692524200156277366
+      playspace_bg_1: -8385169095560389282
+      playspace_bg_10: -3720948841467940868
+      playspace_bg_11: 227422906457689726
+      playspace_bg_12: 2113330330828867786
+      playspace_bg_13: 6555753941133865662
+      playspace_bg_14: 8262554306978768912
+      playspace_bg_15: 8093142260303765520
+      playspace_bg_16: -3657018792934052891
+      playspace_bg_17: -6805730474471708345
+      playspace_bg_18: 4136443991776131525
+      playspace_bg_19: 2540949220576094837
+      playspace_bg_2: 8255539358223728413
+      playspace_bg_20: 3106014166920578244
+      playspace_bg_21: -1944145261640639501
+      playspace_bg_22: 8641295862391835355
+      playspace_bg_23: 2872392251199189689
+      playspace_bg_24: 7512514782408519703
+      playspace_bg_25: 7205374659837210261
+      playspace_bg_26: -3914832547826863896
+      playspace_bg_27: -5258964317528132350
+      playspace_bg_28: -5370213106315792806
+      playspace_bg_29: 8510594227387390239
+      playspace_bg_3: -219615773556354921
+      playspace_bg_30: 1912127978994380597
+      playspace_bg_31: 6958590672591785574
+      playspace_bg_32: 6647848243653886503
+      playspace_bg_33: 6666655804658413079
+      playspace_bg_34: 7726426941957435738
+      playspace_bg_35: -1115503967234755095
+      playspace_bg_36: -4320707314280018487
+      playspace_bg_37: -7055180152734175434
+      playspace_bg_38: 8087702210634278791
+      playspace_bg_39: -4252955234352970084
+      playspace_bg_4: -4784132759571505319
+      playspace_bg_40: -8974901557213725736
+      playspace_bg_41: -7357113811437800992
+      playspace_bg_42: -8572186790958244529
+      playspace_bg_43: 3707382114733485674
+      playspace_bg_44: -3530814511052010898
+      playspace_bg_45: -2395364465546273362
+      playspace_bg_46: 871190122983917326
+      playspace_bg_47: -8850422301268589463
+      playspace_bg_48: -7666516394815889073
+      playspace_bg_49: -8922529423799512315
+      playspace_bg_5: 8361836915475689063
+      playspace_bg_50: -319085942426252980
+      playspace_bg_51: 3438618944840711035
+      playspace_bg_52: 9092641074093930410
+      playspace_bg_53: -3850682500284891264
+      playspace_bg_6: 9061947396557888152
+      playspace_bg_7: 4005675427012484972
+      playspace_bg_8: 6511749628652073898
+      playspace_bg_9: 8442288624466068363
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
