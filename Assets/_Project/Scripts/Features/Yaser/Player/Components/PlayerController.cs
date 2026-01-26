@@ -2,7 +2,10 @@ using System.Threading;
 using ColorOfCrash.Utils;
 using ColorOrCrash.Features.Ball.Components;
 using ColorOrCrash.Features.Player.Models;
+using ColorOrCrash.Global.Components;
+using ColorOrCrash.Vin.Core;
 using Cysharp.Threading.Tasks;
+using NocturneThree.ServiceLocator;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,7 +19,7 @@ namespace ColorOrCrash.Features.Player.Components
         [SerializeField] private SpriteRenderer bodyRenderer;
 
         private Rigidbody2D _rb;
-        private BallColor _currentType;
+        private GameColor _currentType;
         private CancellationTokenSource _colorCts;
 
         private Vector2 _moveInput;
@@ -25,26 +28,27 @@ namespace ColorOrCrash.Features.Player.Components
         private bool _isJumpPressed;
         private bool _jumpRequest;
         private bool _isDoubleJumping;
+        private GameManager manager;
 
-        public BallColor CurrentType => _currentType;
+        public GameColor CurrentType => _currentType;
 
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
             _colorCts = new CancellationTokenSource();
-            
-            _currentType = BallColor.Red;
-            UpdateVisual(_currentType);
         }
 
         private void Start()
         {
+            manager = ServiceLocator.Get<GameManager>();
+
+            _currentType = EnumUtils.GetRandomEnumValue<GameColor>();
+            UpdateVisual(_currentType);
+
             ColorSwapLoop(_colorCts.Token).Forget();
         }
 
         #region Input System Callbacks
-        // Fungsi-fungsi ini otomatis terpanggil jika Behavior di PlayerInput diset ke "SendMessage" atau "Broadcast"
-        // Atau kamu bisa hubungkan via C# Events di Inspector.
 
         public void OnMove(InputAction.CallbackContext value)
         {
@@ -130,20 +134,19 @@ namespace ColorOrCrash.Features.Player.Components
             {
                 await UniTask.Delay(System.TimeSpan.FromSeconds(10f), cancellationToken: token);
                 
-                _currentType = EnumUtils.GetRandomEnumValue<BallColor>();
+                _currentType = EnumUtils.GetRandomEnumValue<GameColor>();
                 UpdateVisual(_currentType);
             }
         }
 
-        private void UpdateVisual(BallColor color)
+        private void UpdateVisual(GameColor color)
         {
             if (bodyRenderer != null)
                 bodyRenderer.color = color switch
                 {
-                    BallColor.Red => Color.red,
-                    BallColor.Blue => Color.blue,
-                    BallColor.Yellow => Color.yellow,
-                    BallColor.Green => Color.green,
+                    GameColor.Red => manager.settings.redColor,
+                    GameColor.Blue => manager.settings.blueColor,
+                    GameColor.Green => manager.settings.greenColor,
                     _ => Color.white
                 };
         }
@@ -152,11 +155,11 @@ namespace ColorOrCrash.Features.Player.Components
         {
             if (collision.gameObject.CompareTag("Ball"))
             {
-                if (collision.gameObject.TryGetComponent<Ball.Components.Ball>(out var ball))
+                if (collision.gameObject.TryGetComponent<BallController>(out var ball))
                 {
-                    if (ball.CurrentColor == _currentType)
+                    if (ball.BallColor == _currentType)
                     {
-                        ball.ReturnToPool();
+                        Destroy(ball);
                         // TODO: add score and small bounce effect to player (optional )
                         _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, config.jumpForce * 0.5f);
                     }
