@@ -1,8 +1,12 @@
 using System.Collections;
+using ColorOrCrash.Features.Ball.Models;
 using ColorOrCrash.Global.Components;
+using ColorOrCrash.Vin.Core;
+using Cysharp.Threading.Tasks;
 using NocturneThree.ServiceLocator;
 using UnityEngine;
 using UnityEngine.Pool;
+using Global = ColorOrCrash.Global.Models;
 
 namespace ColorOrCrash.Features.Ball.Components
 {
@@ -14,123 +18,157 @@ namespace ColorOrCrash.Features.Ball.Components
     {
         Red,
         Blue,
-        Yellow,
+        White,
         Green
     }
 
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(SpriteRenderer))]
+    [RequireComponent(typeof(CircleCollider2D))]
     /// <summary>
     /// Representation for ball component
     /// </summary>
-    public class Ball : MonoBehaviour
+    public class BallController : MonoBehaviour
     {
-        [Header("Movement Settings")]
-        [SerializeField] private float rotationSpeedMultiplier = 50f;
+        [Header("Components")]
+        [SerializeField] private SpriteRenderer _renderer;
+        [SerializeField] private Rigidbody2D _rb;
+        [SerializeField] private CircleCollider2D _collider;
 
-        private BallColor _ballColor;
-        private Rigidbody2D _rb;
+        [Header("Configuration")]
+        [SerializeField] private BallSpawnerConfig _config;
+
+        private IObjectPool<BallController> _pool;
+        private GameColor _ballColor;
         private float _speed;
         private Vector2 _direction;
-        private SpriteRenderer _renderer;
-        private IObjectPool<Ball> _pool;
-        private bool _isInsideArena = false;
-        private Collider2D _collider;
+        private bool _isActive = false;
+        private float _originalScale;
 
-        // width/height froom config
-        private float widthArea, heightArea;
+        public GameColor BallColor => _ballColor;
+        public bool IsActive => _isActive;
+        public Global.Models.GameSettings settings;
 
-        public BallColor CurrentColor => _ballColor;
-
-        void Awake()
+        private void Awake()
         {
-            _rb = GetComponent<Rigidbody2D>();
-            _renderer = GetComponent<SpriteRenderer>();
-            _collider = GetComponent<Collider2D>();
+            if (!_renderer) _renderer = GetComponent<SpriteRenderer>();
+            if (!_rb) _rb = GetComponent<Rigidbody2D>();
+            if (!_collider) _collider = GetComponent<CircleCollider2D>();
+            
+            _originalScale = transform.localScale.x;
 
-            _rb.linearDamping = 0;
-            _rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+            _rb.gravityScale = 0f;
+            _rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         }
 
-        public void Initialize(BallColor color, Vector2 position, Vector2 dir, float speed, IObjectPool<Ball> pool)
+        public void Initialize(GameColor color, Vector2 direction, float speed, IObjectPool<BallController> pool)
         {
-            var manager = ServiceLocator.Get<GameManager>();
-            if(manager != null)
-            {
-                widthArea = manager.config.targetAreaWidth;
-                heightArea = manager.config.targetAreaHeight;
-            }
-
-            _pool = pool;
             _ballColor = color;
-            transform.position = position;
+            _direction = direction.normalized;
             _speed = speed;
-            _isInsideArena = false;
+            _pool = pool;
 
-            _renderer.color = color switch
-            {
-                BallColor.Red => Color.red,
-                BallColor.Blue => Color.blue,
-                BallColor.Yellow => Color.yellow,
-                BallColor.Green => Color.green,
-                _ => Color.white
-            };
+            settings = ServiceLocator.Get<GameManager>().settings;
 
-            gameObject.SetActive(true);
-            _rb.linearVelocity = dir * _speed;
+            _collider.isTrigger = true;
+            _renderer.color = Color.white;
+            transform.localScale = _originalScale * _config.ballSpawnScale * Vector3.one;
+            
+            _rb.linearVelocity = _direction * _speed;
+
+            HandleLifecycleAsync().Forget();
         }
 
-        void Update()
+        private async UniTaskVoid HandleLifecycleAsync()
         {
-            float currentVelocity = _rb.linearVelocity.magnitude;
-            transform.Rotate(currentVelocity * rotationSpeedMultiplier * Time.deltaTime * Vector3.forward);
+            // 1. Invulnerable Wait
+            await UniTask.Delay(System.TimeSpan.FromSeconds(_config.ballInvulnerableDuration), 
+                cancellationToken: this.GetCancellationTokenOnDestroy());
 
-            if (!_isInsideArena)
+            // 2. Transition State (Color & Scale)
+            float elapsed = 0;
+            float duration = _config.ballColorTransitionDuration;
+            float startScale = _originalScale * _config.ballSpawnScale;
+            Color targetColor = settings.GetColor(_ballColor);
+
+            while (elapsed < duration)
             {
-                // Cek apakah posisi bola sudah berada di dalam batas targetArea
-                // Kamu bisa sesuaikan angka ini dengan ukuran targetAreaWidth/Height di config
-                if (Mathf.Abs(transform.position.x) < widthArea && Mathf.Abs(transform.position.y) < heightArea)
+                if (ServiceLocator.Get<GameManager>().CurrentState != Global.Components.GameState.Playing)
                 {
-                    _isInsideArena = true;
+                    await UniTask.Yield();
+                    continue;
                 }
+
+                elapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                float smoothT = Mathf.SmoothStep(0f, 1f, t);
+
+                // Apply Visuals
+                _renderer.color = Color.Lerp(settings.whiteColor, targetColor, t);
+                transform.localScale = Vector3.one * Mathf.Lerp(startScale, _originalScale, smoothT);
+
+                await UniTask.Yield();
+            }
+
+            // 3. Finalize Activation
+            _renderer.color = targetColor;
+            transform.localScale = Vector3.one * _originalScale;
+            _isActive = true;
+            _collider.isTrigger = false;
+        }
+
+        private void Update()
+        {
+            // Check boundary
+            if (_isActive && transform.position.sqrMagnitude > 2500f) // 50^2 for performance
+            {
+                OnCollected();
             }
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
-            if (_rb.linearVelocity.magnitude > 0)
+            if (ServiceLocator.Get<GameManager>().CurrentState != Global.Components.GameState.Playing)
+            {
+                _rb.linearVelocity = Vector2.zero;
+                return;
+            }
+
+            // Maintain constant physics speed
+            if (_isActive && _rb.linearVelocity.sqrMagnitude > 0.01f)
             {
                 _rb.linearVelocity = _rb.linearVelocity.normalized * _speed;
             }
         }
 
-        private void OnCollisionEnter2D(Collision2D collider)
+        private void OnCollisionEnter2D(Collision2D collision)
         {
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+            {
+                _direction = Vector2.Reflect(_direction, collision.contacts[0].normal).normalized;
+                _rb.linearVelocity = _direction * _speed;
+            }
             StopAllCoroutines();
             StartCoroutine(HitEffect());
         }
 
+        public void OnCollected()
+        {
+            // Releasing back to pool instead of destroying
+            _pool?.Release(this);
+        }
+
         private IEnumerator HitEffect()
         {
-            transform.localScale = new Vector3(1.2f, 0.8f, 1f);
+            transform.localScale = new Vector3(1.5f, 0.8f, 1f);
             float elapsed = 0;
-            while (elapsed < 0.1f)
+            while (elapsed < 0.2f)
             {
                 transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one, elapsed / 0.1f);
                 elapsed += Time.deltaTime;
                 yield return null;
             }
             transform.localScale = Vector3.one;
-        }
-
-        public void ReturnToPool()
-        {
-            _pool.Release(this);
-        }
-
-        public void Deactivate()
-        {
-            gameObject.SetActive(false);
         }
     }
 }

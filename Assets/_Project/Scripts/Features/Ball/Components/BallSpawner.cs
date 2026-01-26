@@ -1,87 +1,179 @@
+using System.Collections.Generic;
 using System.Threading;
 using ColorOfCrash.Utils;
 using ColorOrCrash.Features.Ball.Models;
+using ColorOrCrash.Features.Player.Components;
+using ColorOrCrash.Global.Components;
+using ColorOrCrash.Vin.Core;
 using Cysharp.Threading.Tasks;
 using NocturneThree.ServiceLocator;
 using UnityEngine;
 using UnityEngine.Pool;
+using Global = ColorOrCrash.Global;
 
 namespace ColorOrCrash.Features.Ball.Components
 {
     public class BallSpawner : MonoBehaviour, IGameService
     {
         public BallSpawnerConfig config;
-        [SerializeField] private Transform[] spawnPoints;
+        private int score;
+        [Header("References")]
+        [SerializeField] private BallController ballPrefab;
+        [SerializeField] private Transform ballContainer;
+        [SerializeField] private PlayerController playerController;
+        
+        [Header("Wall References")]
+        [SerializeField] private Transform topWall;
+        [SerializeField] private Transform bottomWall;
+        [SerializeField] private Transform leftWall;
+        [SerializeField] private Transform rightWall;
+        [SerializeField] private float spawnOffset = 1.5f;
 
-        private IObjectPool<Ball> _pool;
-        private float _timer;
-        private CancellationTokenSource _cts;
+        private Global.Models.GameSettings _settings;
+        private IObjectPool<BallController> _ballPool;
+        private CancellationTokenSource _spawnCts;
+        private readonly List<BallController> _activeBalls = new();
+        private GameManager manager;
 
         private void Awake()
         {
-            // Inisialisasi Object Pool
-            _pool = new ObjectPool<Ball>(
-                createFunc: () => Instantiate(config.ballPrefab).GetComponent<Ball>(),
-                actionOnGet: (ball) => { /* Reset logic if needed */ },
-                actionOnRelease: (ball) => ball.Deactivate(),
-                actionOnDestroy: (ball) => Destroy(ball.gameObject),
-                collectionCheck: false,
+            // Industry Best Practice: Gunakan Object Pool untuk performa tinggi
+            _ballPool = new ObjectPool<BallController>(
+                createFunc: () => Instantiate(ballPrefab, ballContainer),
+                actionOnGet: ball => ball.gameObject.SetActive(true),
+                actionOnRelease: ball => ball.gameObject.SetActive(false),
+                actionOnDestroy: ball => Destroy(ball.gameObject),
                 defaultCapacity: 10,
-                maxSize: 500
+                maxSize: 20
             );
-
-            ServiceLocator.Register<BallSpawner>(this);
-            _cts = new();
         }
 
-        void Start()
+        private void Start()
         {
-            StartSpawning(_cts.Token).Forget();
+            manager = ServiceLocator.Get<GameManager>();
+            manager.OnGameStateChanged += HandleGameStateChanged;
+
+            _settings = manager.settings;
         }
 
-        private async UniTask StartSpawning(CancellationToken token)
+        private void OnDestroy()
+        {
+            StopSpawning();
+            if (manager != null)
+                manager.OnGameStateChanged -= HandleGameStateChanged;
+        }
+
+        private void HandleGameStateChanged(Global.Components.GameState newState)
+        {
+            StopSpawning();
+
+            if (newState == Global.Components.GameState.Playing)
+            {
+                ClearAllBalls();
+                _spawnCts = new CancellationTokenSource();
+                SpawnLoopAsync(_spawnCts.Token).Forget();
+            }
+        }
+
+        private async UniTaskVoid SpawnLoopAsync(CancellationToken token)
         {
             while (!token.IsCancellationRequested)
             {
-                Spawn();
+                if (_activeBalls.Count < config.maxBallsInScene)
+                {
+                    SpawnBall();
+                }
 
-                await UniTask.Delay(System.TimeSpan.FromSeconds(config.spawnInterfal), cancellationToken: token);
+                float interval = CalculateCurrentInterval();
+                await UniTask.Delay(System.TimeSpan.FromSeconds(interval), cancellationToken: token);
             }
         }
 
-        void OnDestroy()
+        private void SpawnBall()
         {
-            if (_cts != null)
+            Vector2 spawnPos = GetSpawnPositionOutsidePlayspace();
+            Vector2 direction = GetRandomDirectionTowardsPlayspace(spawnPos);
+            GameColor ballColor = GetBiasedRandomColor();
+            float speed = Random.Range(config.ballMinSpeed, config.ballMaxSpeed);
+
+            BallController ball = _ballPool.Get();
+            ball.transform.SetPositionAndRotation(spawnPos, Quaternion.identity);
+            
+            ball.Initialize(ballColor, direction, speed, _ballPool);
+            #if UNITY_EDITOR 
+            Debug.Log("spawn ball success");
+            #endif
+            _activeBalls.Add(ball);
+        }
+
+        private GameColor GetBiasedRandomColor()
+        {
+            // int score = GameManager.Instance.Score;
+            float matchingChance = Mathf.Max(_settings.minMatchingColorChance, 
+                _settings.startMatchingColorChance - (score * _settings.matchingChanceDecreasePerScore));
+            
+            GameColor playerColor = playerController != null ? playerController.CurrentType : EnumUtils.GetRandomEnumValue<GameColor>();
+            
+            if (Random.value < matchingChance) return playerColor;
+
+            // Dapatkan warna selain warna player
+            GameColor otherColor;
+            do {
+                otherColor = (GameColor)Random.Range(0, 3);
+            } while (otherColor == playerColor);
+            
+            return otherColor;
+        }
+
+        private Vector2 GetSpawnPositionOutsidePlayspace()
+        {
+            float top = topWall ? topWall.position.y : 5f;
+            float bottom = bottomWall ? bottomWall.position.y : -5f;
+            float left = leftWall ? leftWall.position.x : -8f;
+            float right = rightWall ? rightWall.position.x : 8f;
+
+            return Random.Range(0, 4) switch
             {
-                _cts.Cancel();
-                _cts.Dispose();
+                0 => new Vector2(Random.Range(left, right), top + spawnOffset),    // Top
+                1 => new Vector2(Random.Range(left, right), bottom - spawnOffset), // Bottom
+                2 => new Vector2(left - spawnOffset, Random.Range(bottom, top)),   // Left
+                3 => new Vector2(right + spawnOffset, Random.Range(bottom, top)),  // Right
+                _ => Vector2.zero
+            };
+        }
+
+        private Vector2 GetRandomDirectionTowardsPlayspace(Vector2 spawnPosition)
+        {
+            Vector2 targetArea = new Vector2(Random.Range(-2f, 2f), Random.Range(-2f, 2f));
+            return (targetArea - spawnPosition).normalized;
+        }
+
+        private float CalculateCurrentInterval()
+        {
+            int score = manager.Score;
+            float baseInterval = Mathf.Max(_settings.minSpawnInterval, 
+                _settings.startSpawnInterval - (score * _settings.spawnIntervalDecreasePerScore));
+            
+            float variance = Random.Range(-config.ballSpawnIntervalVariance, config.ballSpawnIntervalVariance);
+            return Mathf.Max(0.1f, baseInterval + variance);
+        }
+
+        private void StopSpawning()
+        {
+            _spawnCts?.Cancel();
+            _spawnCts?.Dispose();
+            _spawnCts = null;
+        }
+
+        public void ClearAllBalls()
+        {
+            for (int i = _activeBalls.Count - 1; i >= 0; i--)
+            {
+                if (_activeBalls[i] != null) _ballPool.Release(_activeBalls[i]);
             }
+            _activeBalls.Clear();
         }
         
-        public void Spawn()
-        {
-            if (spawnPoints.Length == 0) return;
-
-            Transform selectedPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-            
-            float directionX = (selectedPoint.position.x < 0) ? 1f : -1f;
-            Vector2 moveDir = new Vector2(directionX, 1);
-            
-            BallColor randomColor = EnumUtils.GetRandomEnumValue<BallColor>();
-
-            Ball ball = _pool.Get();
-            ball.Initialize(
-                randomColor, 
-                selectedPoint.position, 
-                moveDir, 
-                Random.Range(config.minSpeed, config.maxSpeed),
-                _pool
-            );
-        }
-
-        public void ReleaseBall(Ball ball)
-        {
-            _pool.Release(ball);
-        }
+        public void RemoveFromActiveList(BallController ball) => _activeBalls.Remove(ball);
     }
 }
