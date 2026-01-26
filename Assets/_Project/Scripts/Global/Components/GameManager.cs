@@ -15,6 +15,7 @@ namespace ColorOrCrash.Global.Components
     [Service]
     public class GameManager : MonoBehaviour, IGameService
     {
+        public static GameManager Instance;
         public GameSettings settings;
         
         private GameState _currentState = GameState.Playing;
@@ -22,6 +23,19 @@ namespace ColorOrCrash.Global.Components
         public int Score { get; private set; }
 
         public event Action<GameState> OnGameStateChanged;
+
+        private void Awake()
+        {
+            if(Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else 
+            {
+                Destroy(gameObject);
+            }
+        }
 
         private void Start()
         {

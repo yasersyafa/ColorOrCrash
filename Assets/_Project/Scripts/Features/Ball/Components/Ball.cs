@@ -10,18 +10,6 @@ using Global = ColorOrCrash.Global.Models;
 
 namespace ColorOrCrash.Features.Ball.Components
 {
-    /// <summary>
-    /// Colour configuration for managing the colour of ball.
-    /// You can add the colour whatever you want here.
-    /// </summary>
-    public enum BallColor
-    {
-        Red,
-        Blue,
-        White,
-        Green
-    }
-
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(SpriteRenderer))]
     [RequireComponent(typeof(CircleCollider2D))]
@@ -68,7 +56,7 @@ namespace ColorOrCrash.Features.Ball.Components
             _speed = speed;
             _pool = pool;
 
-            settings = ServiceLocator.Get<GameManager>().settings;
+            settings = GameManager.Instance.settings;
 
             _collider.isTrigger = true;
             _renderer.color = Color.white;
@@ -93,7 +81,7 @@ namespace ColorOrCrash.Features.Ball.Components
 
             while (elapsed < duration)
             {
-                if (ServiceLocator.Get<GameManager>().CurrentState != Global.Components.GameState.Playing)
+                if (GameManager.Instance.CurrentState != Global.Components.GameState.Playing)
                 {
                     await UniTask.Yield();
                     continue;
@@ -155,6 +143,7 @@ namespace ColorOrCrash.Features.Ball.Components
         public void OnCollected()
         {
             // Releasing back to pool instead of destroying
+            ServiceLocator.Get<BallSpawner>().RemoveFromActiveList(this);
             _pool?.Release(this);
         }
 

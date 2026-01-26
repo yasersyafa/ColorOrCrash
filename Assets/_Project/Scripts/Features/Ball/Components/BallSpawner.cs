@@ -13,6 +13,7 @@ using Global = ColorOrCrash.Global;
 
 namespace ColorOrCrash.Features.Ball.Components
 {
+    [Service]
     public class BallSpawner : MonoBehaviour, IGameService
     {
         public BallSpawnerConfig config;
@@ -50,10 +51,16 @@ namespace ColorOrCrash.Features.Ball.Components
 
         private void Start()
         {
-            manager = ServiceLocator.Get<GameManager>();
+            manager = GameManager.Instance;
             manager.OnGameStateChanged += HandleGameStateChanged;
 
             _settings = manager.settings;
+
+            // if the scripts was race condition, run it manually
+            if (manager.CurrentState == Global.Components.GameState.Playing)
+            {
+                HandleGameStateChanged(Global.Components.GameState.Playing);
+            }
         }
 
         private void OnDestroy()
@@ -144,7 +151,7 @@ namespace ColorOrCrash.Features.Ball.Components
 
         private Vector2 GetRandomDirectionTowardsPlayspace(Vector2 spawnPosition)
         {
-            Vector2 targetArea = new Vector2(Random.Range(-2f, 2f), Random.Range(-2f, 2f));
+            Vector2 targetArea = new(Random.Range(-2f, 2f), Random.Range(-2f, 2f));
             return (targetArea - spawnPosition).normalized;
         }
 
@@ -174,6 +181,10 @@ namespace ColorOrCrash.Features.Ball.Components
             _activeBalls.Clear();
         }
         
-        public void RemoveFromActiveList(BallController ball) => _activeBalls.Remove(ball);
+        public void RemoveFromActiveList(BallController ball)
+        {
+            if(_activeBalls.Contains(ball))
+                _activeBalls.Remove(ball);  
+        } 
     }
 }
