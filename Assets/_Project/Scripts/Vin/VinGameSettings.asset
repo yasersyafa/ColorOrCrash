@@ -31,7 +31,7 @@ MonoBehaviour:
   ballInvulnerableDuration: 0.5
   maxBallsInScene: 10
   ballSpawnScale: 0.5
-  startSpawnInterval: 3.5
+  startSpawnInterval: 3
   minSpawnInterval: 1
   spawnIntervalDecreasePerScore: 0.02
   startMatchingColorChance: 0.7
