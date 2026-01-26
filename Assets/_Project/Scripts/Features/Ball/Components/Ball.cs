@@ -135,9 +135,10 @@ namespace ColorOrCrash.Features.Ball.Components
             {
                 _direction = Vector2.Reflect(_direction, collision.contacts[0].normal).normalized;
                 _rb.linearVelocity = _direction * _speed;
+                
+                StopAllCoroutines();
+                StartCoroutine(HitEffect());
             }
-            StopAllCoroutines();
-            StartCoroutine(HitEffect());
         }
 
         public void OnCollected()

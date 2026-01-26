@@ -5,6 +5,7 @@ using ColorOrCrash.Features.Player.Models;
 using ColorOrCrash.Global.Components;
 using ColorOrCrash.Vin.Core;
 using Cysharp.Threading.Tasks;
+using GabrielBigardi.SpriteAnimator;
 using NocturneThree.ServiceLocator;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -16,7 +17,14 @@ namespace ColorOrCrash.Features.Player.Components
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private PlayerConfig config;
+        [SerializeField] private SpriteAnimator animator;
         [SerializeField] private SpriteRenderer bodyRenderer;
+        private const string ANIM_IDLE = "Idle";
+        private const string ANIM_MOVE = "Move";
+        private const string ANIM_JUMP = "Jump";
+        private const string ANIM_FALL = "Fall";
+        private const string ANIM_LAND = "Landing";
+        private const string ANIM_DEATH = "Death";
 
         private Rigidbody2D _rb;
         private GameColor _currentType;
@@ -28,6 +36,9 @@ namespace ColorOrCrash.Features.Player.Components
         private bool _isJumpPressed;
         private bool _jumpRequest;
         private bool _isDoubleJumping;
+        private bool _isLanding;
+        private bool _isDead = false;
+        private string _currentAnimation;
         private GameManager manager;
 
         public GameColor CurrentType => _currentType;
@@ -66,12 +77,69 @@ namespace ColorOrCrash.Features.Player.Components
         }
         #endregion
 
+        void Update()
+        {
+            if(_isDead) return;
+            HandleAnimation();
+            HandleSpriteFlip();
+        }
+
         private void FixedUpdate()
         {
             CheckGround();
             ApplyMovement();
             ApplyJump();
             ApplyGravityModifiers();
+        }
+
+        private void HandleAnimation()
+        {
+            // 1. Air Logic (Jump, Fall, Landing Detection)
+            if (!_isGrounded)
+            {
+                if (_rb.linearVelocity.y > 0)
+                {
+                    ChangeAnimation(ANIM_JUMP);
+                }
+                else
+                {
+                    // Landing Detection: Cek jarak ke tanah saat jatuh
+                    RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.5f, config.groundLayer);
+                    
+                    if (hit.collider != null)
+                        ChangeAnimation(ANIM_LAND);
+                    else
+                        ChangeAnimation(ANIM_FALL);
+                }
+                return;
+            }
+
+            // 2. Ground Logic (Idle, Move)
+            if (Mathf.Abs(_rb.linearVelocity.x) > 0.1f)
+            {
+                ChangeAnimation(ANIM_MOVE);
+            }
+            else
+            {
+                ChangeAnimation(ANIM_IDLE);
+            }
+        }
+
+        private void ChangeAnimation(string animName)
+        {
+            // Prevent flickering: Hanya panggil Play jika nama animasi berbeda
+            if (_currentAnimation == animName) return;
+
+            animator.Play(animName);
+            _currentAnimation = animName;
+        }
+
+        private void HandleSpriteFlip()
+        {
+            if (Mathf.Abs(_moveInput.x) > 0.01f)
+            {
+                bodyRenderer.flipX = _moveInput.x < 0;
+            }
         }
 
         private void ApplyMovement()
@@ -159,14 +227,17 @@ namespace ColorOrCrash.Features.Player.Components
                 {
                     if (ball.BallColor == _currentType)
                     {
-                        Destroy(ball);
+                        // Destroy(ball.gameObject);
+                        ball.OnCollected();
                         // TODO: add score and small bounce effect to player (optional )
                         _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, config.jumpForce * 0.5f);
                     }
                     else
                     {
                         Debug.Log("Game Over - Wrong Color!");
+                        _isDead = true;
                         // Trigger GameOver Event
+                        ChangeAnimation(ANIM_DEATH);
                     }
                 }
             }

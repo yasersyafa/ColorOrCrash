@@ -65,9 +65,11 @@ namespace ColorOrCrash.Features.Ball.Components
 
         private void OnDestroy()
         {
+
             StopSpawning();
             if (manager != null)
                 manager.OnGameStateChanged -= HandleGameStateChanged;
+            ServiceLocator.Unregister<BallSpawner>();
         }
 
         private void HandleGameStateChanged(Global.Components.GameState newState)

@@ -1080,10 +1080,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 566348168694450981, guid: 9a69e94cf31c347adb33305733308bf0, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 1113086427566953851, guid: 9a69e94cf31c347adb33305733308bf0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1128,6 +1124,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerPlatformer
       objectReference: {fileID: 0}
+    - target: {fileID: 4597297389832005025, guid: 9a69e94cf31c347adb33305733308bf0, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 2485369873267682266}
     - target: {fileID: 6377202777288012152, guid: 9a69e94cf31c347adb33305733308bf0, type: 3}
       propertyPath: m_Camera
       value: 
@@ -1146,6 +1146,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e0f54eebe22ff4e449123ba31f31e5a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2485369873267682266 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7977922605012386047, guid: 9a69e94cf31c347adb33305733308bf0, type: 3}
+  m_PrefabInstance: {fileID: 2485369873267682259}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d4337bea670e194ca021e2a54e31bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807

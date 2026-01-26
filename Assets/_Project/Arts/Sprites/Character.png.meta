@@ -414,7 +414,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_7
+      name: Jump_0
       rect:
         serializedVersion: 2
         x: 0
@@ -436,7 +436,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_8
+      name: Jump_1
       rect:
         serializedVersion: 2
         x: 36
@@ -458,7 +458,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_9
+      name: Jump_2
       rect:
         serializedVersion: 2
         x: 72
@@ -480,7 +480,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_10
+      name: Jump_3
       rect:
         serializedVersion: 2
         x: 108
@@ -502,7 +502,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_11
+      name: Jump_4
       rect:
         serializedVersion: 2
         x: 144
@@ -524,7 +524,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_12
+      name: Jump_5
       rect:
         serializedVersion: 2
         x: 180
@@ -546,7 +546,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_13
+      name: Jump_6
       rect:
         serializedVersion: 2
         x: 216
@@ -568,7 +568,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_14
+      name: Jump_7
       rect:
         serializedVersion: 2
         x: 252
@@ -590,7 +590,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_15
+      name: Jump_8
       rect:
         serializedVersion: 2
         x: 288
@@ -612,7 +612,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_16
+      name: Jump_9
       rect:
         serializedVersion: 2
         x: 324
@@ -634,7 +634,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_17
+      name: Jump_10
       rect:
         serializedVersion: 2
         x: 360
@@ -656,7 +656,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_18
+      name: Jump_11
       rect:
         serializedVersion: 2
         x: 396
@@ -678,7 +678,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_19
+      name: Fall
       rect:
         serializedVersion: 2
         x: 432
@@ -700,7 +700,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_20
+      name: Landing_0
       rect:
         serializedVersion: 2
         x: 468
@@ -722,7 +722,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_21
+      name: Landing_1
       rect:
         serializedVersion: 2
         x: 504
@@ -744,7 +744,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_22
+      name: Landing_2
       rect:
         serializedVersion: 2
         x: 540
@@ -766,7 +766,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_23
+      name: Landing_3
       rect:
         serializedVersion: 2
         x: 576
@@ -788,7 +788,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_24
+      name: Walk_0
       rect:
         serializedVersion: 2
         x: 0
@@ -810,7 +810,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_25
+      name: Walk_1
       rect:
         serializedVersion: 2
         x: 36
@@ -832,7 +832,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_26
+      name: Walk_2
       rect:
         serializedVersion: 2
         x: 72
@@ -854,7 +854,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_27
+      name: Walk_3
       rect:
         serializedVersion: 2
         x: 108
@@ -876,7 +876,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_28
+      name: Walk_4
       rect:
         serializedVersion: 2
         x: 144
@@ -1307,25 +1307,6 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Character_10: 40843185749886244
-      Character_11: -5329091641981806550
-      Character_12: -8425070257221301162
-      Character_13: -2450611445237265277
-      Character_14: 6770007078955632491
-      Character_15: -8123166618883925514
-      Character_16: 1737412558246731724
-      Character_17: -7904700090360122693
-      Character_18: 2250609068651981613
-      Character_19: -366569187799383193
-      Character_20: 6378490070600606727
-      Character_21: 1760990019816550413
-      Character_22: 5920403861974754022
-      Character_23: -3892527970579685584
-      Character_24: 1778907897293836937
-      Character_25: 347220952276385629
-      Character_26: 4391028426531969339
-      Character_27: -8641010753147894659
-      Character_28: 2251730768788326449
       Character_29: 162719226863317155
       Character_30: 487846217701087288
       Character_31: 6297648057743630840
@@ -1337,9 +1318,6 @@ TextureImporter:
       Character_37: 2659286222826444281
       Character_5: 801598655983992016
       Character_6: -4188724102742562465
-      Character_7: -7635366936938300408
-      Character_8: 3663873800218158768
-      Character_9: 1879468920936531165
       Death_0: 5935550125356212616
       Death_1: -1503538595970970554
       Death_2: -3307022154664666310
@@ -1349,11 +1327,33 @@ TextureImporter:
       Death_6: 5997594283234826320
       Death_7: -8159883496149072352
       Death_8: 82426061317422427
+      Fall: -366569187799383193
       Idle_0: 3427114271967980436
       Idle_1: 8158605244509288230
       Idle_2: 6184959299203262911
       Idle_3: 2495864320845663737
       Idle_4: 6480803066212409350
+      Jump_0: -7635366936938300408
+      Jump_1: 3663873800218158768
+      Jump_10: -7904700090360122693
+      Jump_11: 2250609068651981613
+      Jump_2: 1879468920936531165
+      Jump_3: 40843185749886244
+      Jump_4: -5329091641981806550
+      Jump_5: -8425070257221301162
+      Jump_6: -2450611445237265277
+      Jump_7: 6770007078955632491
+      Jump_8: -8123166618883925514
+      Jump_9: 1737412558246731724
+      Landing_0: 6378490070600606727
+      Landing_1: 1760990019816550413
+      Landing_2: 5920403861974754022
+      Landing_3: -3892527970579685584
+      Walk_0: 1778907897293836937
+      Walk_1: 347220952276385629
+      Walk_2: 4391028426531969339
+      Walk_3: -8641010753147894659
+      Walk_4: 2251730768788326449
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
