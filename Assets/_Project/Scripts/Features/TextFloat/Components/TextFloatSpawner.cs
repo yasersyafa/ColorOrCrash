@@ -39,26 +39,26 @@ namespace ColorOrCrash.Features.TextFloat.Components
                 var scaleTween = transform.DOScale(1f, duration * .4f)
                     .SetEase(Ease.OutBack)
                     .SetUpdate(true)
-                    .WithCancellation(token);
+                    .ToUniTask(cancellationToken: token);
                 
                 Vector3 targetPos = transform.position + new Vector3(UnityEngine.Random.Range(-driftDistance, driftDistance), 1f, 0);
                 var jumpTween = transform.DOJump(targetPos, jumpPower, 1, duration)
                     .SetEase(Ease.OutQuad)
                     .SetUpdate(true)
-                    .WithCancellation(token);
+                    .ToUniTask(cancellationToken: token);
                 
                 await UniTask.WhenAll(scaleTween, jumpTween);
 
                 await targetText.DOFade(0f, duration * .4f)
                     .SetEase(Ease.InSine)
                     .SetUpdate(true)
-                    .WithCancellation(token);
+                    .ToUniTask(cancellationToken: token);
                 
                 _onComplete?.Invoke(this);
             }
-            catch (Exception)
+            catch (OperationCanceledException)
             {
-                throw;
+                // Task was cancelled, ignore
             }
         }
 

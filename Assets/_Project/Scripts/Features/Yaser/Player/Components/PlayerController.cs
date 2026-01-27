@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using ColorOfCrash.Utils;
 using ColorOrCrash.Features.Ball.Components;
@@ -20,17 +21,27 @@ namespace ColorOrCrash.Features.Player.Components
         [SerializeField] private PlayerConfig config;
         [SerializeField] private SpriteAnimator animator;
         [SerializeField] private SpriteRenderer bodyRenderer;
+
+#region Animation string
         private const string ANIM_IDLE = "Idle";
         private const string ANIM_MOVE = "Move";
         private const string ANIM_JUMP = "Jump";
         private const string ANIM_FALL = "Fall";
         private const string ANIM_LAND = "Landing";
         private const string ANIM_DEATH = "Death";
+#endregion
 
         private Rigidbody2D _rb;
-        private GameColor _currentType;
         private CancellationTokenSource _colorCts;
 
+#region Color Settings
+        private GameColor _currentType;
+        private GameColor _nextType;
+        private float _colorTimer;
+        private const float COLOR_DURATION = 10f;
+#endregion
+
+#region Movement Settings
         private Vector2 _moveInput;
         private bool _isGrounded;
         private bool _canDoubleJump;
@@ -40,10 +51,22 @@ namespace ColorOrCrash.Features.Player.Components
         private bool _isLanding;
         private bool _isDead = false;
         private string _currentAnimation;
+#endregion
+
+#region Services
         private GameManager manager;
         private CameraShakeController cameraController;
+#endregion
+
+#region Events
+        /// <summary>
+        /// 
+        /// </summary>
+        public event Action<GameColor, GameColor, float, float> OnColorChanged;
+#endregion
 
         public GameColor CurrentType => _currentType;
+        public GameColor NextType => _nextType;
 
         private void Awake()
         {
@@ -57,6 +80,8 @@ namespace ColorOrCrash.Features.Player.Components
             cameraController = ServiceLocator.Get<CameraShakeController>();
 
             _currentType = EnumUtils.GetRandomEnumValue<GameColor>();
+            _nextType = GetUniqueRandomColor(_currentType);
+
             UpdateVisual(_currentType);
 
             ColorSwapLoop(_colorCts.Token).Forget();
@@ -95,6 +120,8 @@ namespace ColorOrCrash.Features.Player.Components
             ApplyGravityModifiers();
         }
 
+#region Custom Methods
+        public float GetColorTimerNormalized() => _colorTimer / COLOR_DURATION;
         private void HandleAnimation()
         {
             // 1. Air Logic (Jump, Fall, Landing Detection)
@@ -203,11 +230,37 @@ namespace ColorOrCrash.Features.Player.Components
         {
             while (!token.IsCancellationRequested)
             {
-                await UniTask.Delay(System.TimeSpan.FromSeconds(10f), cancellationToken: token);
+                OnColorChanged?.Invoke(_currentType, _nextType, _colorTimer, COLOR_DURATION);
+                _colorTimer = COLOR_DURATION;
+
+                while (_colorTimer > 0)
+                {
+                    if(manager.CurrentState == Global.Components.GameState.Playing && !_isDead)
+                    {
+                        _colorTimer -= Time.deltaTime;
+                    }
+                    await UniTask.Yield(token);
+                }
+
+                _currentType = _nextType;
+                _nextType = GetUniqueRandomColor(_currentType);
                 
-                _currentType = EnumUtils.GetRandomEnumValue<GameColor>();
+                // _currentType = EnumUtils.GetRandomEnumValue<GameColor>();
                 UpdateVisual(_currentType);
             }
+        }
+
+        private GameColor GetUniqueRandomColor(GameColor excludeColor)
+        {
+            GameColor newColor;
+
+            do
+            {
+                newColor = EnumUtils.GetRandomEnumValue<GameColor>();
+            }
+            while (newColor == excludeColor);
+
+            return newColor;
         }
 
         private void UpdateVisual(GameColor color)
@@ -221,6 +274,7 @@ namespace ColorOrCrash.Features.Player.Components
                     _ => Color.white
                 };
         }
+#endregion
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
