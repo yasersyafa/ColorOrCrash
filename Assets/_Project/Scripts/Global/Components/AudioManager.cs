@@ -49,13 +49,13 @@ namespace ColorOrCrash.Global.Components
         #region Public API
 
         /// <summary>
-        /// Memutar SFX berdasarkan Key string.
+        /// Play SFX by Key string.
         /// </summary>
         public void PlaySFX(string key)
         {
             if (!_audioDict.TryGetValue(key, out AudioData data))
             {
-                Debug.LogWarning($"Audio key '{key}' tidak ditemukan!");
+                Debug.LogWarning($"Could not found Audio key '{key}'!");
                 return;
             }
 
@@ -66,12 +66,12 @@ namespace ColorOrCrash.Global.Components
             source.loop = data.loop;
             source.Play();
 
-            // Kembalikan ke pool setelah selesai diputar
+            // release back to pool after finished playing
             ReturnToPoolAfterFinished(source, data.clip.length).Forget();
         }
 
         /// <summary>
-        /// Memutar Background Music (Looping).
+        /// Play Background Music (Looping).
         /// </summary>
         public void PlayBGM(string key, bool fade = true)
         {

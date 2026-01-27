@@ -206,6 +206,7 @@ namespace ColorOrCrash.Features.Player.Components
         {
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0); 
             _rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+            ServiceLocator.Get<AudioManager>().PlaySFX("Jump");
         }
 
         private void ApplyGravityModifiers()
@@ -285,7 +286,7 @@ namespace ColorOrCrash.Features.Player.Components
                     if (ball.BallColor == _currentType)
                     {
                         cameraController?.Shake();
-                        // TODO: add score and small bounce effect to player (optional )
+                        ServiceLocator.Get<AudioManager>().PlaySFX("Score");
                         _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, config.jumpForce * 0.5f);
                     }
                     else
@@ -297,6 +298,7 @@ namespace ColorOrCrash.Features.Player.Components
                             _rb.simulated = false;
                             _isDead = true;
                             ChangeAnimation(ANIM_DEATH);
+                            ServiceLocator.Get<AudioManager>().PlaySFX("Death");
                         }
                     }
                     ball.OnCollected();
