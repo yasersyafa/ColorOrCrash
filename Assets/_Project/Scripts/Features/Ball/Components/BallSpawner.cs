@@ -51,7 +51,7 @@ namespace ColorOrCrash.Features.Ball.Components
 
         private void Start()
         {
-            manager = GameManager.Instance;
+            manager = ServiceLocator.Get<GameManager>();
             manager.OnGameStateChanged += HandleGameStateChanged;
 
             _settings = manager.settings;
@@ -106,12 +106,10 @@ namespace ColorOrCrash.Features.Ball.Components
             float speed = Random.Range(config.ballMinSpeed, config.ballMaxSpeed);
 
             BallController ball = _ballPool.Get();
+            if(ball == null) Debug.LogWarning("Ball Pool returned null!");
             ball.transform.SetPositionAndRotation(spawnPos, Quaternion.identity);
             
             ball.Initialize(ballColor, direction, speed, _ballPool);
-            #if UNITY_EDITOR 
-            Debug.Log("spawn ball success");
-            #endif
             _activeBalls.Add(ball);
         }
 

@@ -1,6 +1,7 @@
 using System.Threading;
 using ColorOfCrash.Utils;
 using ColorOrCrash.Features.Ball.Components;
+using ColorOrCrash.Features.Camera.Components;
 using ColorOrCrash.Features.Player.Models;
 using ColorOrCrash.Global.Components;
 using ColorOrCrash.Vin.Core;
@@ -40,6 +41,7 @@ namespace ColorOrCrash.Features.Player.Components
         private bool _isDead = false;
         private string _currentAnimation;
         private GameManager manager;
+        private CameraShakeController cameraController;
 
         public GameColor CurrentType => _currentType;
 
@@ -52,6 +54,7 @@ namespace ColorOrCrash.Features.Player.Components
         private void Start()
         {
             manager = ServiceLocator.Get<GameManager>();
+            cameraController = ServiceLocator.Get<CameraShakeController>();
 
             _currentType = EnumUtils.GetRandomEnumValue<GameColor>();
             UpdateVisual(_currentType);
@@ -227,17 +230,21 @@ namespace ColorOrCrash.Features.Player.Components
                 {
                     if (ball.BallColor == _currentType)
                     {
-                        // Destroy(ball.gameObject);
+                        cameraController?.Shake();
                         ball.OnCollected();
                         // TODO: add score and small bounce effect to player (optional )
                         _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, config.jumpForce * 0.5f);
                     }
                     else
                     {
-                        Debug.Log("Game Over - Wrong Color!");
-                        _isDead = true;
-                        // Trigger GameOver Event
-                        ChangeAnimation(ANIM_DEATH);
+                        if(manager.CurrentState != Global.Components.GameState.GameOver)
+                        {
+                            manager.ChangeState(Global.Components.GameState.GameOver);
+                            // cameraController?.Shake(5f);
+                            _rb.simulated = false;
+                            _isDead = true;
+                            ChangeAnimation(ANIM_DEATH);
+                        }
                     }
                 }
             }
