@@ -285,7 +285,6 @@ namespace ColorOrCrash.Features.Player.Components
                     if (ball.BallColor == _currentType)
                     {
                         cameraController?.Shake();
-                        ball.OnCollected();
                         // TODO: add score and small bounce effect to player (optional )
                         _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, config.jumpForce * 0.5f);
                     }
@@ -300,6 +299,7 @@ namespace ColorOrCrash.Features.Player.Components
                             ChangeAnimation(ANIM_DEATH);
                         }
                     }
+                    ball.OnCollected();
                 }
             }
         }
