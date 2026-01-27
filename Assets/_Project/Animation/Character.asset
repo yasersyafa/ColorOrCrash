@@ -59,6 +59,7 @@ MonoBehaviour:
     - {fileID: 5997594283234826320, guid: de03bc7a5503945bd890ed2c91b3b32a, type: 3}
     - {fileID: -8159883496149072352, guid: de03bc7a5503945bd890ed2c91b3b32a, type: 3}
     - {fileID: 82426061317422427, guid: de03bc7a5503945bd890ed2c91b3b32a, type: 3}
+    - {fileID: 801598655983992016, guid: de03bc7a5503945bd890ed2c91b3b32a, type: 3}
     SpriteAnimationType: 1
   - Name: Fall
     FPS: 8

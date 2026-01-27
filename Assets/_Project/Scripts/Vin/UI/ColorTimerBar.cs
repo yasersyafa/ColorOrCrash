@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using ColorOrCrash.Vin.Core;
-using ColorOrCrash.Vin.Managers;
-using ColorOrCrash.Vin.Player;
+using NocturneThree.ServiceLocator;
+using ColorOrCrash.Features.Player.Components;
+using ColorOrCrash.Global.Components;
 
 namespace ColorOrCrash.Vin.UI
 {
@@ -16,61 +17,69 @@ namespace ColorOrCrash.Vin.UI
         [SerializeField] private Image nextBarImage;
         
         [Header("Settings")]
-        [SerializeField] private PlayerController playerController;
         [SerializeField] private float maxWidth = 1920f;
 
-        private GameSettings settings;
+        [Header("Dependencies")]
+        [SerializeField] private PlayerController _player;
+        private GameManager _manager;
 
         private void Start()
         {
-            settings = GameManager.Instance.Settings;
+            _manager = ServiceLocator.Get<GameManager>();
 
-            if (playerController != null)
+            if (_player != null)
             {
-                playerController.OnColorChanged += OnColorChanged;
+                _player.OnColorChanged += HandleColorChanged;
+                HandleColorChanged(_player.CurrentType, _player.NextType, 0, 0);
             }
         }
 
         private void OnDestroy()
         {
-            if (playerController != null)
+            if (_player != null)
             {
-                playerController.OnColorChanged -= OnColorChanged;
+                _player.OnColorChanged -= HandleColorChanged;
             }
         }
 
         private void Update()
         {
-            if (GameManager.Instance.CurrentState != GameState.Playing) return;
+            // Gunakan GameState dari Manager kamu
+            if (_manager == null ||_manager.CurrentState != Global.Components.GameState.Playing) return;
 
-            if (playerController != null)
+            if (_player != null)
             {
-                UpdateBarWidth(playerController.GetColorTimerNormalized());
+                float t = Mathf.Clamp01(_player.GetColorTimerNormalized());
+                UpdateBarWidth(t);
             }
         }
 
-        private void OnColorChanged(GameColor currentColor, GameColor nextColor, float timer, float maxTimer)
+        private void HandleColorChanged(GameColor currentColor, GameColor nextColor, float timer, float maxTimer)
         {
-            // Set current color bar (foreground)
-            barImage.color = settings.GetColor(currentColor);
+            // Foreground Bar Color
+            barImage.color = GetColorValue(currentColor);
             
-            // Set next color bar (background) - this will be revealed as current bar shrinks
+            // Background Bar Color (Warna selanjutnya yang akan muncul)
             if (nextBarImage != null)
             {
-                nextBarImage.color = settings.GetColor(nextColor);
+                nextBarImage.color = GetColorValue(nextColor);
             }
-
-            // Reset bar width
-            UpdateBarWidth(1f);
         }
 
         private void UpdateBarWidth(float normalizedTime)
         {
-            float currentWidth = maxWidth * normalizedTime;
+            barRect.sizeDelta = new Vector2(maxWidth * normalizedTime, barRect.sizeDelta.y);
+        }
 
-            Vector2 size = barRect.sizeDelta;
-            size.x = currentWidth;
-            barRect.sizeDelta = size;
+        private Color GetColorValue(GameColor color)
+        {
+            return color switch
+            {
+                GameColor.Red => _manager.settings.redColor,
+                GameColor.Blue => _manager.settings.blueColor,
+                GameColor.Green => _manager.settings.greenColor,
+                _ => Color.white
+            };
         }
     }
 }

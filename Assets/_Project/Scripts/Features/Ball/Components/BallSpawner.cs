@@ -171,8 +171,10 @@ namespace ColorOrCrash.Features.Ball.Components
         private float CalculateCurrentInterval()
         {
             int score = manager.Score;
+            int difficultyLevel = score / 1000; 
+
             float baseInterval = Mathf.Max(_settings.minSpawnInterval, 
-                _settings.startSpawnInterval - (score * _settings.spawnIntervalDecreasePerScore));
+                _settings.startSpawnInterval - (difficultyLevel * _settings.spawnIntervalDecreasePerScore));
             
             float variance = Random.Range(-config.ballSpawnIntervalVariance, config.ballSpawnIntervalVariance);
             return Mathf.Max(0.1f, baseInterval + variance);

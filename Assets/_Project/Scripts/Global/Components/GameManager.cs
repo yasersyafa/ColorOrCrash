@@ -15,7 +15,6 @@ namespace ColorOrCrash.Global.Components
     [Service]
     public class GameManager : MonoBehaviour, IGameService
     {
-        public static GameManager Instance;
         public GameSettings settings;
         
         private GameState _currentState = GameState.Playing;
@@ -23,6 +22,7 @@ namespace ColorOrCrash.Global.Components
         public int Score { get; private set; }
 
         public event Action<GameState> OnGameStateChanged;
+        public event Action<int, int> OnScoreAdded;
 
         private void Start()
         {
@@ -43,6 +43,8 @@ namespace ColorOrCrash.Global.Components
         public void AddScore(int amount)
         {
             Score += amount;
+
+            OnScoreAdded?.Invoke(amount, Score);
         }
     }
 }
