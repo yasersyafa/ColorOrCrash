@@ -56,7 +56,7 @@ namespace ColorOrCrash.Features.Ball.Components
             _speed = speed;
             _pool = pool;
 
-            settings = GameManager.Instance.settings;
+            settings = ServiceLocator.Get<GameManager>().settings;
 
             _collider.isTrigger = true;
             _renderer.color = Color.white;
@@ -81,7 +81,7 @@ namespace ColorOrCrash.Features.Ball.Components
 
             while (elapsed < duration)
             {
-                if (GameManager.Instance.CurrentState != Global.Components.GameState.Playing)
+                if (ServiceLocator.Get<GameManager>().CurrentState != Global.Components.GameState.Playing)
                 {
                     await UniTask.Yield();
                     continue;
@@ -159,6 +159,11 @@ namespace ColorOrCrash.Features.Ball.Components
                 yield return null;
             }
             transform.localScale = Vector3.one;
+        }
+
+        private void OnDestroy()
+        {
+            _pool = null;
         }
     }
 }

@@ -24,19 +24,6 @@ namespace ColorOrCrash.Global.Components
 
         public event Action<GameState> OnGameStateChanged;
 
-        private void Awake()
-        {
-            if(Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else 
-            {
-                Destroy(gameObject);
-            }
-        }
-
         private void Start()
         {
             ChangeState(GameState.Playing);
@@ -46,6 +33,11 @@ namespace ColorOrCrash.Global.Components
         {
             _currentState = newState;
             OnGameStateChanged?.Invoke(newState);
+        }
+
+        void OnDestroy()
+        {
+            ServiceLocator.Unregister<GameManager>();
         }
 
         public void AddScore(int amount)

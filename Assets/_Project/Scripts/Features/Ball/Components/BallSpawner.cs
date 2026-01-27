@@ -51,7 +51,7 @@ namespace ColorOrCrash.Features.Ball.Components
 
         private void Start()
         {
-            manager = GameManager.Instance;
+            manager = ServiceLocator.Get<GameManager>();
             manager.OnGameStateChanged += HandleGameStateChanged;
 
             _settings = manager.settings;
@@ -100,18 +100,16 @@ namespace ColorOrCrash.Features.Ball.Components
 
         private void SpawnBall()
         {
-            Vector2 spawnPos = GetSpawnPositionOutsidePlayspace();
+            Vector2 spawnPos = GetSpawnTopPositionOutsidePlayspace();
             Vector2 direction = GetRandomDirectionTowardsPlayspace(spawnPos);
             GameColor ballColor = GetBiasedRandomColor();
             float speed = Random.Range(config.ballMinSpeed, config.ballMaxSpeed);
 
             BallController ball = _ballPool.Get();
+            if(ball == null) Debug.LogWarning("Ball Pool returned null!");
             ball.transform.SetPositionAndRotation(spawnPos, Quaternion.identity);
             
             ball.Initialize(ballColor, direction, speed, _ballPool);
-            #if UNITY_EDITOR 
-            Debug.Log("spawn ball success");
-            #endif
             _activeBalls.Add(ball);
         }
 
@@ -149,6 +147,19 @@ namespace ColorOrCrash.Features.Ball.Components
                 3 => new Vector2(right + spawnOffset, Random.Range(bottom, top)),  // Right
                 _ => Vector2.zero
             };
+        }
+
+        private Vector2 GetSpawnTopPositionOutsidePlayspace()
+        {
+            float top = topWall ? topWall.position.y : 5f;
+    
+            float left = leftWall ? leftWall.position.x : -8f;
+            float right = rightWall ? rightWall.position.x : 8f;
+
+            float randomX = Random.Range(left, right);
+            float spawnY = top + spawnOffset;
+
+            return new Vector2(randomX, spawnY);
         }
 
         private Vector2 GetRandomDirectionTowardsPlayspace(Vector2 spawnPosition)
