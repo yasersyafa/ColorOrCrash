@@ -12,10 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a883ac14a9da84025a199fcb3996bce0, type: 3}
   m_Name: BallSpawnerConfig
   m_EditorClassIdentifier: 
-  spawnInterfal: 5
-  minSpeed: 3
-  maxSpeed: 6
   ballPrefab: {fileID: 2876040622464414041, guid: 76d3a5b8fbec74d8db27a4b81abe2299, type: 3}
-  spawnRadius: 5
-  targetAreaWidth: 8
-  targetAreaHeight: 5
+  clearItemPrefab: {fileID: 7172526542712915868, guid: bb3eb8d90f8881848929a368e84d6c53, type: 3}
+  ballMinSpeed: 2
+  ballMaxSpeed: 4
+  ballSpawnInterval: 2
+  ballSpawnIntervalVariance: 1
+  ballColorTransitionDuration: 1
+  ballInvulnerableDuration: 1
+  maxBallsInScene: 10
+  ballSpawnScale: 0.5
+  itemMinSpeed: 2
+  itemMaxSpeed: 3
+  itemInvulnerableDuration: 1
+  itemTransitionDuration: 1
+  maxItemsInScene: 1
+  itemSpawnScale: 0.5
+  itemMinScoreToSpawn: 5000
+  itemScoreThresholdFor30: 10000
+  itemSpawnChanceAt5k: 0.1
+  itemSpawnChanceAt10k: 0.15
+  itemScoreReward: 1000
