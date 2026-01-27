@@ -34,6 +34,7 @@ namespace ColorOrCrash.Features.Ball.Components
         private IObjectPool<BallController> _ballPool;
         private CancellationTokenSource _spawnCts;
         private readonly List<BallController> _activeBalls = new();
+        private ClearAllItemController _activeItem;
         private GameManager manager;
 
         private void Awake()
@@ -88,7 +89,21 @@ namespace ColorOrCrash.Features.Ball.Components
         {
             while (!token.IsCancellationRequested)
             {
-                if (_activeBalls.Count < config.maxBallsInScene)
+                int currentScore = manager.Score;
+                bool spawned = false;
+
+                // Try spawn clear-all item if conditions met (only one allowed)
+                if (_activeItem == null && config.clearItemPrefab != null && currentScore >= config.itemMinScoreToSpawn)
+                {
+                    float chance = currentScore >= config.itemScoreThresholdFor30 ? config.itemSpawnChanceAt10k : config.itemSpawnChanceAt5k;
+                    if (Random.value < chance)
+                    {
+                        SpawnClearItem();
+                        spawned = true;
+                    }
+                }
+
+                if (!spawned && _activeBalls.Count < config.maxBallsInScene)
                 {
                     SpawnBall();
                 }
@@ -182,6 +197,13 @@ namespace ColorOrCrash.Features.Ball.Components
 
         private void StopSpawning()
         {
+            // Destroy any active clear-item when stopping
+            if (_activeItem != null)
+            {
+                if (_activeItem != null) Destroy(_activeItem.gameObject);
+                _activeItem = null;
+            }
+
             _spawnCts?.Cancel();
             _spawnCts?.Dispose();
             _spawnCts = null;
@@ -200,6 +222,30 @@ namespace ColorOrCrash.Features.Ball.Components
         {
             if(_activeBalls.Contains(ball))
                 _activeBalls.Remove(ball);  
+        }
+
+        public void SpawnClearItem()
+        {
+            Vector2 spawnPos = GetSpawnTopPositionOutsidePlayspace();
+            Vector2 direction = GetRandomDirectionTowardsPlayspace(spawnPos);
+            float speed = Random.Range(config.itemMinSpeed, config.itemMaxSpeed);
+
+            GameObject go = Instantiate(config.clearItemPrefab, spawnPos, Quaternion.identity, ballContainer);
+            var item = go.GetComponent<ClearAllItemController>();
+            if (item == null)
+            {
+                Debug.LogWarning("ClearItem prefab missing ClearAllItemController component!");
+                return;
+            }
+
+            item.Initialize(this, direction, speed, config);
+            _activeItem = item;
+        }
+
+        public void NotifyItemCollected(ClearAllItemController item)
+        {
+            if (_activeItem == item)
+                _activeItem = null;
         } 
     }
 }

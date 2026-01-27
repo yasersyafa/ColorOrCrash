@@ -1765,7 +1765,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   barRect: {fileID: 124213489}
   barImage: {fileID: 124213491}
-  nextBarImage: {fileID: 124213491}
+  nextBarImage: {fileID: 2008106550}
   playerController: {fileID: 1485903071}
   maxWidth: 1920
 --- !u!222 &2008106552
