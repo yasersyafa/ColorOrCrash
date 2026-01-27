@@ -165,4 +165,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2978716e33cf84ec4be689b3fc3f9049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeedMultiplier: 50
+  _renderer: {fileID: 4991214532203062692}
+  _rb: {fileID: 6730746367985246757}
+  _collider: {fileID: 5133707713335970684}
+  _config: {fileID: 11400000, guid: 6eb714b4312964b03b240516a40c3986, type: 2}
+  settings: {fileID: 0}
