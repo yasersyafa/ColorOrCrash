@@ -43,6 +43,7 @@ namespace ColorOrCrash.Features.Player.Components
 
 #region Movement Settings
         private Vector2 _moveInput;
+        private Vector3 _initialPosition;
         private bool _isGrounded;
         private bool _canDoubleJump;
         private bool _isJumpPressed;
@@ -79,12 +80,24 @@ namespace ColorOrCrash.Features.Player.Components
             manager = ServiceLocator.Get<GameManager>();
             cameraController = ServiceLocator.Get<CameraShakeController>();
 
+            _initialPosition = transform.position;
+
+            manager.OnGameStateChanged += HandleGameStateChanged;
+
             _currentType = EnumUtils.GetRandomEnumValue<GameColor>();
             _nextType = GetUniqueRandomColor(_currentType);
 
             UpdateVisual(_currentType);
 
             ColorSwapLoop(_colorCts.Token).Forget();
+        }
+
+        private void HandleGameStateChanged(Global.Components.GameState state)
+        {
+            if(state == Global.Components.GameState.Playing)
+            {
+                ResetPlayer();
+            }
         }
 
         #region Input System Callbacks
@@ -122,6 +135,21 @@ namespace ColorOrCrash.Features.Player.Components
         }
 
 #region Custom Methods
+
+        public void ResetPlayer()
+        {
+            _isDead = false;
+            _rb.simulated = true;
+            _rb.linearVelocity = Vector2.zero;
+            
+            transform.position = _initialPosition;
+
+            _currentType = EnumUtils.GetRandomEnumValue<GameColor>();
+            _nextType = GetUniqueRandomColor(_currentType);
+            UpdateVisual(_currentType);
+
+            ChangeAnimation(ANIM_IDLE);
+        }
         public float GetColorTimerNormalized() => _colorTimer / COLOR_DURATION;
         private void HandleAnimation()
         {
@@ -315,6 +343,7 @@ namespace ColorOrCrash.Features.Player.Components
                 _colorCts.Cancel();
                 _colorCts.Dispose();
             }
+            manager.OnGameStateChanged -= HandleGameStateChanged;
         }
     }
 }

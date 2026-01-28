@@ -49,6 +49,17 @@ namespace ColorOrCrash.Features.UI
             buttonChoices.SetActive(true);
         }
 
+        public void OnRestartButtonPressed()
+        {
+            manager.ChangeState(GameState.Playing);
+            Reset();
+        }
+
+        public async void OnExitButtonPressed()
+        {
+            await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync("MainMenuScene");
+        }
+
         private void Reset()
         {
             gameOverPanel.SetActive(false);

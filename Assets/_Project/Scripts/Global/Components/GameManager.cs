@@ -38,6 +38,12 @@ namespace ColorOrCrash.Global.Components
         public void ChangeState(GameState newState)
         {
             _currentState = newState;
+            
+            if(_currentState == GameState.Playing)
+            {
+                ResetGameState();
+            }
+
             OnGameStateChanged?.Invoke(newState);
         }
 
@@ -46,6 +52,32 @@ namespace ColorOrCrash.Global.Components
             isPaused = true;
             Time.timeScale = 0;
             OnGamePaused?.Invoke();
+        }
+
+        private void ResetGameState()
+        {
+            // 1. Reset Score
+            Score = 0;
+            OnScoreAdded?.Invoke(0, 0); // Beritahu UI Score untuk reset ke 0
+
+            // 2. Clear All Balls via BallSpawner
+            // Kita panggil spawner dari ServiceLocator
+            var spawner = ServiceLocator.Get<BallSpawner>();
+            if (spawner != null)
+            {
+                spawner.ClearAllBalls();
+            }
+
+            // 3. Audio BGM
+            var audio = ServiceLocator.Get<AudioManager>();
+            if (audio != null)
+            {
+                audio.PlayBGM("GameMusic");
+            }
+
+            // 4. Pastikan waktu berjalan
+            Time.timeScale = 1;
+            isPaused = false;
         }
 
         public void ResumeGame()

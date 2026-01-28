@@ -25,14 +25,15 @@ namespace ColorOrCrash
             pausePanel.SetActive(false);
         }
 
-        public void OnExitButtonPressed()
+        public async void OnExitButtonPressed()
         {
-            
+            await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync("MainMenuScene");
         }
 
         public void OnRestartButtonPressed()
         {
-
+            manager.ChangeState(GameState.Playing);
+            pausePanel.SetActive(false);
         }
 
         // Update is called once per frame
