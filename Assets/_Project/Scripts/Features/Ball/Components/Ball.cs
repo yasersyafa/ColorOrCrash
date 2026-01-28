@@ -118,7 +118,7 @@ namespace ColorOrCrash.Features.Ball.Components
         {
             if (ServiceLocator.Get<GameManager>().CurrentState != Global.Components.GameState.Playing)
             {
-                _rb.linearVelocity = Vector2.zero;
+                // _rb.linearVelocity = Vector2.zero;
                 return;
             }
 

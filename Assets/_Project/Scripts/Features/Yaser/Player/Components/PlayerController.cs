@@ -43,6 +43,7 @@ namespace ColorOrCrash.Features.Player.Components
 
 #region Movement Settings
         private Vector2 _moveInput;
+        private Vector3 _initialPosition;
         private bool _isGrounded;
         private bool _canDoubleJump;
         private bool _isJumpPressed;
@@ -79,12 +80,21 @@ namespace ColorOrCrash.Features.Player.Components
             manager = ServiceLocator.Get<GameManager>();
             cameraController = ServiceLocator.Get<CameraShakeController>();
 
-            _currentType = EnumUtils.GetRandomEnumValue<GameColor>();
-            _nextType = GetUniqueRandomColor(_currentType);
+            _initialPosition = transform.position;
 
-            UpdateVisual(_currentType);
+            manager.OnGameStateChanged += HandleGameStateChanged;
+
+            ResetPlayer();
 
             ColorSwapLoop(_colorCts.Token).Forget();
+        }
+
+        private void HandleGameStateChanged(Global.Components.GameState state)
+        {
+            if(state == Global.Components.GameState.Playing)
+            {
+                ResetPlayer();
+            }
         }
 
         #region Input System Callbacks
@@ -103,6 +113,7 @@ namespace ColorOrCrash.Features.Player.Components
                 _jumpRequest = true;
             }
         }
+
         #endregion
 
         void Update()
@@ -121,6 +132,24 @@ namespace ColorOrCrash.Features.Player.Components
         }
 
 #region Custom Methods
+
+        public void ResetPlayer()
+        {
+            _isDead = false;
+            _rb.simulated = true;
+            _rb.linearVelocity = Vector2.zero;
+            
+            transform.position = _initialPosition;
+
+            _currentType = EnumUtils.GetRandomEnumValue<GameColor>();
+            _nextType = GetUniqueRandomColor(_currentType);
+            UpdateVisual(_currentType);
+
+            _colorTimer = COLOR_DURATION;
+            OnColorChanged?.Invoke(_currentType, _nextType, _colorTimer, COLOR_DURATION);
+
+            ChangeAnimation(ANIM_IDLE);
+        }
         public float GetColorTimerNormalized() => _colorTimer / COLOR_DURATION;
         private void HandleAnimation()
         {
@@ -155,12 +184,12 @@ namespace ColorOrCrash.Features.Player.Components
             }
         }
 
-        private void ChangeAnimation(string animName)
+        private void ChangeAnimation(string animName, Action onComplete = null)
         {
             // Prevent flickering: Hanya panggil Play jika nama animasi berbeda
             if (_currentAnimation == animName) return;
 
-            animator.Play(animName);
+            animator.Play(animName).SetOnComplete(onComplete);
             _currentAnimation = animName;
         }
 
@@ -206,6 +235,8 @@ namespace ColorOrCrash.Features.Player.Components
         {
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0); 
             _rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+
+            ServiceLocator.Get<AudioManager>().PlaySFX("Jump");
         }
 
         private void ApplyGravityModifiers()
@@ -285,21 +316,22 @@ namespace ColorOrCrash.Features.Player.Components
                     if (ball.BallColor == _currentType)
                     {
                         cameraController?.Shake();
-                        ball.OnCollected();
-                        // TODO: add score and small bounce effect to player (optional )
+                        ServiceLocator.Get<AudioManager>().PlaySFX("Score");
                         _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, config.jumpForce * 0.5f);
                     }
                     else
                     {
                         if(manager.CurrentState != Global.Components.GameState.GameOver)
                         {
-                            manager.ChangeState(Global.Components.GameState.GameOver);
-                            // cameraController?.Shake(5f);
+                            
                             _rb.simulated = false;
                             _isDead = true;
-                            ChangeAnimation(ANIM_DEATH);
+                            ChangeAnimation(ANIM_DEATH, () => manager.ChangeState(Global.Components.GameState.GameOver));
+
+                            ServiceLocator.Get<AudioManager>().PlaySFX("Death");
                         }
                     }
+                    ball.OnCollected();
                 }
             }
         }
@@ -311,6 +343,7 @@ namespace ColorOrCrash.Features.Player.Components
                 _colorCts.Cancel();
                 _colorCts.Dispose();
             }
+            manager.OnGameStateChanged -= HandleGameStateChanged;
         }
     }
 }

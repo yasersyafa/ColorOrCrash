@@ -18,21 +18,72 @@ namespace ColorOrCrash.Global.Components
         public GameSettings settings;
         
         private GameState _currentState = GameState.Playing;
+        [HideInInspector] public bool isPaused = false;
         public GameState CurrentState => _currentState;
         public int Score { get; private set; }
 
         public event Action<GameState> OnGameStateChanged;
         public event Action<int, int> OnScoreAdded;
+        public event Action OnGamePaused;
 
         private void Start()
         {
             ChangeState(GameState.Playing);
+            if(_currentState == GameState.Playing)
+            {
+                ServiceLocator.Get<AudioManager>().PlayBGM("GameMusic");
+            }
         }
 
         public void ChangeState(GameState newState)
         {
             _currentState = newState;
+            
+            if(_currentState == GameState.Playing)
+            {
+                ResetGameState();
+            }
+
             OnGameStateChanged?.Invoke(newState);
+        }
+
+        public void TogglePause()
+        {
+            isPaused = true;
+            Time.timeScale = 0;
+            OnGamePaused?.Invoke();
+        }
+
+        private void ResetGameState()
+        {
+            // 1. Reset Score
+            Score = 0;
+            OnScoreAdded?.Invoke(0, 0); // Beritahu UI Score untuk reset ke 0
+
+            // 2. Clear All Balls via BallSpawner
+            // Kita panggil spawner dari ServiceLocator
+            var spawner = ServiceLocator.Get<BallSpawner>();
+            if (spawner != null)
+            {
+                spawner.ClearAllBalls();
+            }
+
+            // 3. Audio BGM
+            var audio = ServiceLocator.Get<AudioManager>();
+            if (audio != null)
+            {
+                audio.PlayBGM("GameMusic");
+            }
+
+            // 4. Pastikan waktu berjalan
+            Time.timeScale = 1;
+            isPaused = false;
+        }
+
+        public void ResumeGame()
+        {
+            isPaused = false;
+            Time.timeScale = 1;
         }
 
         void OnDestroy()
