@@ -11,7 +11,7 @@ namespace ColorOrCrash.Global.Components
     public class LoadSceneManager : MonoBehaviour, IGameService
     {
         [Header("References")]
-        [SerializeField] private CanvasGroup loadingCanvas;
+        public CanvasGroup loadingCanvas;
 
         [Header("Settings")]
         [SerializeField] private float fadeDuration = 0.5f;
@@ -28,14 +28,16 @@ namespace ColorOrCrash.Global.Components
             loadingCanvas.gameObject.SetActive(true);
             loadingCanvas.alpha = 0;
             // SetUpdate(true) = ignore Time.timeScale, tetap jalan saat pause
-            await loadingCanvas.DOFade(1f, fadeDuration).SetUpdate(true).AsyncWaitForCompletion();
+            await loadingCanvas.DOFade(1f, fadeDuration).SetUpdate(true).ToUniTask();
         }
 
         private async UniTask HideLoadingScreen()
         {
             // SetUpdate(true) = ignore Time.timeScale, tetap jalan saat pause
-            await loadingCanvas.DOFade(0f, fadeDuration).SetUpdate(true).AsyncWaitForCompletion();
-            loadingCanvas.gameObject.SetActive(false);
+            await loadingCanvas.DOFade(0f, fadeDuration).SetUpdate(true).OnComplete(() =>
+            {
+                loadingCanvas.gameObject.SetActive(false);
+            }).ToUniTask();
         }
 
         public async UniTask LoadSceneAsync(string sceneName)
@@ -58,16 +60,14 @@ namespace ColorOrCrash.Global.Components
                 float remainingTime = minLoadingTime - elapsedTime;
                 await UniTask.Delay(TimeSpan.FromSeconds(remainingTime), ignoreTimeScale: true);
             }
-
-            // Mulai fade out SEBELUM scene activation
-            var hideTask = HideLoadingScreen();
-
+            
             op.allowSceneActivation = true;
 
             await UniTask.WaitUntil(() => op.isDone);
+
+            await UniTask.Delay(2);
             
-            // Tunggu fade out selesai
-            await hideTask;
+            await HideLoadingScreen();
         }
 
         void OnDestroy()

@@ -1,5 +1,6 @@
+using ColorOrCrash.Global.Components;
+using NocturneThree.ServiceLocator;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace ColorOrCrash
 {
@@ -42,10 +43,9 @@ namespace ColorOrCrash
         /// <summary>
         /// Fungsi untuk button Start - Pindah ke scene loading screen
         /// </summary>
-        public void StartGame()
+        public async void StartGame()
         {
-            Debug.Log("Loading scene: " + loadingSceneName);
-            SceneManager.LoadScene(loadingSceneName);
+            await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(loadingSceneName);
         }
         
         /// <summary>

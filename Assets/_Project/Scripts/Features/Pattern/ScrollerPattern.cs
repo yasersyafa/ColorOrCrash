@@ -11,7 +11,7 @@ namespace ColorOrCrash.Features.Pattern
         // Update is called once per frame
         void Update()
         {
-            _rawImage.uvRect = new(_rawImage.uvRect.position + new Vector2(_x, _y) * Time.deltaTime, _rawImage.uvRect.size);
+            _rawImage.uvRect = new(_rawImage.uvRect.position + new Vector2(_x, _y) * Time.unscaledDeltaTime, _rawImage.uvRect.size);
         }
     }
 }

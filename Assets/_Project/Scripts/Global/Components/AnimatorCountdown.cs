@@ -1,12 +1,9 @@
 using UnityEngine;
-using System.Collections;
+using Cysharp.Threading.Tasks;
+using NocturneThree.ServiceLocator;
 
 namespace ColorOrCrash.Global.Components
 {
-    /// <summary>
-    /// Countdown untuk 2 GameObject dengan Animator
-    /// Cukup assign GameObject dan nama state di Animator
-    /// </summary>
     public class AnimatorCountdown : MonoBehaviour
     {
         [Header("GameObject References")]
@@ -14,132 +11,93 @@ namespace ColorOrCrash.Global.Components
         [SerializeField] private GameObject goObject;
         
         [Header("Animator State Names")]
-        [Tooltip("Nama state di Animator untuk Ready (kosongkan jika default state)")]
-        [SerializeField] private string readyStateName = "";
-        
-        [Tooltip("Nama state di Animator untuk Go (kosongkan jika default state)")]
-        [SerializeField] private string goStateName = "";
+        [SerializeField] private string readyStateName = "Ready";
+        [SerializeField] private string goStateName = "Go";
         
         [Header("Timing")]
         [SerializeField] private float readyDuration = 1.5f;
         [SerializeField] private float goDuration = 1f;
         
-        [Header("Loading Transition (Optional)")]
-        [Tooltip("Canvas loading transition (opsional, untuk tunggu fade out selesai)")]
-        [SerializeField] private GameObject loadingCanvas;
-        
-        [Header("Audio (Optional)")]
+        [Header("Audio")]
         [SerializeField] private AudioSource audioSource;
         [SerializeField] private AudioClip readySound;
         [SerializeField] private AudioClip goSound;
-        
+
+        private GameObject _loadingCanvas;
+
         private void Start()
         {
+            // Pastikan game diam sejak frame pertama scene ini aktif
+            Time.timeScale = 0;
+
+            // Ambil referensi loading canvas dari LoadSceneManager
+            var loadManager = ServiceLocator.Get<LoadSceneManager>();
+            if (loadManager != null && loadManager.loadingCanvas != null)
+            {
+                _loadingCanvas = loadManager.loadingCanvas.gameObject;
+            }
+
             if (readyObject != null) readyObject.SetActive(false);
             if (goObject != null) goObject.SetActive(false);
             
-            StartCoroutine(WaitAndStart());
+            // Jalankan urutan countdown
+            StartSequence().Forget();
         }
-        
-        private IEnumerator WaitAndStart()
+
+        private async UniTaskVoid StartSequence()
         {
-            // Tunggu loading canvas hilang (jika ada)
-            if (loadingCanvas != null)
+            // 1. Tunggu loading screen benar-benar OFF
+            if (_loadingCanvas != null)
             {
-                Debug.Log("[AnimatorCountdown] Waiting for loading transition...");
-                yield return new WaitUntil(() => !loadingCanvas.activeInHierarchy);
-                Debug.Log("[AnimatorCountdown] Loading transition done");
+                await UniTask.WaitUntil(() => !_loadingCanvas.activeInHierarchy);
+                
+                // BUFFER: Beri jeda 3 frame agar engine stabil setelah mematikan canvas berat
+                await UniTask.DelayFrame(3);
+                
+                // Tambahkan sedikit nafas (0.2 detik) agar transisi visual tidak mengagetkan
+                await UniTask.Delay(System.TimeSpan.FromSeconds(0.2f), ignoreTimeScale: true);
             }
-            
-            // Baru pause game
-            Time.timeScale = 0;
-            Debug.Log("[AnimatorCountdown] Game paused");
-            
-            // Mulai countdown
-            StartCoroutine(CountdownSequence());
-        }
-        
-        private IEnumerator CountdownSequence()
-        {
-            // === READY ===
+
+            // 2. Jalankan READY
             if (readyObject != null)
             {
-                Debug.Log("[AnimatorCountdown] Showing Ready...");
-                readyObject.SetActive(true);
-                
-                // Setup Animator
-                Animator animator = readyObject.GetComponent<Animator>();
-                if (animator != null)
-                {
-                    animator.updateMode = AnimatorUpdateMode.UnscaledTime;
-                    
-                    // Play state jika ada nama state
-                    if (!string.IsNullOrEmpty(readyStateName))
-                    {
-                        animator.Play(readyStateName, 0, 0f);
-                        Debug.Log($"[AnimatorCountdown] Playing state: {readyStateName}");
-                    }
-                    else
-                    {
-                        Debug.Log("[AnimatorCountdown] Using default state");
-                    }
-                }
-                
-                // Play sound
-                if (audioSource != null && readySound != null)
-                {
-                    audioSource.PlayOneShot(readySound);
-                }
-                
-                // Wait
-                yield return new WaitForSecondsRealtime(readyDuration);
-                
-                readyObject.SetActive(false);
-                Debug.Log("[AnimatorCountdown] Ready selesai");
+                await PlayAnimation(readyObject, readyStateName, readySound, readyDuration);
             }
-            
-            // === GO ===
+
+            // 3. Jalankan GO
             if (goObject != null)
             {
-                Debug.Log("[AnimatorCountdown] Showing Go...");
-                goObject.SetActive(true);
-                
-                // Setup Animator
-                Animator animator = goObject.GetComponent<Animator>();
-                if (animator != null)
-                {
-                    animator.updateMode = AnimatorUpdateMode.UnscaledTime;
-                    
-                    // Play state jika ada nama state
-                    if (!string.IsNullOrEmpty(goStateName))
-                    {
-                        animator.Play(goStateName, 0, 0f);
-                        Debug.Log($"[AnimatorCountdown] Playing state: {goStateName}");
-                    }
-                    else
-                    {
-                        Debug.Log("[AnimatorCountdown] Using default state");
-                    }
-                }
-                
-                // Play sound
-                if (audioSource != null && goSound != null)
-                {
-                    audioSource.PlayOneShot(goSound);
-                }
-                
-                // Wait
-                yield return new WaitForSecondsRealtime(goDuration);
-                
-                goObject.SetActive(false);
-                Debug.Log("[AnimatorCountdown] Go selesai");
+                await PlayAnimation(goObject, goStateName, goSound, goDuration);
             }
-            
-            // Resume
+
+            // 4. Mulai Game
             Time.timeScale = 1;
-            Debug.Log("[AnimatorCountdown] Game dimulai!");
             
-            Destroy(gameObject, 0.5f);
+            // Beri jeda sedikit sebelum menghancurkan diri agar tidak ada lonjakan beban CPU mendadak
+            await UniTask.DelayFrame(5);
+            Destroy(gameObject);
+        }
+
+        private async UniTask PlayAnimation(GameObject obj, string stateName, AudioClip clip, float duration)
+        {
+            obj.SetActive(true);
+            
+            Animator anim = obj.GetComponent<Animator>();
+            if (anim != null)
+            {
+                anim.updateMode = AnimatorUpdateMode.UnscaledTime;
+                anim.Play(stateName, 0, 0f);
+            }
+
+            if (audioSource != null && clip != null)
+            {
+                audioSource.PlayOneShot(clip);
+            }
+
+            // Tunggu berdasarkan waktu nyata karena timeScale sedang 0
+            await UniTask.Delay(System.TimeSpan.FromSeconds(duration), ignoreTimeScale: true);
+            
+            obj.SetActive(false);
         }
     }
 }
