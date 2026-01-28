@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: BallSpawnerConfig
   m_EditorClassIdentifier: 
   ballPrefab: {fileID: 2876040622464414041, guid: 76d3a5b8fbec74d8db27a4b81abe2299, type: 3}
+  clearItemPrefab: {fileID: 7172526542712915868, guid: bb3eb8d90f8881848929a368e84d6c53, type: 3}
   ballMinSpeed: 3
   ballMaxSpeed: 6
   ballSpawnInterval: 2
@@ -21,3 +22,14 @@ MonoBehaviour:
   ballInvulnerableDuration: 1
   maxBallsInScene: 15
   ballSpawnScale: 0.5
+  itemMinSpeed: 1
+  itemMaxSpeed: 3
+  itemInvulnerableDuration: 1.5
+  itemTransitionDuration: 1
+  maxItemsInScene: 1
+  itemSpawnScale: 0.7
+  itemMinScoreToSpawn: 5000
+  itemScoreThresholdFor30: 10000
+  itemSpawnChanceAt5k: 0.15
+  itemSpawnChanceAt10k: 0.2
+  itemScoreReward: 1000

@@ -1,12 +1,12 @@
-using UnityEngine;
-using UnityEngine.Pool;
-using Cysharp.Threading.Tasks;
+using System;
 using System.Threading;
 using ColorOrCrash.Features.Ball.Components;
 using ColorOrCrash.Features.Ball.Models;
-using NocturneThree.ServiceLocator;
 using ColorOrCrash.Global.Models;
-using System;
+using Cysharp.Threading.Tasks;
+using NocturneThree.ServiceLocator;
+using UnityEngine;
+using UnityEngine.Pool;
 
 namespace ColorOrCrash.Global.Components
 {
@@ -16,7 +16,7 @@ namespace ColorOrCrash.Global.Components
     public class GameManager : MonoBehaviour, IGameService
     {
         public GameSettings settings;
-        
+
         private GameState _currentState = GameState.Playing;
         [HideInInspector] public bool isPaused = false;
         public GameState CurrentState => _currentState;
@@ -29,7 +29,7 @@ namespace ColorOrCrash.Global.Components
         private void Start()
         {
             ChangeState(GameState.Playing);
-            if(_currentState == GameState.Playing)
+            if (_currentState == GameState.Playing)
             {
                 ServiceLocator.Get<AudioManager>().PlayBGM("GameMusic");
             }
@@ -38,8 +38,8 @@ namespace ColorOrCrash.Global.Components
         public void ChangeState(GameState newState)
         {
             _currentState = newState;
-            
-            if(_currentState == GameState.Playing)
+
+            if (_currentState == GameState.Playing)
             {
                 ResetGameState();
             }
