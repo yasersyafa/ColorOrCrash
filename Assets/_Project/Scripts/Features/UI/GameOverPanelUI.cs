@@ -51,12 +51,14 @@ namespace ColorOrCrash.Features.UI
 
         public void OnRestartButtonPressed()
         {
+            ServiceLocator.Get<AudioManager>().PlaySFX("Click");
             manager.ChangeState(GameState.Playing);
             Reset();
         }
 
         public async void OnExitButtonPressed()
         {
+            ServiceLocator.Get<AudioManager>().PlaySFX("Click");
             await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync("MainMenuScene");
         }
 

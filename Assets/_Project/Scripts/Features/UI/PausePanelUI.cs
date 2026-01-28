@@ -21,17 +21,20 @@ namespace ColorOrCrash
 
         public void OnResumeButtonPressed()
         {
+            ServiceLocator.Get<AudioManager>().PlaySFX("Click");
             manager.ResumeGame();
             pausePanel.SetActive(false);
         }
 
         public async void OnExitButtonPressed()
         {
+            ServiceLocator.Get<AudioManager>().PlaySFX("Click");
             await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync("MainMenuScene");
         }
 
         public void OnRestartButtonPressed()
         {
+            ServiceLocator.Get<AudioManager>().PlaySFX("Click");
             manager.ChangeState(GameState.Playing);
             pausePanel.SetActive(false);
         }

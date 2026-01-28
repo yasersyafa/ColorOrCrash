@@ -84,10 +84,7 @@ namespace ColorOrCrash.Features.Player.Components
 
             manager.OnGameStateChanged += HandleGameStateChanged;
 
-            _currentType = EnumUtils.GetRandomEnumValue<GameColor>();
-            _nextType = GetUniqueRandomColor(_currentType);
-
-            UpdateVisual(_currentType);
+            ResetPlayer();
 
             ColorSwapLoop(_colorCts.Token).Forget();
         }
@@ -147,6 +144,9 @@ namespace ColorOrCrash.Features.Player.Components
             _currentType = EnumUtils.GetRandomEnumValue<GameColor>();
             _nextType = GetUniqueRandomColor(_currentType);
             UpdateVisual(_currentType);
+
+            _colorTimer = COLOR_DURATION;
+            OnColorChanged?.Invoke(_currentType, _nextType, _colorTimer, COLOR_DURATION);
 
             ChangeAnimation(ANIM_IDLE);
         }
