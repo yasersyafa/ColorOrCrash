@@ -117,9 +117,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 227
-        height: 34
+        y: 595
+        width: 232
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -138,10 +138,10 @@ TextureImporter:
       name: GAMEOVER_1
       rect:
         serializedVersion: 2
-        x: 227
-        y: 0
-        width: 227
-        height: 34
+        x: 0
+        y: 560
+        width: 232
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,10 +160,10 @@ TextureImporter:
       name: GAMEOVER_2
       rect:
         serializedVersion: 2
-        x: 454
-        y: 0
-        width: 227
-        height: 34
+        x: 0
+        y: 525
+        width: 232
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -182,10 +182,10 @@ TextureImporter:
       name: GAMEOVER_3
       rect:
         serializedVersion: 2
-        x: 681
-        y: 0
-        width: 227
-        height: 34
+        x: 0
+        y: 490
+        width: 232
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -204,10 +204,10 @@ TextureImporter:
       name: GAMEOVER_4
       rect:
         serializedVersion: 2
-        x: 908
-        y: 0
-        width: 227
-        height: 34
+        x: 0
+        y: 455
+        width: 232
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -226,10 +226,10 @@ TextureImporter:
       name: GAMEOVER_5
       rect:
         serializedVersion: 2
-        x: 1135
-        y: 0
-        width: 227
-        height: 34
+        x: 0
+        y: 420
+        width: 232
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -248,10 +248,10 @@ TextureImporter:
       name: GAMEOVER_6
       rect:
         serializedVersion: 2
-        x: 1362
-        y: 0
-        width: 227
-        height: 34
+        x: 0
+        y: 385
+        width: 232
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -270,10 +270,10 @@ TextureImporter:
       name: GAMEOVER_7
       rect:
         serializedVersion: 2
-        x: 1589
-        y: 0
-        width: 227
-        height: 34
+        x: 0
+        y: 350
+        width: 232
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -292,10 +292,10 @@ TextureImporter:
       name: GAMEOVER_8
       rect:
         serializedVersion: 2
-        x: 1816
-        y: 0
-        width: 227
-        height: 34
+        x: 0
+        y: 315
+        width: 232
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -314,10 +314,10 @@ TextureImporter:
       name: GAMEOVER_9
       rect:
         serializedVersion: 2
-        x: 2043
-        y: 0
-        width: 227
-        height: 34
+        x: 0
+        y: 280
+        width: 232
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -336,10 +336,10 @@ TextureImporter:
       name: GAMEOVER_10
       rect:
         serializedVersion: 2
-        x: 2270
-        y: 0
-        width: 227
-        height: 34
+        x: 0
+        y: 245
+        width: 232
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -358,10 +358,10 @@ TextureImporter:
       name: GAMEOVER_11
       rect:
         serializedVersion: 2
-        x: 2497
-        y: 0
-        width: 227
-        height: 34
+        x: 0
+        y: 210
+        width: 232
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -380,10 +380,10 @@ TextureImporter:
       name: GAMEOVER_12
       rect:
         serializedVersion: 2
-        x: 2724
-        y: 0
-        width: 227
-        height: 34
+        x: 0
+        y: 175
+        width: 232
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -402,10 +402,10 @@ TextureImporter:
       name: GAMEOVER_13
       rect:
         serializedVersion: 2
-        x: 2951
-        y: 0
-        width: 227
-        height: 34
+        x: 0
+        y: 140
+        width: 232
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -424,10 +424,10 @@ TextureImporter:
       name: GAMEOVER_14
       rect:
         serializedVersion: 2
-        x: 3178
-        y: 0
-        width: 227
-        height: 34
+        x: 0
+        y: 105
+        width: 232
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -446,10 +446,10 @@ TextureImporter:
       name: GAMEOVER_15
       rect:
         serializedVersion: 2
-        x: 3405
-        y: 0
-        width: 227
-        height: 34
+        x: 0
+        y: 70
+        width: 232
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -468,10 +468,10 @@ TextureImporter:
       name: GAMEOVER_16
       rect:
         serializedVersion: 2
-        x: 3632
-        y: 0
-        width: 227
-        height: 34
+        x: 0
+        y: 35
+        width: 232
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -490,10 +490,10 @@ TextureImporter:
       name: GAMEOVER_17
       rect:
         serializedVersion: 2
-        x: 3859
+        x: 0
         y: 0
-        width: 227
-        height: 34
+        width: 232
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

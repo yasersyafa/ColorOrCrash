@@ -156,12 +156,12 @@ namespace ColorOrCrash.Features.Player.Components
             }
         }
 
-        private void ChangeAnimation(string animName)
+        private void ChangeAnimation(string animName, Action onComplete = null)
         {
             // Prevent flickering: Hanya panggil Play jika nama animasi berbeda
             if (_currentAnimation == animName) return;
 
-            animator.Play(animName);
+            animator.Play(animName).SetOnComplete(onComplete);
             _currentAnimation = animName;
         }
 
@@ -295,11 +295,10 @@ namespace ColorOrCrash.Features.Player.Components
                     {
                         if(manager.CurrentState != Global.Components.GameState.GameOver)
                         {
-                            manager.ChangeState(Global.Components.GameState.GameOver);
-                            // cameraController?.Shake(5f);
+                            
                             _rb.simulated = false;
                             _isDead = true;
-                            ChangeAnimation(ANIM_DEATH);
+                            ChangeAnimation(ANIM_DEATH, () => manager.ChangeState(Global.Components.GameState.GameOver));
 
                             ServiceLocator.Get<AudioManager>().PlaySFX("Death");
                         }
