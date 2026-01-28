@@ -118,13 +118,22 @@ namespace ColorOrCrash.Features.Player.Components
 
         void Update()
         {
-            if(_isDead) return;
+            if(_isDead || manager.CurrentState != Global.Components.GameState.Playing) return;
             HandleAnimation();
             HandleSpriteFlip();
         }
 
         private void FixedUpdate()
         {
+            if(manager.CurrentState != Global.Components.GameState.Playing)
+            {
+                _rb.linearVelocity = Vector2.zero;
+                _rb.bodyType = RigidbodyType2D.Kinematic; // Player tidak akan jatuh
+                return;
+            }
+            
+            _rb.bodyType = RigidbodyType2D.Dynamic;
+
             CheckGround();
             ApplyMovement();
             ApplyJump();

@@ -52,7 +52,7 @@ namespace ColorOrCrash.Features.UI
         public void OnRestartButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            manager.ChangeState(GameState.Playing);
+            manager.ChangeState(GameState.Countdown);
             Reset();
         }
 
