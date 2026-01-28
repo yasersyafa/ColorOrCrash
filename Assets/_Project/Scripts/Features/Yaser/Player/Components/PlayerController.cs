@@ -103,6 +103,7 @@ namespace ColorOrCrash.Features.Player.Components
                 _jumpRequest = true;
             }
         }
+
         #endregion
 
         void Update()
@@ -206,6 +207,7 @@ namespace ColorOrCrash.Features.Player.Components
         {
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0); 
             _rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+
             ServiceLocator.Get<AudioManager>().PlaySFX("Jump");
         }
 
@@ -298,6 +300,7 @@ namespace ColorOrCrash.Features.Player.Components
                             _rb.simulated = false;
                             _isDead = true;
                             ChangeAnimation(ANIM_DEATH);
+
                             ServiceLocator.Get<AudioManager>().PlaySFX("Death");
                         }
                     }
