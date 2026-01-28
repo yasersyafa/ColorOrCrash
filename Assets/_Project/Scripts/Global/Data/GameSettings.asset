@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1de739421ddc2437e9020af1519ccdd0, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  redColor: {r: 1, g: 0.2, b: 0.2, a: 1}
-  greenColor: {r: 0.2, g: 1, b: 0.2, a: 1}
-  blueColor: {r: 0.2, g: 0.4, b: 1, a: 1}
+  redColor: {r: 1, g: 0.32156864, b: 0.8235294, a: 1}
+  greenColor: {r: 0.6431373, g: 0.9372549, b: 0, a: 1}
+  blueColor: {r: 0.19607843, g: 0.25490198, b: 0.8784314, a: 1}
   whiteColor: {r: 1, g: 1, b: 1, a: 1}
   startSpawnInterval: 3
   minSpawnInterval: 0.5
-  spawnIntervalDecreasePerScore: 0.05
+  spawnIntervalDecreasePerScore: 0.5
   startMatchingColorChance: 0.5
   minMatchingColorChance: 0.2
   matchingChanceDecreasePerScore: 0.01
