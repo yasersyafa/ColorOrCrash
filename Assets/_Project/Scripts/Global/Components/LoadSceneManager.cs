@@ -27,12 +27,14 @@ namespace ColorOrCrash.Global.Components
         {
             loadingCanvas.gameObject.SetActive(true);
             loadingCanvas.alpha = 0;
-            await loadingCanvas.DOFade(1f, fadeDuration).AsyncWaitForCompletion();
+            // SetUpdate(true) = ignore Time.timeScale, tetap jalan saat pause
+            await loadingCanvas.DOFade(1f, fadeDuration).SetUpdate(true).AsyncWaitForCompletion();
         }
 
         private async UniTask HideLoadingScreen()
         {
-            await loadingCanvas.DOFade(0f, fadeDuration).AsyncWaitForCompletion();
+            // SetUpdate(true) = ignore Time.timeScale, tetap jalan saat pause
+            await loadingCanvas.DOFade(0f, fadeDuration).SetUpdate(true).AsyncWaitForCompletion();
             loadingCanvas.gameObject.SetActive(false);
         }
 
@@ -57,11 +59,15 @@ namespace ColorOrCrash.Global.Components
                 await UniTask.Delay(TimeSpan.FromSeconds(remainingTime), ignoreTimeScale: true);
             }
 
+            // Mulai fade out SEBELUM scene activation
+            var hideTask = HideLoadingScreen();
+
             op.allowSceneActivation = true;
 
             await UniTask.WaitUntil(() => op.isDone);
-
-            await HideLoadingScreen();
+            
+            // Tunggu fade out selesai
+            await hideTask;
         }
 
         void OnDestroy()
