@@ -9,5 +9,7 @@ namespace ColorOrCrash.Global.Models
         public string MainMenuScene;
         [Scene]
         public string GameScene;
+        [Scene]
+        public string TutorialScene;
     }
 }

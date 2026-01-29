@@ -2639,7 +2639,7 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: 580fc5e43ddeb41daa60c48daa52ce17, type: 2}
   animator: {fileID: 2485369873267682266}
   bodyRenderer: {fileID: 2485369873267682261}
-  _tutorialManager: {fileID: 0}
+  _tutorialManager: {fileID: 743468261}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

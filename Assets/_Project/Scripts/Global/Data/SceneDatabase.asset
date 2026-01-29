@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainMenuScene: Assets/_Project/Scenes/MenuScene.unity
   GameScene: Assets/_Project/Scenes/GameScene.unity
+  TutorialScene: Assets/_Project/Scenes/TutorialScene.unity

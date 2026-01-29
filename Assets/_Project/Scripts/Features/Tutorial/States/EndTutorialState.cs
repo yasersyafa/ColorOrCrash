@@ -24,6 +24,7 @@ namespace ColorOrCrash.Features.Tutorial.States
         {
             manager.startText.gameObject.SetActive(true);
             CanMove = true;
+            SaveManager.Save();
             await manager.startText.DOFade(1, 0.5f).SetUpdate(true).From(0).SetLoops(-1, LoopType.Yoyo).ToUniTask();
         }
 
