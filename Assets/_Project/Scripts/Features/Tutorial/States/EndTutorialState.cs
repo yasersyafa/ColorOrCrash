@@ -41,6 +41,7 @@ namespace ColorOrCrash.Features.Tutorial.States
                 if(Keyboard.current.enterKey.isPressed)
                 {
                     CanMove = false;
+                    ServiceLocator.Get<AudioManager>().StopBGM();
                     ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.GameScene).Forget();
                 }
             }

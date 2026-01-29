@@ -16,6 +16,7 @@ namespace ColorOrCrash.Features.Tutorial.States
 
         public void Enter(TutorialManager manager)
         {
+            ServiceLocator.Get<AudioManager>().PlayBGM("TutorialMusic");
             isTaskCompleted = false;
             player = UnityEngine.Object.FindFirstObjectByType<PlayerTutorial>(FindObjectsInactive.Exclude);
             CanMove = false;
