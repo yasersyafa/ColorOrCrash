@@ -57,6 +57,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a0de9cafcd47e43d699b727b7e2bae89, type: 2}
   - {fileID: 11400000, guid: ab029026949c146418ab546a55520484, type: 2}
   - {fileID: 11400000, guid: 4253bb8d2180445f0ab7740ab0d7bc1e, type: 2}
+  - {fileID: 11400000, guid: 602925bb51aa3485fbb07cfdd797bdcb, type: 2}
   bgmSource: {fileID: 4187995694430138287}
   defaultFadeDuration: 1
 --- !u!82 &4187995694430138287
