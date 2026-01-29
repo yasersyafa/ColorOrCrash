@@ -34,10 +34,8 @@ namespace ColorOrCrash.Global.Components
         private async UniTask HideLoadingScreen()
         {
             // SetUpdate(true) = ignore Time.timeScale, tetap jalan saat pause
-            await loadingCanvas.DOFade(0f, fadeDuration).SetUpdate(true).OnComplete(() =>
-            {
-                loadingCanvas.gameObject.SetActive(false);
-            }).ToUniTask();
+            await loadingCanvas.DOFade(0f, fadeDuration).SetUpdate(true).ToUniTask();
+            loadingCanvas.gameObject.SetActive(false);
         }
 
         public async UniTask LoadSceneAsync(string sceneName)
@@ -64,8 +62,6 @@ namespace ColorOrCrash.Global.Components
             op.allowSceneActivation = true;
 
             await UniTask.WaitUntil(() => op.isDone);
-
-            await UniTask.Delay(2);
             
             await HideLoadingScreen();
         }
