@@ -55,7 +55,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 64df6bbb7295143d9bb67b8d3ff11d28, type: 2}
   - {fileID: 11400000, guid: 8497608d8face40fb8b8dbf008447001, type: 2}
   - {fileID: 11400000, guid: a0de9cafcd47e43d699b727b7e2bae89, type: 2}
+  - {fileID: 11400000, guid: ab029026949c146418ab546a55520484, type: 2}
+  - {fileID: 11400000, guid: 4253bb8d2180445f0ab7740ab0d7bc1e, type: 2}
   bgmSource: {fileID: 4187995694430138287}
+  defaultFadeDuration: 1
 --- !u!82 &4187995694430138287
 AudioSource:
   m_ObjectHideFlags: 0
@@ -376,6 +379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 704f6508285504a3d84ab124e8361993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Scenes>k__BackingField: {fileID: 11400000, guid: 457d2c1ea83bf4d7b8e3a1d83c2775d1, type: 2}
 --- !u!1 &7287500333831743639
 GameObject:
   m_ObjectHideFlags: 0

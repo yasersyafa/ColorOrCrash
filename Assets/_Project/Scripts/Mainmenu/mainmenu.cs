@@ -5,10 +5,7 @@ using UnityEngine;
 namespace ColorOrCrash
 {
     public class mainmenu : MonoBehaviour
-    {
-        [Header("Scene Settings")]
-        [SerializeField] private string loadingSceneName = "LoadingScreen";
-        
+    {   
         [Header("UI References")]
         [SerializeField] private GameObject mainMenuContainer; // GameObject kosong yang berisi UI menu utama
         [SerializeField] private GameObject creditsPanel; // Panel untuk credits
@@ -46,7 +43,9 @@ namespace ColorOrCrash
         /// </summary>
         public async void StartGame()
         {
-            await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(loadingSceneName);
+            ServiceLocator.Get<AudioManager>().PlaySFX("Click");
+            ServiceLocator.Get<AudioManager>().StopBGM(true);
+            await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.GameScene);
         }
         
         /// <summary>
@@ -54,6 +53,7 @@ namespace ColorOrCrash
         /// </summary>
         public void ShowCredits()
         {
+            ServiceLocator.Get<AudioManager>().PlaySFX("Click");
             if (mainMenuContainer != null)
             {
                 mainMenuContainer.SetActive(false);
@@ -86,7 +86,7 @@ namespace ColorOrCrash
         /// </summary>
         public void ExitGame()
         {
-            Debug.Log("Exiting game...");
+            ServiceLocator.Get<AudioManager>().PlaySFX("Click");
             
             #if UNITY_EDITOR
                 // Jika di Unity Editor, stop play mode

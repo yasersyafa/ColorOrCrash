@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ColorOrCrash.Global.Models;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using NocturneThree.ServiceLocator;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -18,6 +19,7 @@ namespace ColorOrCrash.Global.Components
 
         [Header("BGM Source")]
         [SerializeField] private AudioSource bgmSource;
+        [SerializeField] private float defaultFadeDuration = 1f;
 
         private IObjectPool<AudioSource> _sfxPool;
         private Dictionary<string, AudioData> _audioDict;
@@ -77,11 +79,51 @@ namespace ColorOrCrash.Global.Components
         {
             if (!_audioDict.TryGetValue(key, out AudioData data)) return;
 
-            bgmSource.clip = data.clip;
-            bgmSource.volume = data.volume;
-            bgmSource.loop = true;
+            bgmSource.loop = data.loop;
             bgmSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups("Music")[0];
-            bgmSource.Play();
+
+            if (fade)
+            {
+                float targetVol = data.volume;
+                // Fade Out lagu lama, lalu Fade In lagu baru
+                bgmSource.DOFade(0, defaultFadeDuration).SetUpdate(true).OnComplete(() =>
+                {
+                    bgmSource.clip = data.clip;
+                    bgmSource.Play();
+                    bgmSource.DOFade(targetVol, defaultFadeDuration).SetUpdate(true);
+                });
+            }
+            else
+            {
+                bgmSource.clip = data.clip;
+                bgmSource.volume = data.volume;
+                bgmSource.Play();
+            }
+        }
+
+        /// <summary>
+        /// Stop Background Music
+        /// </summary>
+        /// <param name="fade">parameter for fade out the music</param>
+        public void StopBGM(bool fade = true)
+        {
+            if (bgmSource == null || !bgmSource.isPlaying) return;
+
+            if (fade)
+            {
+                bgmSource.DOFade(0, defaultFadeDuration)
+                    .SetUpdate(true)
+                    .OnComplete(() =>
+                    {
+                        bgmSource.Stop();
+                        bgmSource.clip = null;
+                    });
+            }
+            else
+            {
+                bgmSource.Stop();
+                bgmSource.clip = null;
+            }
         }
 
         public void SetMasterVolume(float volume) => audioMixer.SetFloat("MasterVol", Mathf.Log10(volume) * 20);

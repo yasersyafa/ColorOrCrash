@@ -119,6 +119,55 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &165328584
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 165328586}
+  - component: {fileID: 165328585}
+  m_Layer: 0
+  m_Name: Global Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &165328585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165328584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 66683a4ca2bb84c6984b771d012f1180, type: 2}
+--- !u!4 &165328586
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165328584}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &263215629
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,6 +396,7 @@ GameObject:
   - component: {fileID: 343613679}
   - component: {fileID: 343613681}
   - component: {fileID: 343613680}
+  - component: {fileID: 343613682}
   m_Layer: 5
   m_Name: Alien Kuning
   m_TagString: Untagged
@@ -370,7 +420,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -6.81}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -450, y: 62}
+  m_AnchoredPosition: {x: -535, y: 62}
   m_SizeDelta: {x: 74, y: 96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &343613680
@@ -411,6 +461,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 343613678}
   m_CullTransparentMesh: 1
+--- !u!114 &343613682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343613678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fd0198b570744d5583c5846499230ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amplitude: 0.5
+  duration: 1
+  floatEase: 4
+  startRotation: {x: 0, y: 0, z: -6.81}
+  rotationDuration: 5
 --- !u!1 &568120069
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,6 +577,7 @@ GameObject:
   - component: {fileID: 670025857}
   - component: {fileID: 670025859}
   - component: {fileID: 670025858}
+  - component: {fileID: 670025860}
   m_Layer: 5
   m_Name: Alien Ijo
   m_TagString: Untagged
@@ -533,7 +601,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -11.83}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 469.1, y: 6.9}
+  m_AnchoredPosition: {x: 538, y: 6.9}
   m_SizeDelta: {x: 84, y: 127}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &670025858
@@ -574,6 +642,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 670025856}
   m_CullTransparentMesh: 1
+--- !u!114 &670025860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670025856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fd0198b570744d5583c5846499230ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amplitude: 0.5
+  duration: 1
+  floatEase: 4
+  startRotation: {x: 0, y: 0, z: -11.83}
+  rotationDuration: 5
 --- !u!1 &789423486
 GameObject:
   m_ObjectHideFlags: 0
@@ -585,6 +670,7 @@ GameObject:
   - component: {fileID: 789423487}
   - component: {fileID: 789423489}
   - component: {fileID: 789423488}
+  - component: {fileID: 789423490}
   m_Layer: 5
   m_Name: Alien Biru
   m_TagString: Untagged
@@ -608,7 +694,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 13.44}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 434, y: 184}
+  m_AnchoredPosition: {x: 502.8999, y: 184}
   m_SizeDelta: {x: 74, y: 96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &789423488
@@ -649,6 +735,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 789423486}
   m_CullTransparentMesh: 1
+--- !u!114 &789423490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 789423486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fd0198b570744d5583c5846499230ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amplitude: 0.5
+  duration: 1
+  floatEase: 4
+  startRotation: {x: 0, y: 0, z: 20}
+  rotationDuration: 1
 --- !u!1 &795162077
 GameObject:
   m_ObjectHideFlags: 0
@@ -886,7 +989,7 @@ GameObject:
   - component: {fileID: 843842599}
   - component: {fileID: 843842598}
   m_Layer: 5
-  m_Name: NYANYANYANYANYA
+  m_Name: Outsource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -932,7 +1035,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'nyanyanya:'
+  m_text: 'External:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 609c5902d1e974e60ad557ba7ecc58b9, type: 2}
   m_sharedMaterial: {fileID: -877304267947521707, guid: 609c5902d1e974e60ad557ba7ecc58b9, type: 2}
@@ -1063,14 +1166,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9065207529037322439, guid: ecb5f8137a64e49a097541ad0dd1fd1d, type: 3}
-      propertyPath: audioLibrary.Array.size
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 9065207529037322439, guid: ecb5f8137a64e49a097541ad0dd1fd1d, type: 3}
-      propertyPath: 'audioLibrary.Array.data[8]'
-      value: 
-      objectReference: {fileID: 11400000, guid: ab029026949c146418ab546a55520484, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1112,7 +1207,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -282.5}
+  m_AnchoredPosition: {x: 0, y: -351.30002}
   m_SizeDelta: {x: 240, y: 96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1169449581
@@ -1245,7 +1340,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 7, y: 79.9}
-  m_SizeDelta: {x: 763, y: 379}
+  m_SizeDelta: {x: 915.6, y: 454.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1210102569
 Animator:
@@ -1336,7 +1431,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8c05f3135322c04391654f04ef6a02b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingSceneName: GameScene - Yaser
   mainMenuContainer: {fileID: 1279720126}
   creditsPanel: {fileID: 310175442}
 --- !u!4 &1271841259
@@ -1523,10 +1617,10 @@ RectTransform:
   - {fileID: 789423487}
   m_Father: {fileID: 2016460602}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1364478847
 GameObject:
@@ -1562,11 +1656,11 @@ RectTransform:
   - {fileID: 1596527753}
   m_Father: {fileID: 1279720127}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 677, y: 389.5}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -25, y: -25}
   m_SizeDelta: {x: 240, y: 96}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 1}
 --- !u!114 &1364478849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1718,9 +1812,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'nyanyanyanyanya
+  m_text: 'Music - OPENGAMEART.org
 
-    nyanyanya'
+    SFX - Unity Asset Store'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 609c5902d1e974e60ad557ba7ecc58b9, type: 2}
   m_sharedMaterial: {fileID: -877304267947521707, guid: 609c5902d1e974e60ad557ba7ecc58b9, type: 2}
@@ -1810,6 +1904,7 @@ GameObject:
   - component: {fileID: 1590139780}
   - component: {fileID: 1590139782}
   - component: {fileID: 1590139781}
+  - component: {fileID: 1590139783}
   m_Layer: 5
   m_Name: Alien Pink
   m_TagString: Untagged
@@ -1833,7 +1928,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 10.49}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -412, y: 242}
+  m_AnchoredPosition: {x: -497, y: 242}
   m_SizeDelta: {x: 106, y: 122}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1590139781
@@ -1874,6 +1969,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1590139779}
   m_CullTransparentMesh: 1
+--- !u!114 &1590139783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590139779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fd0198b570744d5583c5846499230ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amplitude: 0.5
+  duration: 1
+  floatEase: 4
+  startRotation: {x: 0, y: 0, z: 9}
+  rotationDuration: 5
 --- !u!1 &1596527752
 GameObject:
   m_ObjectHideFlags: 0
@@ -2126,7 +2238,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -2456,7 +2568,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -166.2}
+  m_AnchoredPosition: {x: 0, y: -235}
   m_SizeDelta: {x: 240, y: 96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1746928492
@@ -2879,7 +2991,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1600, y: 900}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1910835208
 MonoBehaviour:
@@ -3089,11 +3201,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1279720127}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1600, y: 900}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 0, y: 900}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1982248613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3183,7 +3295,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1600, y: 900}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -3378,6 +3490,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1633507534}
+  - {fileID: 165328586}
   - {fileID: 2016460602}
   - {fileID: 1790969493}
   - {fileID: 795162079}

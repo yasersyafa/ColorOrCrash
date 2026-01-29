@@ -19,8 +19,8 @@ MonoBehaviour:
   ballSpawnInterval: 2
   ballSpawnIntervalVariance: 1
   ballColorTransitionDuration: 0.75
-  ballInvulnerableDuration: 1
-  maxBallsInScene: 15
+  ballInvulnerableDuration: 0.75
+  maxBallsInScene: 13
   ballSpawnScale: 0.5
   itemMinSpeed: 1
   itemMaxSpeed: 3

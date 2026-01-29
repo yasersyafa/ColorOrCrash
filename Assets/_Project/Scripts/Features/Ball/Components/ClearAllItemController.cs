@@ -144,6 +144,8 @@ namespace ColorOrCrash.Features.Ball.Components
                 // fallback in case service locator not available
             }
 
+            ServiceLocator.Get<AudioManager>().PlaySFX("ItemClear");
+
             // Camera shake for feedback
             ServiceLocator.Get<CameraShakeController>()?.Shake();
 

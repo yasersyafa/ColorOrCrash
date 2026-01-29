@@ -59,7 +59,8 @@ namespace ColorOrCrash.Features.UI
         public async void OnExitButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync("MainMenuScene");
+            ServiceLocator.Get<AudioManager>().StopBGM();
+            await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene);
         }
 
         private void Reset()
