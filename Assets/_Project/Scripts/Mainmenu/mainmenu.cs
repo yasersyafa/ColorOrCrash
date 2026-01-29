@@ -15,6 +15,7 @@ namespace ColorOrCrash
         
         private void Start()
         {
+            ServiceLocator.Get<AudioManager>().PlayBGM("MenuMusic");
             // Pastikan credits panel tidak aktif saat mulai
             if (creditsPanel != null)
             {

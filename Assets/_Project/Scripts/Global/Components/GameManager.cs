@@ -10,7 +10,7 @@ using UnityEngine.Pool;
 
 namespace ColorOrCrash.Global.Components
 {
-    public enum GameState { Playing, GameOver }
+    public enum GameState { Countdown, Playing, GameOver }
 
     [Service]
     public class GameManager : MonoBehaviour, IGameService
@@ -26,20 +26,17 @@ namespace ColorOrCrash.Global.Components
         public event Action<int, int> OnScoreAdded;
         public event Action OnGamePaused;
 
-        private void Start()
+        private void Awake()
         {
-            ChangeState(GameState.Playing);
-            if (_currentState == GameState.Playing)
-            {
-                ServiceLocator.Get<AudioManager>().PlayBGM("GameMusic");
-            }
+            ServiceLocator.Register<GameManager>(this);
+            ChangeState(GameState.Countdown);
         }
 
         public void ChangeState(GameState newState)
         {
             _currentState = newState;
 
-            if (_currentState == GameState.Playing)
+            if (_currentState == GameState.Countdown)
             {
                 ResetGameState();
             }
@@ -56,12 +53,9 @@ namespace ColorOrCrash.Global.Components
 
         private void ResetGameState()
         {
-            // 1. Reset Score
             Score = 0;
-            OnScoreAdded?.Invoke(0, 0); // Beritahu UI Score untuk reset ke 0
+            OnScoreAdded?.Invoke(0, 0);
 
-            // 2. Clear All Balls via BallSpawner
-            // Kita panggil spawner dari ServiceLocator
             var spawner = ServiceLocator.Get<BallSpawner>();
             if (spawner != null)
             {
@@ -75,7 +69,6 @@ namespace ColorOrCrash.Global.Components
                 audio.PlayBGM("GameMusic");
             }
 
-            // 4. Pastikan waktu berjalan
             Time.timeScale = 1;
             isPaused = false;
         }
@@ -86,6 +79,11 @@ namespace ColorOrCrash.Global.Components
             Time.timeScale = 1;
         }
 
+        public void StartGame()
+        {
+            ChangeState(GameState.Playing);
+        }
+
         void OnDestroy()
         {
             ServiceLocator.Unregister<GameManager>();
@@ -93,8 +91,8 @@ namespace ColorOrCrash.Global.Components
 
         public void AddScore(int amount)
         {
+            if (_currentState != GameState.Playing) return;
             Score += amount;
-
             OnScoreAdded?.Invoke(amount, Score);
         }
     }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using NocturneThree.ServiceLocator;
+using System;
 
 namespace ColorOrCrash.Global.Components
 {
@@ -17,18 +18,12 @@ namespace ColorOrCrash.Global.Components
         [Header("Timing")]
         [SerializeField] private float readyDuration = 1.5f;
         [SerializeField] private float goDuration = 1f;
-        
-        [Header("Audio")]
-        [SerializeField] private AudioSource audioSource;
-        [SerializeField] private AudioClip readySound;
-        [SerializeField] private AudioClip goSound;
 
         private GameObject _loadingCanvas;
+        private GameManager manager;
 
         private void Start()
         {
-            // Pastikan game diam sejak frame pertama scene ini aktif
-            Time.timeScale = 0;
 
             // Ambil referensi loading canvas dari LoadSceneManager
             var loadManager = ServiceLocator.Get<LoadSceneManager>();
@@ -40,8 +35,28 @@ namespace ColorOrCrash.Global.Components
             if (readyObject != null) readyObject.SetActive(false);
             if (goObject != null) goObject.SetActive(false);
             
+            manager = ServiceLocator.Get<GameManager>();
+            manager.OnGameStateChanged += HandleGameStateChanged;
+            
             // Jalankan urutan countdown
-            StartSequence().Forget();
+            if(manager != null && manager.CurrentState == GameState.Countdown) StartSequence().Forget();
+        }
+
+        private void OnDestroy()
+        {
+            if (manager != null)
+            {
+                manager.OnGameStateChanged -= HandleGameStateChanged;
+            }
+        }
+
+        private void HandleGameStateChanged(GameState state)
+        {
+            if(state == GameState.Countdown)
+            {
+                // Mulai urutan countdown saat game berubah ke Playing
+                StartSequence().Forget();
+            }
         }
 
         private async UniTaskVoid StartSequence()
@@ -61,24 +76,23 @@ namespace ColorOrCrash.Global.Components
             // 2. Jalankan READY
             if (readyObject != null)
             {
-                await PlayAnimation(readyObject, readyStateName, readySound, readyDuration);
+                await PlayAnimation(readyObject, readyStateName, "Ready", readyDuration);
             }
 
             // 3. Jalankan GO
             if (goObject != null)
             {
-                await PlayAnimation(goObject, goStateName, goSound, goDuration);
+                await PlayAnimation(goObject, goStateName, "Go", goDuration);
             }
-
-            // 4. Mulai Game
-            Time.timeScale = 1;
             
             // Beri jeda sedikit sebelum menghancurkan diri agar tidak ada lonjakan beban CPU mendadak
             await UniTask.DelayFrame(5);
-            Destroy(gameObject);
+            manager.StartGame();
+            if (readyObject != null) readyObject.SetActive(false);
+            if (goObject != null) goObject.SetActive(false);
         }
 
-        private async UniTask PlayAnimation(GameObject obj, string stateName, AudioClip clip, float duration)
+        private async UniTask PlayAnimation(GameObject obj, string stateName, string sfxName, float duration)
         {
             obj.SetActive(true);
             
@@ -89,10 +103,7 @@ namespace ColorOrCrash.Global.Components
                 anim.Play(stateName, 0, 0f);
             }
 
-            if (audioSource != null && clip != null)
-            {
-                audioSource.PlayOneShot(clip);
-            }
+            ServiceLocator.Get<AudioManager>().PlaySFX(sfxName);
 
             // Tunggu berdasarkan waktu nyata karena timeScale sedang 0
             await UniTask.Delay(System.TimeSpan.FromSeconds(duration), ignoreTimeScale: true);

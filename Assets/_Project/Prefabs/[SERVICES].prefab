@@ -53,6 +53,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9cc6d2dcdf80b4b92a4193f7a9ff5001, type: 2}
   - {fileID: 11400000, guid: e522a01f999fc484e9fbe9817e8af276, type: 2}
   - {fileID: 11400000, guid: 64df6bbb7295143d9bb67b8d3ff11d28, type: 2}
+  - {fileID: 11400000, guid: 8497608d8face40fb8b8dbf008447001, type: 2}
+  - {fileID: 11400000, guid: a0de9cafcd47e43d699b727b7e2bae89, type: 2}
   bgmSource: {fileID: 4187995694430138287}
 --- !u!82 &4187995694430138287
 AudioSource:
@@ -212,7 +214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -236,7 +238,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3165055972472581777}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -299,7 +301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.19607843, g: 0.25490198, b: 0.8784314, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -435,7 +437,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 32767
   m_TargetDisplay: 0
 --- !u!114 &8158330596253377069
 MonoBehaviour:

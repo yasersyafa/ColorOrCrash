@@ -35,7 +35,7 @@ namespace ColorOrCrash
         public void OnRestartButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            manager.ChangeState(GameState.Playing);
+            manager.ChangeState(GameState.Countdown);
             pausePanel.SetActive(false);
         }
 
