@@ -6,13 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Project/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/_Project/Scenes/MenuScene.unity
+    guid: f1bda6679275e0848a7be0fa424a5fc4
   - enabled: 1
-    path: Assets/_Project/Scenes/Sandbox/_MainMenu.unity
-    guid: 515827b18acdb425289b55fd7e9f863d
-  - enabled: 1
-    path: Assets/_Project/Scenes/Sandbox/GameScene - Yaser.unity
+    path: Assets/_Project/Scenes/GameScene.unity
     guid: e4fd0fc0758294f35bb84db940654fc4
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
