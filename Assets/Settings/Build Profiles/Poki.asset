@@ -34,7 +34,7 @@ MonoBehaviour:
     - line: '|   targetDevice: 2'
     - line: '|   useOnDemandResources: 0'
     - line: '|   accelerometerFrequency: 60'
-    - line: '|   companyName: 4 Sehat'
+    - line: '|   companyName: Haven Grind'
     - line: '|   productName: Chroma Krash'
     - line: '|   defaultCursor: {fileID: 2800000, guid: 2e71a8202d3b4a3448ec85ced5a40265,
         type: 3}'
@@ -165,7 +165,7 @@ MonoBehaviour:
     - line: '|   loadStoreDebugModeEnabled: 0'
     - line: '|   visionOSBundleVersion: 1.0'
     - line: '|   tvOSBundleVersion: 1.0'
-    - line: '|   bundleVersion: 1.1.2'
+    - line: '|   bundleVersion: 1.1.3'
     - line: '|   preloadedAssets: []'
     - line: '|   metroInputSource: 0'
     - line: '|   wsaTransparentSwapchain: 0'
