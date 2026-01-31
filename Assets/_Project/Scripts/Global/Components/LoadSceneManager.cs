@@ -61,7 +61,12 @@ namespace ColorOrCrash.Global.Components
             
             op.allowSceneActivation = true;
 
-            await UniTask.WaitUntil(() => op.isDone);
+            while (op.isDone)
+            {
+                await UniTask.Yield();
+            }
+
+            await UniTask.NextFrame();
             
             await HideLoadingScreen();
         }

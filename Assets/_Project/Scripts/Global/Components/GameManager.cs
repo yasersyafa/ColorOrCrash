@@ -29,6 +29,11 @@ namespace ColorOrCrash.Global.Components
         private void Awake()
         {
             ServiceLocator.Register<GameManager>(this);
+            
+        }
+
+        private void Start()
+        {
             ChangeState(GameState.Countdown);
         }
 
