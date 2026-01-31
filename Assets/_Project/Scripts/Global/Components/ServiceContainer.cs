@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace ColorOrCrash.Global.Components
 {
+    // [DefaultExecutionOrder(-100)]
     public class ServiceContainer : MonoBehaviour
     {
         private static ServiceContainer _instance;
