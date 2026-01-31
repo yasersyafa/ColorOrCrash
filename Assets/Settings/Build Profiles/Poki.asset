@@ -165,7 +165,7 @@ MonoBehaviour:
     - line: '|   loadStoreDebugModeEnabled: 0'
     - line: '|   visionOSBundleVersion: 1.0'
     - line: '|   tvOSBundleVersion: 1.0'
-    - line: '|   bundleVersion: 1.1.6'
+    - line: '|   bundleVersion: 1.1.8'
     - line: '|   preloadedAssets:'
     - line: '|   - {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100,
         type: 3}'
@@ -589,7 +589,7 @@ MonoBehaviour:
     - line: '|   blurSplashScreenBackground: 1'
     - line: '|   spritePackerPolicy: '
     - line: '|   webGLMemorySize: 32'
-    - line: '|   webGLExceptionSupport: 0'
+    - line: '|   webGLExceptionSupport: 2'
     - line: '|   webGLNameFilesAsHashes: 1'
     - line: '|   webGLShowDiagnostics: 0'
     - line: '|   webGLDataCaching: 1'
