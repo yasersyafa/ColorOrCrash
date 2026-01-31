@@ -1184,7 +1184,7 @@ GameObject:
   - component: {fileID: 1169449582}
   - component: {fileID: 1169449581}
   m_Layer: 5
-  m_Name: Exit
+  m_Name: Credits
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1256,7 +1256,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1271841258}
         m_TargetAssemblyTypeName: ColorOrCrash.mainmenu, Assembly-CSharp
-        m_MethodName: ExitGame
+        m_MethodName: ShowCredits
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
