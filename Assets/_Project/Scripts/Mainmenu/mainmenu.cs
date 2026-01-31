@@ -74,6 +74,7 @@ namespace ColorOrCrash
         /// </summary>
         public void HideCredits()
         {
+            ServiceLocator.Get<AudioManager>().PlaySFX("Click");
             if (creditsPanel != null)
             {
                 creditsPanel.SetActive(false);
