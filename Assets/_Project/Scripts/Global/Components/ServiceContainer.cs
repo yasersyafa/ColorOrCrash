@@ -12,6 +12,7 @@ namespace ColorOrCrash.Global.Components
 
         private void Awake()
         {
+            PokiUnitySDK.Instance.init();
             if (_instance != null && _instance != this)
             {
                 Destroy(gameObject);
@@ -19,9 +20,13 @@ namespace ColorOrCrash.Global.Components
             }
 
             _instance = this;
-            PokiUnitySDK.Instance.init();
             
             DontDestroyOnLoad(gameObject);
+        }
+
+        private void Start()
+        {
+            PokiUnitySDK.Instance.gameLoadingFinished();
         }
     }
 }
