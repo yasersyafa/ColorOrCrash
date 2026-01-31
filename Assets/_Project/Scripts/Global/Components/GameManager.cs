@@ -38,7 +38,12 @@ namespace ColorOrCrash.Global.Components
 
             if (_currentState == GameState.Countdown)
             {
+                PokiUnitySDK.Instance.gameplayStart();
                 ResetGameState();
+            }
+            else if(_currentState == GameState.GameOver)
+            {
+                PokiUnitySDK.Instance.gameplayStop();
             }
 
             OnGameStateChanged?.Invoke(newState);
@@ -46,6 +51,7 @@ namespace ColorOrCrash.Global.Components
 
         public void TogglePause()
         {
+            PokiUnitySDK.Instance.gameplayStop();
             isPaused = true;
             Time.timeScale = 0;
             OnGamePaused?.Invoke();
@@ -75,6 +81,7 @@ namespace ColorOrCrash.Global.Components
 
         public void ResumeGame()
         {
+            PokiUnitySDK.Instance.gameplayStart();
             isPaused = false;
             Time.timeScale = 1;
         }

@@ -19,6 +19,7 @@ namespace ColorOrCrash.Global.Components
             }
 
             _instance = this;
+            PokiUnitySDK.Instance.init();
             
             DontDestroyOnLoad(gameObject);
         }
