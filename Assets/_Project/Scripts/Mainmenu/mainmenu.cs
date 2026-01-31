@@ -46,6 +46,8 @@ namespace ColorOrCrash
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
             ServiceLocator.Get<AudioManager>().StopBGM(true);
             await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(
+                SaveManager.HasTutorial() ?
+                ServiceContainer.Instance.Scenes.GameScene :
                 ServiceContainer.Instance.Scenes.TutorialScene
             );
         }
