@@ -152,6 +152,7 @@ namespace ColorOrCrash.Features.Ball.Components
             // Clear all balls via spawner
             _spawner?.ClearAllBalls();
             _spawner?.NotifyItemCollected(this);
+            ServiceLocator.Get<DistortionCamera>()?.ApplyEffect();
             Destroy(gameObject);
         }
 
