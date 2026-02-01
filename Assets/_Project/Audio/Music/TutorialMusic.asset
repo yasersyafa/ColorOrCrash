@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9086c2c0baed43e9a860912e89a4b8b, type: 3}
-  m_Name: SceneDatabase
+  m_Script: {fileID: 11500000, guid: 586cee841f7694001ac1249e4f97ea55, type: 3}
+  m_Name: TutorialMusic
   m_EditorClassIdentifier: 
-  MainMenuScene: Assets/_Project/Scenes/MenuScene.unity
-  GameScene: Assets/_Project/Scenes/GameScene.unity
-  TutorialScene: Assets/_Project/Scenes/TutorialScene.unity
+  audioKey: TutorialMusic
+  clip: {fileID: 8300000, guid: 2f53693d52ee24630a80351fe22695b2, type: 3}
+  volume: 0.755
+  pitch: 1
+  loop: 1
