@@ -1,9 +1,12 @@
+using ColorOrCrash.Features.SaveSystem.Models;
 using UnityEngine;
 
-namespace ColorOrCrash
+namespace ColorOrCrash.Features.SaveSystem.Services
 {
-    public class ISaveProvider
+    public interface ISaveProvider
     {
-    
+        void Save(PlayerData data);
+        PlayerData Load();
+        bool HasSaveData();
     }
 }

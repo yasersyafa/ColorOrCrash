@@ -1,13 +1,8 @@
 using System;
-using System.Threading;
 using ColorOrCrash.Features.Ball.Components;
-using ColorOrCrash.Features.Ball.Models;
-using ColorOrCrash.Global.Models;
 using ColorOrCrash.Vin.Core;
-using Cysharp.Threading.Tasks;
 using NocturneThree.ServiceLocator;
 using UnityEngine;
-using UnityEngine.Pool;
 
 namespace ColorOrCrash.Global.Components
 {
@@ -45,6 +40,15 @@ namespace ColorOrCrash.Global.Components
             if (_currentState == GameState.Countdown)
             {
                 ResetGameState();
+            }
+            else if(_currentState == GameState.GameOver)
+            {
+                var saveManager = ServiceLocator.Get<SaveManager>();
+
+                if(Score >= saveManager.Data.highScore)
+                {
+                    saveManager.Data.highScore = Score;
+                }
             }
 
             OnGameStateChanged?.Invoke(newState);
@@ -108,12 +112,15 @@ namespace ColorOrCrash.Global.Components
             {
                 case GameColor.Red:
                     RedPoint++;
+                    ServiceLocator.Get<SaveManager>().Data.redCoins += RedPoint;
                     break;
                 case GameColor.Green:
                     GreenPoint++;
+                    ServiceLocator.Get<SaveManager>().Data.greenCoins += RedPoint;
                     break;
                 case GameColor.Blue:
                     BluePoint++;
+                    ServiceLocator.Get<SaveManager>().Data.blueCoins += RedPoint;
                     break;
                 default:
                     break;
