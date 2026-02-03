@@ -349,8 +349,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278251428
-  m_fontColor: {r: 0.6431373, g: 0.9372549, b: 0, a: 1}
+    rgba: 4278255615
+  m_fontColor: {r: 1, g: 1, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -578,6 +578,10 @@ PrefabInstance:
     - target: {fileID: 5781620777999126517, guid: ecb5f8137a64e49a097541ad0dd1fd1d, type: 3}
       propertyPath: m_Name
       value: '[SERVICES]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5781620777999126517, guid: ecb5f8137a64e49a097541ad0dd1fd1d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7150066794596184907, guid: ecb5f8137a64e49a097541ad0dd1fd1d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1754,7 +1758,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278251428
-  m_fontColor: {r: 0.6431373, g: 0.9372549, b: 0, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
