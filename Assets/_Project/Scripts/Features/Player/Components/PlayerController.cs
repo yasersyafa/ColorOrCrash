@@ -326,6 +326,7 @@ namespace ColorOrCrash.Features.Player.Components
                     {
                         cameraController?.Shake();
                         ServiceLocator.Get<AudioManager>().PlaySFX("Score");
+                        manager.AddPoint(_currentType);
                         _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, config.jumpForce * 0.5f);
                     }
                     else

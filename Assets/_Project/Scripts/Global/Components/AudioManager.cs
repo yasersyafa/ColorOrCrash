@@ -57,7 +57,9 @@ namespace ColorOrCrash.Global.Components
         {
             if (!_audioDict.TryGetValue(key, out AudioData data))
             {
+                #if UNITY_EDITOR
                 Debug.LogWarning($"Could not found Audio key '{key}'!");
+                #endif
                 return;
             }
 
@@ -73,6 +75,21 @@ namespace ColorOrCrash.Global.Components
         }
 
         /// <summary>
+        /// Getting audio length and return it as float value
+        /// </summary>
+        /// <param name="key">audio data string key</param>
+        /// <returns></returns>
+        public float GetAudioLength(string key)
+        {
+            if(_audioDict.TryGetValue(key, out AudioData data))
+            {
+               return data.clip != null ? data.clip.length : 0f; 
+            }
+
+            return 0f;
+        }
+
+        /// <summary>
         /// Play Background Music (Looping).
         /// </summary>
         public void PlayBGM(string key, bool fade = true)
@@ -85,7 +102,7 @@ namespace ColorOrCrash.Global.Components
             if (fade)
             {
                 float targetVol = data.volume;
-                // Fade Out lagu lama, lalu Fade In lagu baru
+
                 bgmSource.DOFade(0, defaultFadeDuration).SetUpdate(true).OnComplete(() =>
                 {
                     bgmSource.clip = data.clip;
@@ -99,6 +116,24 @@ namespace ColorOrCrash.Global.Components
                 bgmSource.volume = data.volume;
                 bgmSource.Play();
             }
+        }
+
+        /// <summary>
+        /// Fade the volume of background music (not stoppping the music)
+        /// </summary>
+        /// <param name="multiplier">volume target</param>
+        /// <param name="duration">duration of fade</param>
+        public void FadeBGMVolume(float multiplier, float duration = 0.5f)
+        {
+            if (bgmSource.clip == null) return;
+
+            string currentKey = _audioDict.FirstOrDefault(x => x.Value.clip == bgmSource.clip).Key;
+            float originalVol = !string.IsNullOrEmpty(currentKey) ? _audioDict[currentKey].volume : 1f;
+
+            float targetVol = originalVol * Mathf.Clamp01(multiplier);
+
+            bgmSource.DOKill();
+            bgmSource.DOFade(targetVol, duration).SetUpdate(true);
         }
 
         /// <summary>

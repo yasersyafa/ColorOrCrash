@@ -3,6 +3,7 @@ using System.Threading;
 using ColorOrCrash.Features.Ball.Components;
 using ColorOrCrash.Features.Ball.Models;
 using ColorOrCrash.Global.Models;
+using ColorOrCrash.Vin.Core;
 using Cysharp.Threading.Tasks;
 using NocturneThree.ServiceLocator;
 using UnityEngine;
@@ -15,13 +16,18 @@ namespace ColorOrCrash.Global.Components
     [Service]
     public class GameManager : MonoBehaviour, IGameService
     {
-        public GameSettings settings;
+        public Models.GameSettings settings;
 
         private GameState _currentState = GameState.Playing;
         [HideInInspector] public bool isPaused = false;
         public GameState CurrentState => _currentState;
-        public int Score { get; private set; }
 
+#region Score
+        public int Score { get; private set; }
+        public int RedPoint { get; private set; }
+        public int BluePoint { get; private set; }
+        public int GreenPoint { get; private set; }
+#endregion
         public event Action<GameState> OnGameStateChanged;
         public event Action<int, int> OnScoreAdded;
         public event Action OnGamePaused;
@@ -94,6 +100,24 @@ namespace ColorOrCrash.Global.Components
             if (_currentState != GameState.Playing) return;
             Score += amount;
             OnScoreAdded?.Invoke(amount, Score);
+        }
+
+        public void AddPoint(GameColor color)
+        {
+            switch (color)
+            {
+                case GameColor.Red:
+                    RedPoint++;
+                    break;
+                case GameColor.Green:
+                    GreenPoint++;
+                    break;
+                case GameColor.Blue:
+                    BluePoint++;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
