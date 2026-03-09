@@ -1,6 +1,8 @@
 using System;
+using ColorOrCrash.Features.Achievement.Events;
 using ColorOrCrash.Features.Ball.Components;
 using ColorOrCrash.Vin.Core;
+using NocturneThree.EventSystem;
 using NocturneThree.ServiceLocator;
 using UnityEngine;
 
@@ -27,9 +29,15 @@ namespace ColorOrCrash.Global.Components
         public event Action<int, int> OnScoreAdded;
         public event Action OnGamePaused;
 
-        private void Awake()
+        private SaveManager _saveManager;
+        private AudioManager _audioManager;
+        private BallSpawner _ballSpawner;
+
+        private void Start()
         {
-            ServiceLocator.Register<GameManager>(this);
+            _saveManager = ServiceLocator.Get<SaveManager>();
+            _audioManager = ServiceLocator.Get<AudioManager>();
+            _ballSpawner = ServiceLocator.Get<BallSpawner>();
             ChangeState(GameState.Countdown);
         }
 
@@ -43,11 +51,10 @@ namespace ColorOrCrash.Global.Components
             }
             else if(_currentState == GameState.GameOver)
             {
-                var saveManager = ServiceLocator.Get<SaveManager>();
 
-                if(Score >= saveManager.Data.highScore)
+                if(Score >= _saveManager.Data.highScore)
                 {
-                    saveManager.Data.highScore = Score;
+                    _saveManager.Data.highScore = Score;
                 }
             }
 
@@ -64,16 +71,19 @@ namespace ColorOrCrash.Global.Components
         private void ResetGameState()
         {
             Score = 0;
+            RedPoint = 0;
+            BluePoint = 0;
+            GreenPoint = 0;
             OnScoreAdded?.Invoke(0, 0);
 
-            var spawner = ServiceLocator.Get<BallSpawner>();
+            var spawner = _ballSpawner;
             if (spawner != null)
             {
                 spawner.ClearAllBalls();
             }
 
             // 3. Audio BGM
-            var audio = ServiceLocator.Get<AudioManager>();
+            var audio = _audioManager;
             if (audio != null)
             {
                 audio.PlayBGM("GameMusic");
@@ -112,15 +122,18 @@ namespace ColorOrCrash.Global.Components
             {
                 case GameColor.Red:
                     RedPoint++;
-                    ServiceLocator.Get<SaveManager>().Data.redCoins += RedPoint;
+                    _saveManager.Data.redCoins += RedPoint;
+                    EventBus.Publish(new ProgressUpdateEvent(Features.Achievement.Models.MissionType.EatObstacle, 1, "Red"));
                     break;
                 case GameColor.Green:
                     GreenPoint++;
-                    ServiceLocator.Get<SaveManager>().Data.greenCoins += RedPoint;
+                    _saveManager.Data.greenCoins += GreenPoint;
+                    EventBus.Publish(new ProgressUpdateEvent(Features.Achievement.Models.MissionType.EatObstacle, 1, "Green"));
                     break;
                 case GameColor.Blue:
                     BluePoint++;
-                    ServiceLocator.Get<SaveManager>().Data.blueCoins += RedPoint;
+                    _saveManager.Data.blueCoins += BluePoint;
+                    EventBus.Publish(new ProgressUpdateEvent(Features.Achievement.Models.MissionType.EatObstacle, 1, "Blue"));
                     break;
                 default:
                     break;

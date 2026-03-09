@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using ColorOfCrash.Utils;
+using ColorOrCrash.Features.Achievement.Events;
 using ColorOrCrash.Features.Ball.Components;
 using ColorOrCrash.Features.Camera.Components;
 using ColorOrCrash.Features.Player.Models;
@@ -8,6 +9,7 @@ using ColorOrCrash.Global.Components;
 using ColorOrCrash.Vin.Core;
 using Cysharp.Threading.Tasks;
 using GabrielBigardi.SpriteAnimator;
+using NocturneThree.EventSystem;
 using NocturneThree.ServiceLocator;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -229,12 +231,14 @@ namespace ColorOrCrash.Features.Player.Components
                     _isDoubleJumping = false;
                     ExecuteJump(config.jumpForce);
                     _canDoubleJump = true;
+                    EventBus.Publish(new ProgressUpdateEvent(Achievement.Models.MissionType.Jump, 1));
                 }
                 else if (_canDoubleJump)
                 {
                     _isDoubleJumping = true;
                     ExecuteJump(config.doubleJumpMultiplier);
                     _canDoubleJump = false;
+                    EventBus.Publish(new ProgressUpdateEvent(Achievement.Models.MissionType.DoubleJump, 1));
                 }
                 _jumpRequest = false;
             }
@@ -328,6 +332,7 @@ namespace ColorOrCrash.Features.Player.Components
                         ServiceLocator.Get<AudioManager>().PlaySFX("Score");
                         manager.AddPoint(_currentType);
                         _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, config.jumpForce * 0.5f);
+                        // TODO: publish progress event when collide with corect color
                     }
                     else
                     {

@@ -1,14 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
+using ColorOfCrash.Utils;
 using ColorOrCrash.Global.Components;
+using DG.Tweening;
 using NocturneThree.ServiceLocator;
 using UnityEngine;
 
 namespace ColorOrCrash
 {
-    public class mainmenu : MonoBehaviour
+    public class MainMenuController : MonoBehaviour
     {   
         [Header("UI References")]
         [SerializeField] private GameObject mainMenuContainer; // GameObject kosong yang berisi UI menu utama
         [SerializeField] private GameObject creditsPanel; // Panel untuk credits
+        [SerializeField] private List<GameObject> menuButtonList = new();
+
+        [Header("Animation Objects Configurations")]
+        [SerializeField] private RectTransform planetObject;
+        [SerializeField] private RectTransform titleObject;
+        [SerializeField] private List<RectTransform> alienList = new();
+        [SerializeField] private GameObject textStartObject;
+        [Tooltip("Duration for each tweening")]
+        [SerializeField] private float duration = .5f;
+        [SerializeField] private float delayDuration = .25f;
+
+        // --------- SEQUENCES ---------------- //
+        
+        private Sequence hideSequence;
         
         private void Start()
         {
@@ -24,6 +42,80 @@ namespace ColorOrCrash
             {
                 mainMenuContainer.SetActive(true);
             }
+
+            ShowAnimationObject();
+        }
+
+        /// <summary>
+        /// Showing objects such as planet, alien, and text start by sequence
+        /// </summary>
+        public void ShowAnimationObject()
+        {
+            ResetAnimationObjects();
+
+            Sequence showSequence = DOTween.Sequence();
+
+            showSequence.AppendInterval(2f).SetUpdate(true);
+
+            showSequence.Append(planetObject.DOScale(Vector3.one, duration)).SetUpdate(true);
+            showSequence.AppendInterval(delayDuration);
+            
+            showSequence.Append(titleObject.DOScale(Vector3.one, duration)).SetUpdate(true);
+
+            foreach(var alien in alienList)
+                showSequence.Join(alien.DOScale(Vector3.one, duration)).SetUpdate(true);
+            
+            showSequence.AppendInterval(delayDuration);
+
+            showSequence.OnComplete(() =>
+            {
+                textStartObject.SetActive(true);
+                StartCoroutine(WaitMenuForClick());
+            });
+
+        }
+
+        private IEnumerator WaitMenuForClick()
+        {
+            yield return YieldCollection.WaitForMouseClick;
+
+            HideAnimationObjects();
+        }
+
+        public void HideAnimationObjects()
+        {
+            hideSequence = DOTween.Sequence();
+
+            textStartObject.SetActive(false);
+
+            hideSequence.Append(planetObject.DOAnchorPosY(1000, duration).SetEase(Ease.InOutBounce)).SetUpdate(true);
+            hideSequence.Append(titleObject.DOScale(Vector3.zero, duration)).SetUpdate(true);
+
+            foreach (var alien in alienList)
+                hideSequence.Join(alien.DOAnchorPosY(1000, duration).SetEase(Ease.InOutBounce)).SetUpdate(true);
+
+            hideSequence.OnComplete(() =>
+            {
+                ResetAnimationObjects();
+                ShowMenuButton();
+            });
+        }
+
+        public void ShowMenuButton()
+        {
+            foreach (var button in menuButtonList)
+                button.SetActive(true);
+        }
+
+        private void ResetAnimationObjects()
+        {
+            planetObject.localScale = Vector3.zero;
+            titleObject.localScale = Vector3.zero;
+
+            foreach (var alien in alienList)
+                alien.localScale = Vector3.zero;
+            
+            textStartObject.SetActive(false);
         }
         
         private void Update()

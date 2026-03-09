@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using ColorOrCrash.Features.Achievement.Events;
 using ColorOrCrash.Features.Achievement.Models;
 using ColorOrCrash.Features.SaveSystem.Models;
+using ColorOrCrash.Global.Components; // Import namespace Event Bus kamu
+using NocturneThree.EventSystem;
 using NocturneThree.ServiceLocator;
 using UnityEngine;
 
@@ -10,6 +13,21 @@ namespace ColorOrCrash.Features.Achievement.Components
     public class MissionManager : MonoBehaviour, IGameService
     {
         public List<AchievementAsset> achievementList = new();
+
+        private void OnEnable()
+        {
+            EventBus.Subscribe<ProgressUpdateEvent>(OnMissionProgressReceived);
+        }
+
+        private void OnDisable()
+        {
+            EventBus.Unsubscribe<ProgressUpdateEvent>(OnMissionProgressReceived);
+        }
+
+        private void OnMissionProgressReceived(ProgressUpdateEvent evt)
+        {
+            NotifyProgress(evt.Type, evt.Amount, evt.TargetId);
+        }
 
         private void Start()
         {
@@ -32,7 +50,7 @@ namespace ColorOrCrash.Features.Achievement.Components
                 }
                 else
                 {
-                    ach.ResetProgress();
+                    ach.currentAmount = 0;
                     ach.currentTierIndex = 0;
                     ach.allTiersCompleted = false;
                 }
@@ -42,6 +60,8 @@ namespace ColorOrCrash.Features.Achievement.Components
         public void SyncToSaveData()
         {
             var saveManager = ServiceLocator.Get<SaveManager>();
+            if (saveManager == null || saveManager.Data == null) return;
+
             saveManager.Data.achievementProgress.Clear();
 
             foreach (var ach in achievementList)
@@ -63,21 +83,26 @@ namespace ColorOrCrash.Features.Achievement.Components
                 if(ach.isSingleRun && !ach.allTiersCompleted)
                 {
                     ach.ResetProgress();
-                    #if UNITY_EDITOR
-                    Debug.LogWarning($"Progress {ach.title} has been reset by program");
-                    #endif
                 }
             }
+            
+            SyncToSaveData();
         }
 
         public void NotifyProgress(MissionType type, int amount, string id = "")
         {
+            bool hasChanged = false;
+
             foreach(var ach in achievementList)
             {
-                if(ach.type == type) ach.UpdateProgress(amount, id);
+                if(ach.type == type) 
+                {
+                    ach.UpdateProgress(amount, id);
+                    hasChanged = true;
+                }
             }
 
-            SyncToSaveData();
+            if(hasChanged) SyncToSaveData();
         }
     }
 }
