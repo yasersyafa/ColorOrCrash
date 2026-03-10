@@ -31,7 +31,7 @@ namespace ColorOrCrash.Features.LootLocker.Services
             });
         }
 
-        public static void GetLeaderboardEntries(int count)
+        public static void GetLeaderboardEntries(int count, Action<LootLockerLeaderboardMember[]> onSuccess = null)
         {
             LootLockerSDKManager.GetScoreList(leaderboardKey, count, response =>
             {
@@ -40,6 +40,8 @@ namespace ColorOrCrash.Features.LootLocker.Services
                     Debug.Log(response.errorData.ToString());
                     return;
                 } 
+
+                onSuccess?.Invoke(response.items);
                 Debug.Log("Successfully get score!");
             });
         }
