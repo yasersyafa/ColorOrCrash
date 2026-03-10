@@ -15,7 +15,7 @@ namespace ColorOrCrash
 
         private void Awake()
         {
-            ServiceLocator.Register<SaveManager>(this);
+            // ServiceLocator.Register<SaveManager>(this);
             
             _saveProvider = new PlayerPrefsSaveProvider();
 

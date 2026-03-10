@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.lootlocker.lootlockersdk": "7.1.1",
     "com.nocturnethree.eventsystem": "https://github.com/Nocturne-Three/Event-Bus.git",
     "com.nocturnethree.servicelocator": "https://github.com/Nocturne-Three/Service-Locator.git",
     "com.unity.cinemachine": "3.1.5",
@@ -45,5 +46,14 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  }
+  },
+  "scopedRegistries": [
+    {
+      "name": "Open UPM",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.lootlocker.lootlockersdk"
+      ]
+    }
+  ]
 }

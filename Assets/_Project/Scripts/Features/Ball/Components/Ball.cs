@@ -108,6 +108,8 @@ namespace ColorOrCrash.Features.Ball.Components
                 await UniTask.Yield();
             }
 
+            if (this == null || token.IsCancellationRequested) return;
+
             // 3. Finalize Activation
             _renderer.color = targetColor;
             transform.localScale = Vector3.one * _originalScale;

@@ -1,6 +1,7 @@
 using System;
 using ColorOrCrash.Features.Achievement.Events;
 using ColorOrCrash.Features.Ball.Components;
+using ColorOrCrash.Features.LootLocker.Services;
 using ColorOrCrash.Vin.Core;
 using NocturneThree.EventSystem;
 using NocturneThree.ServiceLocator;
@@ -55,6 +56,9 @@ namespace ColorOrCrash.Global.Components
                 if(Score >= _saveManager.Data.highScore)
                 {
                     _saveManager.Data.highScore = Score;
+                    
+                    string memberId = PlayerPrefs.GetString(LeaderboardService.memberKey, "");
+                    LeaderboardService.TrySubmitScore(memberId, Score);
                 }
             }
 
