@@ -281,11 +281,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1550536018198296332, guid: c6293d06281d54ec382612db62be07ef, type: 3}
   m_PrefabInstance: {fileID: 6448536550904099096}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &718701249 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 390706700600723271, guid: 43e00d48a2424477ba1cf2eebb7d41f0, type: 3}
-  m_PrefabInstance: {fileID: 3122278090743599195}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &789423487 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4227368768745308311, guid: c6293d06281d54ec382612db62be07ef, type: 3}
@@ -445,11 +440,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8895802932066347423, guid: 43e00d48a2424477ba1cf2eebb7d41f0, type: 3}
   m_PrefabInstance: {fileID: 3122278090743599195}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1169449579 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1050751329714461929, guid: 43e00d48a2424477ba1cf2eebb7d41f0, type: 3}
-  m_PrefabInstance: {fileID: 3122278090743599195}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1210102568 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4390972406362162439, guid: c6293d06281d54ec382612db62be07ef, type: 3}
@@ -484,13 +474,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8c05f3135322c04391654f04ef6a02b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuContainer: {fileID: 1279720126}
+  mainMenuContainer: {fileID: 1045537610}
   creditsPanel: {fileID: 310175442}
   menuButtonList:
   - {fileID: 1746928490}
-  - {fileID: 718701249}
   - {fileID: 1861012437}
-  - {fileID: 1169449579}
   - {fileID: 400289286}
   planetObject: {fileID: 1910835207}
   titleObject: {fileID: 1210102568}
@@ -517,11 +505,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1279720126 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 156038429358243845, guid: c6293d06281d54ec382612db62be07ef, type: 3}
-  m_PrefabInstance: {fileID: 6448536550904099096}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1279720127 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5084872553710316382, guid: c6293d06281d54ec382612db62be07ef, type: 3}
@@ -561,7 +544,7 @@ MonoBehaviour:
   entryPrefab: {fileID: 6118725922580097603, guid: 0e36d8dfb572e407ebee6ffc302fa879, type: 3}
   highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  closeButton: {fileID: 0}
+  menuButtonContainer: {fileID: 1045537610}
 --- !u!4 &1347306103
 Transform:
   m_ObjectHideFlags: 0
@@ -933,9 +916,53 @@ PrefabInstance:
     m_TransformParent: {fileID: 2016460602}
     m_Modifications:
     - target: {fileID: 318923704447165121, guid: 43e00d48a2424477ba1cf2eebb7d41f0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 318923704447165121, guid: 43e00d48a2424477ba1cf2eebb7d41f0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 318923704447165121, guid: 43e00d48a2424477ba1cf2eebb7d41f0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 318923704447165121, guid: 43e00d48a2424477ba1cf2eebb7d41f0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 1045537610}
+    - target: {fileID: 318923704447165121, guid: 43e00d48a2424477ba1cf2eebb7d41f0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
       objectReference: {fileID: 1271841258}
+    - target: {fileID: 318923704447165121, guid: 43e00d48a2424477ba1cf2eebb7d41f0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 318923704447165121, guid: 43e00d48a2424477ba1cf2eebb7d41f0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 318923704447165121, guid: 43e00d48a2424477ba1cf2eebb7d41f0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ShowCredits
+      objectReference: {fileID: 0}
+    - target: {fileID: 318923704447165121, guid: 43e00d48a2424477ba1cf2eebb7d41f0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 318923704447165121, guid: 43e00d48a2424477ba1cf2eebb7d41f0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: ColorOrCrash.MainMenuController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 318923704447165121, guid: 43e00d48a2424477ba1cf2eebb7d41f0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 318923704447165121, guid: 43e00d48a2424477ba1cf2eebb7d41f0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 434740203728706526, guid: 43e00d48a2424477ba1cf2eebb7d41f0, type: 3}
       propertyPath: m_Name
       value: MenuButtons
@@ -1077,7 +1104,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1271841258}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 390706700600723271, guid: 43e00d48a2424477ba1cf2eebb7d41f0, type: 3}
+    - {fileID: 1050751329714461929, guid: 43e00d48a2424477ba1cf2eebb7d41f0, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43e00d48a2424477ba1cf2eebb7d41f0, type: 3}

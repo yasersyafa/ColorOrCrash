@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/_Project/Scenes/GuestPanel.unity
+    guid: b005a1baacb8d4fd3b541423735fb3f9
+  - enabled: 1
     path: Assets/_Project/Scenes/MenuScene.unity
     guid: f1bda6679275e0848a7be0fa424a5fc4
   - enabled: 1

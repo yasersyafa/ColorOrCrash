@@ -19,8 +19,8 @@ namespace ColorOrCrash
         [SerializeField] private Color highlightColor = Color.yellow;
         [SerializeField] private Color normalColor = Color.white;
 
-        [Header("Button")]
-        [SerializeField] private Button closeButton;
+        [Space]
+        [SerializeField] private GameObject menuButtonContainer;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
@@ -47,7 +47,7 @@ namespace ColorOrCrash
 
             string myMemberId = PlayerPrefs.GetString(LeaderboardService.memberKey, "");
 
-            LeaderboardService.GetLeaderboardEntries(10, entries =>
+            LeaderboardService.GetLeaderboardEntries(5, entries =>
             {
                 foreach (var entry in entries)
                 {
@@ -75,6 +75,7 @@ namespace ColorOrCrash
             {
                 leaderboardPanel.SetActive(false);
                 // TODO: show menu buttons
+                menuButtonContainer.SetActive(true);
                 ShowMenuButtons();
             }
         }
