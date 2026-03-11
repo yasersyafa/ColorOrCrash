@@ -1,4 +1,5 @@
 using System;
+using ColorOrCrash.Features.Player.Components;
 using ColorOrCrash.Features.Tutorial.States;
 using ColorOrCrash.Global.Components;
 using Cysharp.Threading.Tasks;
@@ -42,6 +43,14 @@ namespace ColorOrCrash.Features.Tutorial.Components
         [TextArea(3, 10)] public string moveText;
         [TextArea(3, 10)] public string jumpText, holdJumpText, doubleJumpText;
         [TextArea(3, 10)] public string endText;
+
+        [Space]
+        [Header("Text Tutorial - Mobile")]
+        [TextArea(3, 10)] public string moveTextMobile;
+        [TextArea(3, 10)] public string jumpTextMobile, holdJumpTextMobile, doubleJumpTextMobile;
+        [TextArea(3, 10)] public string endTextMobile;
+
+        public PlayerTutorial player;
 
         #region States
         public MoveState moveState = new();

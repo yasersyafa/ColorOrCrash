@@ -18,7 +18,7 @@ namespace ColorOrCrash.Features.Tutorial.States
         {
             ServiceLocator.Get<AudioManager>().PlayBGM("TutorialMusic");
             isTaskCompleted = false;
-            player = UnityEngine.Object.FindFirstObjectByType<PlayerTutorial>(FindObjectsInactive.Exclude);
+            player = manager.player;
             CanMove = false;
             AddTutorial(manager).Forget();
         }
@@ -54,7 +54,7 @@ namespace ColorOrCrash.Features.Tutorial.States
             await UniTask.Delay(TimeSpan.FromSeconds(manager.delayShowTutorial), ignoreTimeScale: true);
             // ServiceLocator.Get<AudioManager>().PlaySFX("GameOver");
             // manager.tutorialText.SetText(manager.moveText);
-            await manager.TypeEffectText(manager.moveText);
+            await manager.TypeEffectText(manager.player.IsMobileDevice() ? manager.moveTextMobile : manager.moveText);
             CanMove = true;
         }
     }

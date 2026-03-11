@@ -1,12 +1,6 @@
 using System;
 using System.Threading;
 using ColorOfCrash.Utils;
-using ColorOrCrash.Features.Achievement.Events;
-using ColorOrCrash.Features.Ball.Components;
-using ColorOrCrash.Features.Camera.Components;
-using ColorOrCrash.Features.Player.Models;
-using ColorOrCrash.Global.Components;
-using ColorOrCrash.Vin.Core;
 using Cysharp.Threading.Tasks;
 using GabrielBigardi.SpriteAnimator;
 using NocturneThree.EventSystem;
@@ -16,6 +10,13 @@ using UnityEngine.InputSystem;
 
 namespace ColorOrCrash.Features.Player.Components
 {
+    using Models;
+    using Achievement.Events;
+    using Ball.Components;
+    using Camera.Components;
+    using Global.Components;
+    using Vin.Core;
+
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(PlayerInput))]
     public class PlayerController : MonoBehaviour
@@ -23,6 +24,12 @@ namespace ColorOrCrash.Features.Player.Components
         [SerializeField] private PlayerConfig config;
         [SerializeField] private SpriteAnimator animator;
         [SerializeField] private SpriteRenderer bodyRenderer;
+
+        [Header("Mobile Input")]
+        [SerializeField] private MobileMovementButtons mobileMovementButtons;
+        [SerializeField] private MobileButton mobileJumpButton;
+        [SerializeField] private GameObject mobileControlsUI;
+        [SerializeField] private bool forceMobileInEditor = false;
 
 #region Animation string
         private const string ANIM_IDLE = "Idle";
@@ -35,6 +42,7 @@ namespace ColorOrCrash.Features.Player.Components
 
         private Rigidbody2D _rb;
         private CancellationTokenSource _colorCts;
+        private bool _isMobile;
 
 #region Color Settings
         private GameColor _currentType;
@@ -61,15 +69,23 @@ namespace ColorOrCrash.Features.Player.Components
         private CameraShakeController cameraController;
 #endregion
 
-#region Events
-        /// <summary>
-        /// 
-        /// </summary>
         public event Action<GameColor, GameColor, float, float> OnColorChanged;
-#endregion
 
         public GameColor CurrentType => _currentType;
         public GameColor NextType => _nextType;
+
+        public bool IsMobileDevice()
+        {
+            #if UNITY_EDITOR
+                return forceMobileInEditor;
+            #elif UNITY_WEBGL
+                return Input.touchSupported && SystemInfo.deviceType == DeviceType.Handheld;
+            #elif UNITY_ANDROID || UNITY_IOS
+                return true;
+            #else
+                return false;
+            #endif
+        }
 
         private void Awake()
         {
@@ -83,57 +99,83 @@ namespace ColorOrCrash.Features.Player.Components
             cameraController = ServiceLocator.Get<CameraShakeController>();
 
             _initialPosition = transform.position;
+            _isMobile = IsMobileDevice();
 
             manager.OnGameStateChanged += HandleGameStateChanged;
 
+            SetupMobileControls();
             ResetPlayer();
-
             ColorSwapLoop(_colorCts.Token).Forget();
+        }
+
+        private void SetupMobileControls()
+        {
+            if (mobileControlsUI != null)
+                mobileControlsUI.SetActive(_isMobile);
+
+            if (_isMobile && mobileJumpButton != null)
+            {
+                mobileJumpButton.OnHeld     += HandleMobileJumpPressed;
+                mobileJumpButton.OnReleased += HandleMobileJumpReleased;
+            }
+        }
+
+        private void HandleMobileJumpPressed()
+        {
+            _isJumpPressed = true;
+            _jumpRequest = true;
+        }
+
+        private void HandleMobileJumpReleased()
+        {
+            _isJumpPressed = false;
         }
 
         private void HandleGameStateChanged(Global.Components.GameState state)
         {
-            if(state == Global.Components.GameState.Playing)
-            {
+            if (state == Global.Components.GameState.Playing)
                 ResetPlayer();
-            }
         }
 
         #region Input System Callbacks
 
         public void OnMove(InputAction.CallbackContext value)
         {
+            if (_isMobile) return; // Mobile pakai button, ignore keyboard
             _moveInput = value.ReadValue<Vector2>();
         }
 
         public void OnJump(InputAction.CallbackContext value)
         {
+            if (_isMobile) return; // Mobile pakai button, ignore keyboard
             _isJumpPressed = value.performed;
-            
+
             if (_isJumpPressed)
-            {
                 _jumpRequest = true;
-            }
         }
 
         #endregion
 
         void Update()
         {
-            if(_isDead || manager.CurrentState != Global.Components.GameState.Playing) return;
+            if (_isDead || manager.CurrentState != Global.Components.GameState.Playing) return;
+
+            if (_isMobile && mobileMovementButtons != null)
+                _moveInput = mobileMovementButtons.Input;
+
             HandleAnimation();
             HandleSpriteFlip();
         }
 
         private void FixedUpdate()
         {
-            if(manager.CurrentState != Global.Components.GameState.Playing)
+            if (manager.CurrentState != Global.Components.GameState.Playing)
             {
                 _rb.linearVelocity = Vector2.zero;
-                _rb.bodyType = RigidbodyType2D.Kinematic; // Player tidak akan jatuh
+                _rb.bodyType = RigidbodyType2D.Kinematic;
                 return;
             }
-            
+
             _rb.bodyType = RigidbodyType2D.Dynamic;
 
             CheckGround();
@@ -149,7 +191,7 @@ namespace ColorOrCrash.Features.Player.Components
             _isDead = false;
             _rb.simulated = true;
             _rb.linearVelocity = Vector2.zero;
-            
+
             transform.position = _initialPosition;
 
             _currentType = EnumUtils.GetRandomEnumValue<GameColor>();
@@ -161,10 +203,11 @@ namespace ColorOrCrash.Features.Player.Components
 
             ChangeAnimation(ANIM_IDLE);
         }
+
         public float GetColorTimerNormalized() => _colorTimer / COLOR_DURATION;
+
         private void HandleAnimation()
         {
-            // 1. Air Logic (Jump, Fall, Landing Detection)
             if (!_isGrounded)
             {
                 if (_rb.linearVelocity.y > 0)
@@ -173,33 +216,18 @@ namespace ColorOrCrash.Features.Player.Components
                 }
                 else
                 {
-                    // Landing Detection: Cek jarak ke tanah saat jatuh
                     RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.5f, config.groundLayer);
-                    
-                    if (hit.collider != null)
-                        ChangeAnimation(ANIM_LAND);
-                    else
-                        ChangeAnimation(ANIM_FALL);
+                    ChangeAnimation(hit.collider != null ? ANIM_LAND : ANIM_FALL);
                 }
                 return;
             }
 
-            // 2. Ground Logic (Idle, Move)
-            if (Mathf.Abs(_rb.linearVelocity.x) > 0.1f)
-            {
-                ChangeAnimation(ANIM_MOVE);
-            }
-            else
-            {
-                ChangeAnimation(ANIM_IDLE);
-            }
+            ChangeAnimation(Mathf.Abs(_rb.linearVelocity.x) > 0.1f ? ANIM_MOVE : ANIM_IDLE);
         }
 
         private void ChangeAnimation(string animName, Action onComplete = null)
         {
-            // Prevent flickering: Hanya panggil Play jika nama animasi berbeda
             if (_currentAnimation == animName) return;
-
             animator.Play(animName).SetOnComplete(onComplete);
             _currentAnimation = animName;
         }
@@ -207,9 +235,7 @@ namespace ColorOrCrash.Features.Player.Components
         private void HandleSpriteFlip()
         {
             if (Mathf.Abs(_moveInput.x) > 0.01f)
-            {
                 bodyRenderer.flipX = _moveInput.x < 0;
-            }
         }
 
         private void ApplyMovement()
@@ -217,7 +243,7 @@ namespace ColorOrCrash.Features.Player.Components
             float targetSpeed = _moveInput.x * config.moveSpeed;
             float speedDif = targetSpeed - _rb.linearVelocity.x;
             float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? config.acceleration : config.decceleration;
-            
+
             float movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, 0.9f) * Mathf.Sign(speedDif);
             _rb.AddForce(movement * Vector2.right);
         }
@@ -246,9 +272,8 @@ namespace ColorOrCrash.Features.Player.Components
 
         private void ExecuteJump(float force)
         {
-            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0); 
+            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0);
             _rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
-
             ServiceLocator.Get<AudioManager>().PlaySFX("Jump");
         }
 
@@ -258,7 +283,6 @@ namespace ColorOrCrash.Features.Player.Components
             {
                 _rb.linearVelocity += (config.fallMultiplier - 1) * Physics2D.gravity.y * Time.fixedDeltaTime * Vector2.up;
             }
-
             else if (_rb.linearVelocity.y > 0 && !_isDoubleJumping && !_isJumpPressed)
             {
                 _rb.linearVelocity += (config.lowJumpMultiplier - 1) * Physics2D.gravity.y * Time.fixedDeltaTime * Vector2.up;
@@ -279,17 +303,14 @@ namespace ColorOrCrash.Features.Player.Components
 
                 while (_colorTimer > 0)
                 {
-                    if(manager.CurrentState == Global.Components.GameState.Playing && !_isDead)
-                    {
+                    if (manager.CurrentState == Global.Components.GameState.Playing && !_isDead)
                         _colorTimer -= Time.deltaTime;
-                    }
+
                     await UniTask.Yield(token);
                 }
 
                 _currentType = _nextType;
                 _nextType = GetUniqueRandomColor(_currentType);
-                
-                // _currentType = EnumUtils.GetRandomEnumValue<GameColor>();
                 UpdateVisual(_currentType);
             }
         }
@@ -297,7 +318,6 @@ namespace ColorOrCrash.Features.Player.Components
         private GameColor GetUniqueRandomColor(GameColor excludeColor)
         {
             GameColor newColor;
-
             do
             {
                 newColor = EnumUtils.GetRandomEnumValue<GameColor>();
@@ -312,12 +332,13 @@ namespace ColorOrCrash.Features.Player.Components
             if (bodyRenderer != null)
                 bodyRenderer.color = color switch
                 {
-                    GameColor.Red => manager.settings.redColor,
-                    GameColor.Blue => manager.settings.blueColor,
+                    GameColor.Red   => manager.settings.redColor,
+                    GameColor.Blue  => manager.settings.blueColor,
                     GameColor.Green => manager.settings.greenColor,
-                    _ => Color.white
+                    _               => Color.white
                 };
         }
+
 #endregion
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -332,17 +353,14 @@ namespace ColorOrCrash.Features.Player.Components
                         ServiceLocator.Get<AudioManager>().PlaySFX("Score");
                         manager.AddPoint(_currentType);
                         _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, config.jumpForce * 0.5f);
-                        // TODO: publish progress event when collide with corect color
                     }
                     else
                     {
-                        if(manager.CurrentState != Global.Components.GameState.GameOver)
+                        if (manager.CurrentState != Global.Components.GameState.GameOver)
                         {
-                            
                             _rb.simulated = false;
                             _isDead = true;
                             ChangeAnimation(ANIM_DEATH, () => manager.ChangeState(Global.Components.GameState.GameOver));
-
                             ServiceLocator.Get<AudioManager>().PlaySFX("Death");
                         }
                     }
@@ -358,6 +376,13 @@ namespace ColorOrCrash.Features.Player.Components
                 _colorCts.Cancel();
                 _colorCts.Dispose();
             }
+
+            if (mobileJumpButton != null)
+            {
+                mobileJumpButton.OnHeld     -= HandleMobileJumpPressed;
+                mobileJumpButton.OnReleased -= HandleMobileJumpReleased;
+            }
+
             manager.OnGameStateChanged -= HandleGameStateChanged;
         }
     }

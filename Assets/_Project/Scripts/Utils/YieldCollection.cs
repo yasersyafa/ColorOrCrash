@@ -11,7 +11,10 @@ namespace ColorOfCrash.Utils
     {
         private static readonly Dictionary<float, WaitForSeconds> WaitForSecondsDict = new();
         private static readonly Dictionary<float, WaitForSecondsRealtime> WaitForSecondsRealtimeDict = new();
-        public static readonly WaitUntil WaitForMouseClick = new(() => Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame);
+        public static readonly WaitUntil WaitForMouseClick = new(() => 
+            (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame) ||
+            (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
+        );
         
         public static WaitForSeconds WaitForSeconds(float seconds)
         {
@@ -38,7 +41,7 @@ namespace ColorOfCrash.Utils
             var elapsedTime = 0f;
             while (elapsedTime < seconds)
             {
-                if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+                if ((Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame) || (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame))
                 {
                     yield break; // Exit the coroutine if mouse is clicked
                 }

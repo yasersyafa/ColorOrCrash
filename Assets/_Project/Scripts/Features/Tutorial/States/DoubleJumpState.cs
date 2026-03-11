@@ -19,7 +19,7 @@ namespace ColorOrCrash.Features.Tutorial.States
             CanMove = false;
             _isTaskCompleted = false;
 
-            _player = UnityEngine.Object.FindFirstObjectByType<PlayerTutorial>();
+            _player = manager.player;
             if (_player != null) _player.ResetTutorialFlags();
 
             AddTutorial(manager).Forget();
@@ -59,7 +59,7 @@ namespace ColorOrCrash.Features.Tutorial.States
             manager.tutorialText.SetText("ONE LAST TRICK...");
             await UniTask.Delay(TimeSpan.FromSeconds(1.5f), ignoreTimeScale: true);
             
-            await manager.TypeEffectText(manager.doubleJumpText);
+            await manager.TypeEffectText(manager.player.IsMobileDevice() ? manager.doubleJumpTextMobile : manager.doubleJumpText);
             
             CanMove = true;
         }
