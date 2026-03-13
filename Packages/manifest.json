@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.havengrind.splash-screen-automator": "https://github.com/havengrind/HavenGrind-SplashScreen.git",
     "com.lootlocker.lootlockersdk": "7.1.1",
     "com.nocturnethree.eventsystem": "https://github.com/Nocturne-Three/Event-Bus.git",
     "com.nocturnethree.servicelocator": "https://github.com/Nocturne-Three/Service-Locator.git",

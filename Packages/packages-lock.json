@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.havengrind.splash-screen-automator": {
+      "version": "https://github.com/havengrind/HavenGrind-SplashScreen.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "0de11793adfd5cb5508dc8bfb0d8ba005a1d3d24"
+    },
     "com.lootlocker.lootlockersdk": {
       "version": "7.1.1",
       "depth": 0,
