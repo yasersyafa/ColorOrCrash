@@ -79,7 +79,7 @@ namespace ColorOrCrash.Features.Player.Components
             #if UNITY_EDITOR
                 return forceMobileInEditor;
             #elif UNITY_WEBGL
-                return Input.touchSupported && SystemInfo.deviceType == DeviceType.Handheld;
+                return MobileDetector.IsMobile();
             #elif UNITY_ANDROID || UNITY_IOS
                 return true;
             #else

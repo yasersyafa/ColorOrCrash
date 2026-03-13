@@ -18,6 +18,8 @@ namespace ColorOrCrash
         [Header("Colors")]
         [SerializeField] private Color highlightColor = Color.yellow;
         [SerializeField] private Color normalColor = Color.white;
+        [SerializeField] private Color oddRowColor  = new Color(0.25f, 0.31f, 1f);    // #4050FF
+        [SerializeField] private Color evenRowColor = new Color(0.20f, 0.25f, 0.88f); // #3241E0
 
         [Space]
         [SerializeField] private GameObject menuButtonContainer;
@@ -47,8 +49,9 @@ namespace ColorOrCrash
 
             string myMemberId = PlayerPrefs.GetString(LeaderboardService.memberKey, "");
 
-            LeaderboardService.GetLeaderboardEntries(5, entries =>
+            LeaderboardService.GetLeaderboardEntries(10, entries =>
             {
+                int index = 0;
                 foreach (var entry in entries)
                 {
                     var row = Instantiate(entryPrefab, entriesContainer);
@@ -62,6 +65,14 @@ namespace ColorOrCrash
                     bool isMe = entry.member_id == myMemberId;
                     foreach (var t in texts)
                         t.color = isMe ? highlightColor : normalColor;
+
+                    if (row.TryGetComponent<Image>(out var rowImage))
+                    {
+                        bool isOdd = (index % 2) == 0;
+                        rowImage.color = isOdd ? oddRowColor : evenRowColor;
+                    }
+
+                    index++;
                 }
             });
         }

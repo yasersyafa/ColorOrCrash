@@ -1,4 +1,5 @@
 using System;
+using ColorOfCrash.Utils;
 using ColorOrCrash.Features.Player.Models;
 using ColorOrCrash.Features.Tutorial.Components;
 using ColorOrCrash.Global.Components;
@@ -57,7 +58,7 @@ namespace ColorOrCrash.Features.Player.Components
             #if UNITY_EDITOR
                 return forceMobileInEditor;
             #elif UNITY_WEBGL
-                return Input.touchSupported && SystemInfo.deviceType == DeviceType.Handheld;
+                return MobileDetector.IsMobile();
             #elif UNITY_ANDROID || UNITY_IOS
                 return true;
             #else
