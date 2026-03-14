@@ -5688,7 +5688,7 @@ PrefabInstance:
       objectReference: {fileID: 666032708}
     - target: {fileID: 4597297389832005025, guid: 9a69e94cf31c347adb33305733308bf0, type: 3}
       propertyPath: forceMobileInEditor
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4597297389832005025, guid: 9a69e94cf31c347adb33305733308bf0, type: 3}
       propertyPath: mobileMovementButtons
@@ -5884,8 +5884,8 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 1985923239}
   - {fileID: 2485369873267682259}
-  - {fileID: 1878638169}
   - {fileID: 73640168200494255}
+  - {fileID: 1878638169}
   - {fileID: 1353237702}
   - {fileID: 1732183603}
   - {fileID: 2117162872}

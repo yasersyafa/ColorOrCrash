@@ -60,7 +60,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: ac6a87ae654a5493d918ee1926f3cb69, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -246,6 +246,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7a77ba43-280f-4ee4-8241-5694752149ad
+    m_ActionName: 'UI/Pause[/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -266,6 +270,10 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: 580fc5e43ddeb41daa60c48daa52ce17, type: 2}
   animator: {fileID: 7977922605012386047}
   bodyRenderer: {fileID: 7728934221743616035}
+  mobileMovementButtons: {fileID: 0}
+  mobileJumpButton: {fileID: 0}
+  mobileControlsUI: {fileID: 0}
+  forceMobileInEditor: 0
 --- !u!61 &909329113393192920
 BoxCollider2D:
   m_ObjectHideFlags: 0
