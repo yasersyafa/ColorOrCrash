@@ -42,7 +42,7 @@ namespace ColorOrCrash.Features.Tutorial.States
                 {
                     CanMove = false;
                     ServiceLocator.Get<AudioManager>().StopBGM();
-                    ServiceLocator.Get<PokiService>().CommercialBreak(() =>
+                    PokiService.Instance.CommercialBreak(() =>
                     {
                         ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.GameScene).Forget();
                     });

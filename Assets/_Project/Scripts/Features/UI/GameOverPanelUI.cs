@@ -90,7 +90,7 @@ namespace ColorOrCrash.Features.UI
             // Show double coins button only if ads are not blocked and not already used
             if (doubleCoinsButton != null)
             {
-                bool showReward = !_hasDoubledCoins && !ServiceLocator.Get<PokiService>().IsAdBlocked();
+                bool showReward = !_hasDoubledCoins && !PokiService.Instance.IsAdBlocked();
                 doubleCoinsButton.SetActive(showReward);
             }
         }
@@ -98,7 +98,7 @@ namespace ColorOrCrash.Features.UI
         public void OnRestartButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            ServiceLocator.Get<PokiService>().CommercialBreak(() =>
+            PokiService.Instance.CommercialBreak(() =>
             {
                 manager.ChangeState(GameState.Countdown);
                 Reset();
@@ -108,7 +108,7 @@ namespace ColorOrCrash.Features.UI
         public void OnExitButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            ServiceLocator.Get<PokiService>().CommercialBreak(async () =>
+            PokiService.Instance.CommercialBreak(async () =>
             {
                 ServiceLocator.Get<AudioManager>().StopBGM();
                 await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene);
@@ -120,7 +120,7 @@ namespace ColorOrCrash.Features.UI
             if (_hasDoubledCoins) return;
 
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            ServiceLocator.Get<PokiService>().RewardedBreak((withReward) =>
+            PokiService.Instance.RewardedBreak((withReward) =>
             {
                 if (!withReward) return;
 
