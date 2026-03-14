@@ -41,6 +41,9 @@
 		stringToUTF8(returnStr, buffer, bufferSize);
 		return buffer;
 	},
+	JS_PokiSDK_openExternalLink: function (link) {
+		PokiSDK.openExternalLink(window.properUnityStringify(link)) || '';
+	},
 	JS_PokiSDK_gameplayStart: function () {
 		PokiSDK.gameplayStart();
 	},
@@ -110,5 +113,8 @@
 	},
 	JS_PokiSDK_logError:function(error){
 		PokiSDK.logError(window.properUnityStringify(error));
+	},
+	JS_PokiSDK_movePill:function(topPercent, topPx){
+		PokiSDK.movePill(topPercent, topPx);
 	}
   });

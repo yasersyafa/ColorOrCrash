@@ -28,6 +28,8 @@ public class PokiUnitySDK : MonoBehaviour {
 	[DllImport("__Internal")]
 	private static extern string JS_PokiSDK_getURLParam(string name);
 	[DllImport("__Internal")]
+	private static extern string JS_PokiSDK_openExternalLink(string link);
+	[DllImport("__Internal")]
 	private static extern void JS_PokiSDK_gameplayStart();
 	[DllImport("__Internal")]
 	private static extern void JS_PokiSDK_gameplayStop();
@@ -49,14 +51,16 @@ public class PokiUnitySDK : MonoBehaviour {
 	private static extern bool JS_PokiSDK_isAdBlocked();
 	[DllImport("__Internal")]
 	private static extern void JS_PokiSDK_logError(string err);
+	[DllImport("__Internal")]
+	private static extern void JS_PokiSDK_movePill(double topPercent, double topPx);
 
 	private static PokiUnitySDK _instance;
 	public static PokiUnitySDK Instance {
 		get {
 			if (_instance == null) {
-				_instance = (PokiUnitySDK) FindFirstObjectByType(typeof(PokiUnitySDK));
+				_instance = (PokiUnitySDK) FindObjectOfType(typeof(PokiUnitySDK));
 
-				if (FindObjectsByType<PokiUnitySDK>(FindObjectsSortMode.None).Length > 1) {
+				if (FindObjectsOfType(typeof(PokiUnitySDK)).Length > 1) {
 					Debug.LogError("[Singleton] Something went really wrong " +
 						" - there should never be more than 1 singleton!" +
 						" Reopening the scene might fix it.");
@@ -64,7 +68,7 @@ public class PokiUnitySDK : MonoBehaviour {
 				}
 
 				if (_instance == null) {
-					GameObject singleton = new();
+					GameObject singleton = new GameObject();
 					_instance = singleton.AddComponent<PokiUnitySDK>();
 					singleton.name = "(singleton) "+ typeof(PokiUnitySDK).ToString();
 
@@ -189,6 +193,15 @@ public class PokiUnitySDK : MonoBehaviour {
 		#endif
 	}
 
+	public string openExternalLink (string link){
+		#if UNITY_EDITOR
+		Debug.Log("PokiUnitySDK: openExternalLink "+link);
+		return "";
+		#else
+		return JS_PokiSDK_openExternalLink(link);
+		#endif
+	}
+
 	public void gameplayStart() {
 		#if UNITY_EDITOR
 		Debug.Log("PokiUnitySDK: gameplayStart");
@@ -262,11 +275,19 @@ public class PokiUnitySDK : MonoBehaviour {
 		#endif
 	}
 
-	public void logError(string error){
+	public void logError(string error){
 		#if UNITY_EDITOR
 		Debug.Log("PokiUnitySDK: logError");
 		#else
 		JS_PokiSDK_logError(error);
+		#endif
+	}
+
+	public void movePill(double topPercent, double topPx){
+		#if UNITY_EDITOR
+		Debug.Log("PokiUnitySDK: movePill");
+		#else
+		JS_PokiSDK_movePill(topPercent, topPx);
 		#endif
 	}
 
