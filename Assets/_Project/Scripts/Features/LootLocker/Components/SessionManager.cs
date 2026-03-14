@@ -18,7 +18,8 @@ namespace ColorOrCrash.Features.LootLocker.Components
             {
                 if (!response.success)
                 {
-                    Debug.Log("error starting guest session");
+                    Debug.LogWarning("LootLocker session failed, skipping leaderboard");
+                    ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene).Forget();
                     return;
                 }
 
