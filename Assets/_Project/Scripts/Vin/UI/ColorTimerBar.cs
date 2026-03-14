@@ -15,9 +15,6 @@ namespace ColorOrCrash.Vin.UI
         
         [Header("Next Color Bar (Background)")]
         [SerializeField] private Image nextBarImage;
-        
-        [Header("Settings")]
-        [SerializeField] private float maxWidth = 1920f;
 
         [Header("Dependencies")]
         [SerializeField] private PlayerController _player;
@@ -68,7 +65,13 @@ namespace ColorOrCrash.Vin.UI
 
         private void UpdateBarWidth(float normalizedTime)
         {
-            barRect.sizeDelta = new Vector2(maxWidth * normalizedTime, barRect.sizeDelta.y);
+            float parentWidth = ((RectTransform)barRect.parent).rect.width;
+            float fullWidth = parentWidth - 40f; // minus padding 20 kiri + 20 kanan
+            float currentWidth = fullWidth * normalizedTime;
+            float shrink = (fullWidth - currentWidth) / 2f;
+
+            barRect.offsetMin = new Vector2(20f + shrink, barRect.offsetMin.y);  // kiri
+            barRect.offsetMax = new Vector2(-(20f + shrink), barRect.offsetMax.y);
         }
 
         private Color GetColorValue(GameColor color)

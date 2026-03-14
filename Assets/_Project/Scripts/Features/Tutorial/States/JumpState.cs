@@ -18,7 +18,7 @@ namespace ColorOrCrash.Features.Tutorial.States
             CanMove = false;
             _isTaskCompleted = false;
             
-            _player = UnityEngine.Object.FindFirstObjectByType<PlayerTutorial>();
+            _player = manager.player;
             if (_player != null) _player.ResetTutorialFlags();
 
             AddTutorial(manager).Forget();
@@ -58,7 +58,7 @@ namespace ColorOrCrash.Features.Tutorial.States
             // Delay sedikit agar pemain bersiap
             await UniTask.Delay(TimeSpan.FromSeconds(manager.delayShowTutorial), ignoreTimeScale: true);
             
-            await manager.TypeEffectText(manager.jumpText);
+            await manager.TypeEffectText(manager.player.IsMobileDevice() ? manager.jumpTextMobile : manager.jumpText);
             
             CanMove = true;
         }

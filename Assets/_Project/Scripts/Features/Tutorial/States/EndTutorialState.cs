@@ -38,7 +38,7 @@ namespace ColorOrCrash.Features.Tutorial.States
         {
             if(CanMove)
             {
-                if(Keyboard.current.enterKey.isPressed)
+                if(Keyboard.current.enterKey.isPressed || Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
                 {
                     CanMove = false;
                     ServiceLocator.Get<AudioManager>().StopBGM();

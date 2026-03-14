@@ -1,3 +1,5 @@
+using ColorOrCrash.Features.SaveSystem.Models;
+using ColorOrCrash.Features.SaveSystem.Services;
 using NocturneThree.ServiceLocator;
 using UnityEngine;
 
@@ -6,44 +8,48 @@ namespace ColorOrCrash
     [Service]
     public class SaveManager : MonoBehaviour, IGameService
     {
-        public static string keyTutorial = "tutorial";
-        public static bool HasTutorial()
-        {
-            if(PlayerPrefs.HasKey(keyTutorial))
-            {
-                if(PlayerPrefs.GetInt(keyTutorial) == 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    PokiUnitySDK.Instance.logError("The value of key tutorial is 0");
-                    return false;
-                }
-            } 
-            else
-            {
-                PokiUnitySDK.Instance.logError("The key of tutoial does not exist");
-                return false;    
-            }
-        }  
+        ISaveProvider _saveProvider;
+        public PlayerData Data { get; private set; }
+
+        public static string keyTutorial = "tutorial"; 
+
         private void Awake()
         {
-            ServiceLocator.Register<SaveManager>(this);
+            // ServiceLocator.Register<SaveManager>(this);
+            
+            _saveProvider = new PlayerPrefsSaveProvider();
+
+            LoadGame();
         }
 
-        public static void Save()
+        private void Start()
         {
-            PlayerPrefs.SetInt(keyTutorial, 1);
+            _saveProvider.Load();
+        }
+
+        public void LoadGame()
+        {
+            Data = _saveProvider.Load();
+            Data ??= new PlayerData();
+        }
+
+        public void SaveGame()
+        {
+            _saveProvider.Save(Data);
             PlayerPrefs.Save();
-            if(PlayerPrefs.HasKey(keyTutorial) && PlayerPrefs.GetInt(keyTutorial) == 1)
-            {
-                PokiUnitySDK.Instance.logError("Success stored data. The value of key tutorial is 1");
-            }
+        }
+
+        public static void Save() => PlayerPrefs.SetInt(keyTutorial, 1);
+        public static bool HasTutorial() => PlayerPrefs.HasKey(keyTutorial) && PlayerPrefs.GetInt(keyTutorial) == 1;
+
+        private void OnApplicationFocus(bool focus)
+        {
+            if (!focus) SaveGame();
         }
 
         void OnDestroy()
         {
+            SaveGame();
             ServiceLocator.Unregister<SaveManager>();
         }
     }

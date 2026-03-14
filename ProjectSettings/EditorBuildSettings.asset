@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/_Project/Scenes/GuestPanel.unity
+    guid: b005a1baacb8d4fd3b541423735fb3f9
+  - enabled: 1
     path: Assets/_Project/Scenes/MenuScene.unity
     guid: f1bda6679275e0848a7be0fa424a5fc4
   - enabled: 1
@@ -15,5 +18,6 @@ EditorBuildSettings:
     path: Assets/_Project/Scenes/TutorialScene.unity
     guid: eec1a34301d2042078cd70b3effcc3dc
   m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: aa9608ed75cb045ada0891eb042dbce9, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

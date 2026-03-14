@@ -24,7 +24,7 @@ namespace ColorOrCrash.Features.Tutorial.States
             CanMove = false;
             _isTaskCompleted = false;
             
-            _player = UnityEngine.Object.FindFirstObjectByType<PlayerTutorial>();
+            _player = manager.player;
             if (_player != null)
             {
                 _player.ResetTutorialFlags();
@@ -72,7 +72,7 @@ namespace ColorOrCrash.Features.Tutorial.States
             manager.tutorialText.SetText("DID YOU KNOW?");
             await UniTask.Delay(TimeSpan.FromSeconds(1.5f), ignoreTimeScale: true);
             
-            await manager.TypeEffectText(manager.holdJumpText);
+            await manager.TypeEffectText(manager.player.IsMobileDevice() ? manager.holdJumpTextMobile : manager.holdJumpText);
             
             CanMove = true;
         }

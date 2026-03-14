@@ -1,12 +1,11 @@
 using System;
-using System.Threading;
+using ColorOrCrash.Features.Achievement.Events;
 using ColorOrCrash.Features.Ball.Components;
-using ColorOrCrash.Features.Ball.Models;
-using ColorOrCrash.Global.Models;
-using Cysharp.Threading.Tasks;
+using ColorOrCrash.Features.LootLocker.Services;
+using ColorOrCrash.Vin.Core;
+using NocturneThree.EventSystem;
 using NocturneThree.ServiceLocator;
 using UnityEngine;
-using UnityEngine.Pool;
 
 namespace ColorOrCrash.Global.Components
 {
@@ -15,25 +14,31 @@ namespace ColorOrCrash.Global.Components
     [Service]
     public class GameManager : MonoBehaviour, IGameService
     {
-        public GameSettings settings;
+        public Models.GameSettings settings;
 
         private GameState _currentState = GameState.Playing;
         [HideInInspector] public bool isPaused = false;
         public GameState CurrentState => _currentState;
-        public int Score { get; private set; }
 
+#region Score
+        public int Score { get; private set; }
+        public int RedPoint { get; private set; }
+        public int BluePoint { get; private set; }
+        public int GreenPoint { get; private set; }
+#endregion
         public event Action<GameState> OnGameStateChanged;
         public event Action<int, int> OnScoreAdded;
         public event Action OnGamePaused;
 
-        private void Awake()
-        {
-            ServiceLocator.Register<GameManager>(this);
-            
-        }
+        private SaveManager _saveManager;
+        private AudioManager _audioManager;
+        private BallSpawner _ballSpawner;
 
         private void Start()
         {
+            _saveManager = ServiceLocator.Get<SaveManager>();
+            _audioManager = ServiceLocator.Get<AudioManager>();
+            _ballSpawner = ServiceLocator.Get<BallSpawner>();
             ChangeState(GameState.Countdown);
         }
 
@@ -43,12 +48,18 @@ namespace ColorOrCrash.Global.Components
 
             if (_currentState == GameState.Countdown)
             {
-                PokiUnitySDK.Instance.gameplayStart();
                 ResetGameState();
             }
             else if(_currentState == GameState.GameOver)
             {
-                PokiUnitySDK.Instance.gameplayStop();
+
+                if(Score >= _saveManager.Data.highScore)
+                {
+                    _saveManager.Data.highScore = Score;
+                    
+                    string memberId = PlayerPrefs.GetString(LeaderboardService.memberKey, "");
+                    LeaderboardService.TrySubmitScore(memberId, Score);
+                }
             }
 
             OnGameStateChanged?.Invoke(newState);
@@ -56,7 +67,6 @@ namespace ColorOrCrash.Global.Components
 
         public void TogglePause()
         {
-            PokiUnitySDK.Instance.gameplayStop();
             isPaused = true;
             Time.timeScale = 0;
             OnGamePaused?.Invoke();
@@ -65,16 +75,19 @@ namespace ColorOrCrash.Global.Components
         private void ResetGameState()
         {
             Score = 0;
+            RedPoint = 0;
+            BluePoint = 0;
+            GreenPoint = 0;
             OnScoreAdded?.Invoke(0, 0);
 
-            var spawner = ServiceLocator.Get<BallSpawner>();
+            var spawner = _ballSpawner;
             if (spawner != null)
             {
                 spawner.ClearAllBalls();
             }
 
             // 3. Audio BGM
-            var audio = ServiceLocator.Get<AudioManager>();
+            var audio = _audioManager;
             if (audio != null)
             {
                 audio.PlayBGM("GameMusic");
@@ -86,7 +99,6 @@ namespace ColorOrCrash.Global.Components
 
         public void ResumeGame()
         {
-            PokiUnitySDK.Instance.gameplayStart();
             isPaused = false;
             Time.timeScale = 1;
         }
@@ -106,6 +118,30 @@ namespace ColorOrCrash.Global.Components
             if (_currentState != GameState.Playing) return;
             Score += amount;
             OnScoreAdded?.Invoke(amount, Score);
+        }
+
+        public void AddPoint(GameColor color)
+        {
+            switch (color)
+            {
+                case GameColor.Red:
+                    RedPoint++;
+                    _saveManager.Data.redCoins += RedPoint;
+                    EventBus.Publish(new ProgressUpdateEvent(Features.Achievement.Models.MissionType.EatObstacle, 1, "Red"));
+                    break;
+                case GameColor.Green:
+                    GreenPoint++;
+                    _saveManager.Data.greenCoins += GreenPoint;
+                    EventBus.Publish(new ProgressUpdateEvent(Features.Achievement.Models.MissionType.EatObstacle, 1, "Green"));
+                    break;
+                case GameColor.Blue:
+                    BluePoint++;
+                    _saveManager.Data.blueCoins += BluePoint;
+                    EventBus.Publish(new ProgressUpdateEvent(Features.Achievement.Models.MissionType.EatObstacle, 1, "Blue"));
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

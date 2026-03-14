@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 182cd195a28310e479cddf7ff82822f8, type: 3}
+  m_Name: LootLockerConfig
+  m_EditorClassIdentifier: 
+  apiKey: dev_8594bd30a0fc433e9e4cf1e6d0f730a8
+  adminToken: aef17702e4b55b5c07bcb4b55f78c87b5c6fbe8d
+  domainKey: ss9l5g8s
+  game_version: 1.0.0.0
+  sdk_version: 7.1.1
+  url: https://api.lootlocker.com/v1
+  adminUrl: https://ss9l5g8s.api.lootlocker.com/admin
+  playerUrl: https://ss9l5g8s.api.lootlocker.com/player
+  userUrl: https://ss9l5g8s.api.lootlocker.com/game
+  webSocketBaseUrl: wss://ss9l5g8s.api.lootlocker.com/game
+  baseUrl: https://ss9l5g8s.api.lootlocker.com
+  clientSideRequestTimeOut: 180
+  logLevel: 0
+  prettifyJson: 1
+  obfuscateLogs: 1
+  logErrorsAsWarnings: 1
+  logInBuilds: 0
+  allowTokenRefresh: 1
+  enablePresence: 0
+  enablePresenceAutoConnect: 1
+  enablePresenceAutoDisconnectOnFocusChange: 0
+  enablePresenceInEditor: 1

@@ -83,6 +83,8 @@ namespace ColorOrCrash.Features.Ball.Components
                 _spawnCts = new CancellationTokenSource();
                 SpawnLoopAsync(_spawnCts.Token).Forget();
             }
+            else if (newState == Global.Components.GameState.GameOver)
+                StopSpawning();
         }
 
         private async UniTaskVoid SpawnLoopAsync(CancellationToken token)

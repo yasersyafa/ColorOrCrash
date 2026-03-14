@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading;
 using ColorOrCrash.Features.Ball.Models;
 using ColorOrCrash.Global.Components;
 using ColorOrCrash.Vin.Core;
@@ -32,6 +33,9 @@ namespace ColorOrCrash.Features.Ball.Components
         private Vector2 _direction;
         private bool _isActive = false;
         private float _originalScale;
+        private GameManager _gameManager;
+        private CancellationTokenSource _lifecycleCts;
+
 
         public GameColor BallColor => _ballColor;
         public bool IsActive => _isActive;
@@ -51,12 +55,17 @@ namespace ColorOrCrash.Features.Ball.Components
 
         public void Initialize(GameColor color, Vector2 direction, float speed, IObjectPool<BallController> pool)
         {
+            _lifecycleCts?.Cancel();
+            _lifecycleCts?.Dispose();
+            _lifecycleCts = new CancellationTokenSource();
+
             _ballColor = color;
             _direction = direction.normalized;
             _speed = speed;
+            _gameManager = ServiceLocator.Get<GameManager>();
             _pool = pool;
 
-            settings = ServiceLocator.Get<GameManager>().settings;
+            settings = _gameManager.settings;
 
             _collider.isTrigger = true;
             _renderer.color = Color.white;
@@ -64,16 +73,17 @@ namespace ColorOrCrash.Features.Ball.Components
             
             _rb.linearVelocity = _direction * _speed;
 
-            HandleLifecycleAsync().Forget();
+            HandleLifecycleAsync(_lifecycleCts.Token).Forget();
         }
 
-        private async UniTaskVoid HandleLifecycleAsync()
+        private async UniTaskVoid HandleLifecycleAsync(CancellationToken token)
         {
             // 1. Invulnerable Wait
             await UniTask.Delay(System.TimeSpan.FromSeconds(_config.ballInvulnerableDuration), 
-                cancellationToken: this.GetCancellationTokenOnDestroy());
+                cancellationToken: token);
 
             // 2. Transition State (Color & Scale)
+            _isActive = false;
             float elapsed = 0;
             float duration = _config.ballColorTransitionDuration;
             float startScale = _originalScale * _config.ballSpawnScale;
@@ -81,7 +91,7 @@ namespace ColorOrCrash.Features.Ball.Components
 
             while (elapsed < duration)
             {
-                if (ServiceLocator.Get<GameManager>().CurrentState != Global.Components.GameState.Playing)
+                if (_gameManager.CurrentState != Global.Components.GameState.Playing)
                 {
                     await UniTask.Yield();
                     continue;
@@ -97,6 +107,8 @@ namespace ColorOrCrash.Features.Ball.Components
 
                 await UniTask.Yield();
             }
+
+            if (this == null || token.IsCancellationRequested) return;
 
             // 3. Finalize Activation
             _renderer.color = targetColor;
@@ -116,7 +128,8 @@ namespace ColorOrCrash.Features.Ball.Components
 
         private void FixedUpdate()
         {
-            if (ServiceLocator.Get<GameManager>().CurrentState != Global.Components.GameState.Playing)
+            if (_gameManager == null) return;
+            if (_gameManager.CurrentState != Global.Components.GameState.Playing)
             {
                 // _rb.linearVelocity = Vector2.zero;
                 return;
@@ -143,6 +156,8 @@ namespace ColorOrCrash.Features.Ball.Components
 
         public void OnCollected()
         {
+            _lifecycleCts?.Cancel(); 
+            _isActive = false;
             // Releasing back to pool instead of destroying
             ServiceLocator.Get<BallSpawner>().RemoveFromActiveList(this);
             _pool?.Release(this);
@@ -163,6 +178,8 @@ namespace ColorOrCrash.Features.Ball.Components
 
         private void OnDestroy()
         {
+            _lifecycleCts?.Cancel();
+            _lifecycleCts?.Dispose();
             _pool = null;
         }
     }
