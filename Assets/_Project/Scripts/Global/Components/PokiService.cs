@@ -1,0 +1,64 @@
+using System;
+using NocturneThree.ServiceLocator;
+using UnityEngine;
+
+namespace ColorOrCrash.Global.Components
+{
+    [Service]
+    public class PokiService : MonoBehaviour, IGameService
+    {
+        private bool _isGameplayActive;
+
+        public bool IsShowingAd => PokiUnitySDK.Instance.isShowingAd;
+
+        public void GameplayStart()
+        {
+            if (_isGameplayActive || IsShowingAd) return;
+            _isGameplayActive = true;
+            PokiUnitySDK.Instance.gameplayStart();
+        }
+
+        public void GameplayStop()
+        {
+            if (!_isGameplayActive || IsShowingAd) return;
+            _isGameplayActive = false;
+            PokiUnitySDK.Instance.gameplayStop();
+        }
+
+        public void CommercialBreak(Action onComplete)
+        {
+            var audio = ServiceLocator.Get<AudioManager>();
+            audio.SetMute(true);
+
+            PokiUnitySDK.Instance.commercialBreakCallBack = () =>
+            {
+                audio.SetMute(false);
+                onComplete?.Invoke();
+            };
+            PokiUnitySDK.Instance.commercialBreak();
+        }
+
+        public void RewardedBreak(Action<bool> onComplete)
+        {
+            var audio = ServiceLocator.Get<AudioManager>();
+            audio.SetMute(true);
+
+            PokiUnitySDK.Instance.rewardedBreakCallBack = (withReward) =>
+            {
+                audio.SetMute(false);
+                onComplete?.Invoke(withReward);
+            };
+            PokiUnitySDK.Instance.rewardedBreak();
+        }
+
+        public bool IsAdBlocked()
+        {
+            return PokiUnitySDK.Instance.isAdBlocked();
+        }
+
+        void OnDestroy()
+        {
+            ServiceLocator.Unregister<PokiService>();
+        }
+    }
+}
