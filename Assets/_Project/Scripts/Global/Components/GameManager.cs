@@ -51,7 +51,7 @@ namespace ColorOrCrash.Global.Components
             }
             else if(_currentState == GameState.GameOver)
             {
-                PokiService.Instance?.GameplayStop();
+                ServiceLocator.Get<PokiService>()?.GameplayStop();
 
                 if(Score >= _saveManager.Data.highScore)
                 {
@@ -70,7 +70,7 @@ namespace ColorOrCrash.Global.Components
         public void TogglePause()
         {
             isPaused = true;
-            PokiService.Instance?.GameplayStop();
+            ServiceLocator.Get<PokiService>()?.GameplayStop();
             Time.timeScale = 0;
             OnGamePaused?.Invoke();
         }
@@ -104,12 +104,12 @@ namespace ColorOrCrash.Global.Components
         {
             isPaused = false;
             Time.timeScale = 1;
-            PokiService.Instance?.GameplayStart();
+            ServiceLocator.Get<PokiService>()?.GameplayStart();
         }
 
         public void StartGame()
         {
-            PokiService.Instance?.GameplayStart();
+            ServiceLocator.Get<PokiService>()?.GameplayStart();
             ChangeState(GameState.Playing);
         }
 

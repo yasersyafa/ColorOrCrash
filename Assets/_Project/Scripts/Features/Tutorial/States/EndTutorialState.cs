@@ -38,14 +38,22 @@ namespace ColorOrCrash.Features.Tutorial.States
         {
             if(CanMove)
             {
-                if(Keyboard.current.enterKey.isPressed || Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
+                if((Keyboard.current != null && Keyboard.current.enterKey.isPressed) || (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame))
                 {
                     CanMove = false;
                     ServiceLocator.Get<AudioManager>().StopBGM();
-                    PokiService.Instance.CommercialBreak(() =>
+                    var poki = ServiceLocator.Get<PokiService>();
+                    if (poki != null)
+                    {
+                        poki.CommercialBreak(() =>
+                        {
+                            ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.GameScene).Forget();
+                        });
+                    }
+                    else
                     {
                         ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.GameScene).Forget();
-                    });
+                    }
                 }
             }
         }

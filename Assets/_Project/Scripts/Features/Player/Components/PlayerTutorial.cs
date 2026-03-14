@@ -71,8 +71,8 @@ namespace ColorOrCrash.Features.Player.Components
             _rb = GetComponent<Rigidbody2D>();
             _isMobile = IsMobileDevice();
 
-            if (mobileControlsUI != null)
-                mobileControlsUI.SetActive(_isMobile);
+            if (_isMobile && mobileControlsUI != null)
+                mobileControlsUI.SetActive(true);
 
             if (_isMobile && mobileJumpButton != null)
             {

@@ -14,12 +14,7 @@ namespace ColorOrCrash.Features.UI
         [SerializeField] private GameObject buttonChoices, title, panelStats;
         [SerializeField] private TextMeshProUGUI redText, greenText, blueText, totalText;
 
-        [Header("Rewarded Ad Buttons")]
-        [SerializeField] private GameObject doubleCoinsButton;
-        [SerializeField] private TextMeshProUGUI doubleCoinsLabel;
-
         private GameManager manager;
-        private bool _hasDoubledCoins;
 
         void Start()
         {
@@ -86,67 +81,48 @@ namespace ColorOrCrash.Features.UI
 
             ServiceLocator.Get<AudioManager>().PlaySFX("GameOver");
             buttonChoices.SetActive(true);
-
-            // Show double coins button only if ads are not blocked and not already used
-            if (doubleCoinsButton != null)
-            {
-                bool showReward = !_hasDoubledCoins && !PokiService.Instance.IsAdBlocked();
-                doubleCoinsButton.SetActive(showReward);
-            }
         }
 
         public void OnRestartButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            PokiService.Instance.CommercialBreak(() =>
+            var poki = ServiceLocator.Get<PokiService>();
+            if (poki != null)
+            {
+                poki.CommercialBreak(() =>
+                {
+                    manager.ChangeState(GameState.Countdown);
+                    Reset();
+                });
+            }
+            else
             {
                 manager.ChangeState(GameState.Countdown);
                 Reset();
-            });
+            }
         }
 
         public void OnExitButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            PokiService.Instance.CommercialBreak(async () =>
+            var poki = ServiceLocator.Get<PokiService>();
+            if (poki != null)
+            {
+                poki.CommercialBreak(async () =>
+                {
+                    ServiceLocator.Get<AudioManager>().StopBGM();
+                    await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene);
+                });
+            }
+            else
             {
                 ServiceLocator.Get<AudioManager>().StopBGM();
-                await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene);
-            });
-        }
-
-        public void OnDoubleCoinsButtonPressed()
-        {
-            if (_hasDoubledCoins) return;
-
-            ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            PokiService.Instance.RewardedBreak((withReward) =>
-            {
-                if (!withReward) return;
-
-                _hasDoubledCoins = true;
-                if (doubleCoinsButton != null)
-                    doubleCoinsButton.SetActive(false);
-
-                var save = ServiceLocator.Get<SaveManager>();
-                int red = manager.RedPoint;
-                int green = manager.GreenPoint;
-                int blue = manager.BluePoint;
-
-                save.Data.redCoins += red;
-                save.Data.greenCoins += green;
-                save.Data.blueCoins += blue;
-                save.SaveGame();
-
-                int doubled = (red + green + blue) * 2;
-                totalText.SetText("Total: " + doubled.ToString());
-                ServiceLocator.Get<AudioManager>().PlaySFX("Score");
-            });
+                ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene).Forget();
+            }
         }
 
         private void Reset()
         {
-            _hasDoubledCoins = false;
             redText.text = "0";
             greenText.text = "0";
             blueText.text = "0";
@@ -156,9 +132,6 @@ namespace ColorOrCrash.Features.UI
             title.SetActive(false);
             totalText.gameObject.SetActive(true);
             panelStats.SetActive(false);
-
-            if (doubleCoinsButton != null)
-                doubleCoinsButton.SetActive(false);
         }
     }
 }

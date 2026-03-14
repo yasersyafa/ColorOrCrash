@@ -1,4 +1,5 @@
 using ColorOrCrash.Global.Components;
+using Cysharp.Threading.Tasks;
 using NocturneThree.ServiceLocator;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -23,30 +24,49 @@ namespace ColorOrCrash
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
             pausePanel.SetActive(false);
-            PokiService.Instance.CommercialBreak(() =>
+            var poki = ServiceLocator.Get<PokiService>();
+            if (poki != null)
+            {
+                poki.CommercialBreak(() => manager.ResumeGame());
+            }
+            else
             {
                 manager.ResumeGame();
-            });
+            }
         }
 
         public void OnExitButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            PokiService.Instance.CommercialBreak(async () =>
+            var poki = ServiceLocator.Get<PokiService>();
+            if (poki != null)
+            {
+                poki.CommercialBreak(async () =>
+                {
+                    ServiceLocator.Get<AudioManager>().StopBGM();
+                    await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene);
+                });
+            }
+            else
             {
                 ServiceLocator.Get<AudioManager>().StopBGM();
-                await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene);
-            });
+                ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene).Forget();
+            }
         }
 
         public void OnRestartButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
             pausePanel.SetActive(false);
-            PokiService.Instance.CommercialBreak(() =>
+            var poki = ServiceLocator.Get<PokiService>();
+            if (poki != null)
+            {
+                poki.CommercialBreak(() => manager.ChangeState(GameState.Countdown));
+            }
+            else
             {
                 manager.ChangeState(GameState.Countdown);
-            });
+            }
         }
 
         void Update()

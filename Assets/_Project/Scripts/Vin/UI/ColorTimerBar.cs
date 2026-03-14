@@ -22,7 +22,12 @@ namespace ColorOrCrash.Vin.UI
 
         private void Start()
         {
-            _manager = ServiceLocator.Get<GameManager>();
+            _manager = FindAnyObjectByType<GameManager>();
+            if (_manager == null)
+            {
+                enabled = false;
+                return;
+            }
 
             if (_player != null)
             {
