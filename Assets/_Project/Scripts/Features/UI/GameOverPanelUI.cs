@@ -9,16 +9,22 @@ namespace ColorOrCrash.Features.UI
 {
     public class GameOverPanelUI : MonoBehaviour
     {
+        [Header("Panels")]
         [SerializeField] private GameObject gameOverPanel;
         [SerializeField] private GameObject buttonChoices, title, panelStats;
         [SerializeField] private TextMeshProUGUI redText, greenText, blueText, totalText;
+
+        [Header("Rewarded Ad Buttons")]
+        [SerializeField] private GameObject doubleCoinsButton;
+        [SerializeField] private TextMeshProUGUI doubleCoinsLabel;
+
         private GameManager manager;
+        private bool _hasDoubledCoins;
 
         void Start()
         {
             Reset();
             manager = ServiceLocator.Get<GameManager>();
-
             manager.OnGameStateChanged += HandleGameState;
         }
 
@@ -44,7 +50,7 @@ namespace ColorOrCrash.Features.UI
 
             gameOverPanel.SetActive(true);
             await UniTask.Delay(500, cancellationToken: ct);
-            
+
             ServiceLocator.Get<AudioManager>().PlaySFX("GameOver");
             title.SetActive(true);
 
@@ -80,6 +86,13 @@ namespace ColorOrCrash.Features.UI
 
             ServiceLocator.Get<AudioManager>().PlaySFX("GameOver");
             buttonChoices.SetActive(true);
+
+            // Show double coins button only if ads are not blocked and not already used
+            if (doubleCoinsButton != null)
+            {
+                bool showReward = !_hasDoubledCoins && !ServiceLocator.Get<PokiService>().IsAdBlocked();
+                doubleCoinsButton.SetActive(showReward);
+            }
         }
 
         public void OnRestartButtonPressed()
@@ -102,17 +115,50 @@ namespace ColorOrCrash.Features.UI
             });
         }
 
+        public void OnDoubleCoinsButtonPressed()
+        {
+            if (_hasDoubledCoins) return;
+
+            ServiceLocator.Get<AudioManager>().PlaySFX("Click");
+            ServiceLocator.Get<PokiService>().RewardedBreak((withReward) =>
+            {
+                if (!withReward) return;
+
+                _hasDoubledCoins = true;
+                if (doubleCoinsButton != null)
+                    doubleCoinsButton.SetActive(false);
+
+                var save = ServiceLocator.Get<SaveManager>();
+                int red = manager.RedPoint;
+                int green = manager.GreenPoint;
+                int blue = manager.BluePoint;
+
+                save.Data.redCoins += red;
+                save.Data.greenCoins += green;
+                save.Data.blueCoins += blue;
+                save.SaveGame();
+
+                int doubled = (red + green + blue) * 2;
+                totalText.SetText("Total: " + doubled.ToString());
+                ServiceLocator.Get<AudioManager>().PlaySFX("Score");
+            });
+        }
+
         private void Reset()
         {
+            _hasDoubledCoins = false;
             redText.text = "0";
             greenText.text = "0";
             blueText.text = "0";
-            
+
             gameOverPanel.SetActive(false);
             buttonChoices.SetActive(false);
             title.SetActive(false);
             totalText.gameObject.SetActive(true);
             panelStats.SetActive(false);
+
+            if (doubleCoinsButton != null)
+                doubleCoinsButton.SetActive(false);
         }
     }
 }
