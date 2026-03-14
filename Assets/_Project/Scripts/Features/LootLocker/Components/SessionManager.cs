@@ -23,6 +23,8 @@ namespace ColorOrCrash.Features.LootLocker.Components
                     return;
                 }
 
+                LeaderboardService.IsSessionActive = true;
+
                 try { PlayerPrefs.SetString(LeaderboardService.memberKey, response.player_id.ToString()); }
                 catch (System.Exception) { }
 
