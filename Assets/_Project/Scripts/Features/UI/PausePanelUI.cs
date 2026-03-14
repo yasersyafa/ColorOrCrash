@@ -9,7 +9,7 @@ namespace ColorOrCrash
     {
         [SerializeField] private GameObject pausePanel;
         private GameManager manager;
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
+
         void Start()
         {
             manager = ServiceLocator.Get<GameManager>();
@@ -22,29 +22,37 @@ namespace ColorOrCrash
         public void OnResumeButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            manager.ResumeGame();
             pausePanel.SetActive(false);
+            ServiceLocator.Get<PokiService>().CommercialBreak(() =>
+            {
+                manager.ResumeGame();
+            });
         }
 
-        public async void OnExitButtonPressed()
+        public void OnExitButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            ServiceLocator.Get<AudioManager>().StopBGM();
-            await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene);
+            ServiceLocator.Get<PokiService>().CommercialBreak(async () =>
+            {
+                ServiceLocator.Get<AudioManager>().StopBGM();
+                await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene);
+            });
         }
 
         public void OnRestartButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            manager.ChangeState(GameState.Countdown);
             pausePanel.SetActive(false);
+            ServiceLocator.Get<PokiService>().CommercialBreak(() =>
+            {
+                manager.ChangeState(GameState.Countdown);
+            });
         }
 
-        // Update is called once per frame
         void Update()
         {
             var keyboard = Keyboard.current;
-            if(keyboard.escapeKey.wasPressedThisFrame && !manager.isPaused && manager.CurrentState == GameState.Playing)
+            if(keyboard != null && keyboard.escapeKey.wasPressedThisFrame && !manager.isPaused && manager.CurrentState == GameState.Playing)
             {
                 manager.TogglePause();
             }
