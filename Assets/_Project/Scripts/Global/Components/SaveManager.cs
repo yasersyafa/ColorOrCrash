@@ -1,3 +1,4 @@
+using System;
 using ColorOrCrash.Features.SaveSystem.Models;
 using ColorOrCrash.Features.SaveSystem.Services;
 using NocturneThree.ServiceLocator;
@@ -36,11 +37,19 @@ namespace ColorOrCrash
         public void SaveGame()
         {
             _saveProvider.Save(Data);
-            PlayerPrefs.Save();
+            try { PlayerPrefs.Save(); } catch (Exception) { }
         }
 
-        public static void Save() => PlayerPrefs.SetInt(keyTutorial, 1);
-        public static bool HasTutorial() => PlayerPrefs.HasKey(keyTutorial) && PlayerPrefs.GetInt(keyTutorial) == 1;
+        public static void Save()
+        {
+            try { PlayerPrefs.SetInt(keyTutorial, 1); } catch (Exception) { }
+        }
+
+        public static bool HasTutorial()
+        {
+            try { return PlayerPrefs.HasKey(keyTutorial) && PlayerPrefs.GetInt(keyTutorial) == 1; }
+            catch (Exception) { return false; }
+        }
 
         private void OnApplicationFocus(bool focus)
         {

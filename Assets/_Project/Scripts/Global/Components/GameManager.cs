@@ -57,7 +57,9 @@ namespace ColorOrCrash.Global.Components
                 {
                     _saveManager.Data.highScore = Score;
                     
-                    string memberId = PlayerPrefs.GetString(LeaderboardService.memberKey, "");
+                    string memberId = "";
+                    try { memberId = PlayerPrefs.GetString(LeaderboardService.memberKey, ""); }
+                    catch (System.Exception) { }
                     LeaderboardService.TrySubmitScore(memberId, Score);
                 }
             }

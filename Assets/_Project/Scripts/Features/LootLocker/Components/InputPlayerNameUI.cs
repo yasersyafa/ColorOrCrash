@@ -22,9 +22,12 @@ namespace ColorOrCrash.Features.LootLocker.Components
             string name = inputField.text.Trim();
             if (string.IsNullOrEmpty(name)) return; // validasi jangan kosong
 
-            // Simpan dulu ke PlayerPrefs!
-            PlayerPrefs.SetString(LeaderboardService.playerNameKey, name);
-            PlayerPrefs.Save();
+            try
+            {
+                PlayerPrefs.SetString(LeaderboardService.playerNameKey, name);
+                PlayerPrefs.Save();
+            }
+            catch (System.Exception) { }
 
             LeaderboardService.SetPlayerName(name, _ =>
             {

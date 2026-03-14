@@ -10,7 +10,14 @@ namespace ColorOrCrash.Features.LootLocker.Services
         public static string memberKey = "member_id";
         public static string playerNameKey = "player_name";
 
-        public static bool HasPlayerName => PlayerPrefs.HasKey(playerNameKey) && !string.IsNullOrEmpty(PlayerPrefs.GetString(playerNameKey));
+        public static bool HasPlayerName
+        {
+            get
+            {
+                try { return PlayerPrefs.HasKey(playerNameKey) && !string.IsNullOrEmpty(PlayerPrefs.GetString(playerNameKey)); }
+                catch (Exception) { return false; }
+            }
+        }
 
         public static void SetPlayerName(string playerName, Action<PlayerNameResponse> onComplete = null)
         {

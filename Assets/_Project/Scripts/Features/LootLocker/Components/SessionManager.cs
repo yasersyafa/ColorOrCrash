@@ -22,9 +22,12 @@ namespace ColorOrCrash.Features.LootLocker.Components
                     return;
                 }
 
-                PlayerPrefs.SetString(LeaderboardService.memberKey, response.player_id.ToString());
+                try { PlayerPrefs.SetString(LeaderboardService.memberKey, response.player_id.ToString()); }
+                catch (System.Exception) { }
 
-                string savedName = PlayerPrefs.GetString(LeaderboardService.playerNameKey, "");
+                string savedName = "";
+                try { savedName = PlayerPrefs.GetString(LeaderboardService.playerNameKey, ""); }
+                catch (System.Exception) { }
 
                 if (!string.IsNullOrEmpty(savedName))
                 {
