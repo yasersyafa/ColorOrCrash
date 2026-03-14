@@ -9,16 +9,17 @@ namespace ColorOrCrash.Features.UI
 {
     public class GameOverPanelUI : MonoBehaviour
     {
+        [Header("Panels")]
         [SerializeField] private GameObject gameOverPanel;
         [SerializeField] private GameObject buttonChoices, title, panelStats;
         [SerializeField] private TextMeshProUGUI redText, greenText, blueText, totalText;
+
         private GameManager manager;
 
         void Start()
         {
             Reset();
             manager = ServiceLocator.Get<GameManager>();
-
             manager.OnGameStateChanged += HandleGameState;
         }
 
@@ -44,7 +45,7 @@ namespace ColorOrCrash.Features.UI
 
             gameOverPanel.SetActive(true);
             await UniTask.Delay(500, cancellationToken: ct);
-            
+
             ServiceLocator.Get<AudioManager>().PlaySFX("GameOver");
             title.SetActive(true);
 
@@ -85,15 +86,39 @@ namespace ColorOrCrash.Features.UI
         public void OnRestartButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            manager.ChangeState(GameState.Countdown);
-            Reset();
+            var poki = ServiceLocator.Get<PokiService>();
+            if (poki != null)
+            {
+                poki.CommercialBreak(() =>
+                {
+                    manager.ChangeState(GameState.Countdown);
+                    Reset();
+                });
+            }
+            else
+            {
+                manager.ChangeState(GameState.Countdown);
+                Reset();
+            }
         }
 
-        public async void OnExitButtonPressed()
+        public void OnExitButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            ServiceLocator.Get<AudioManager>().StopBGM();
-            await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene);
+            var poki = ServiceLocator.Get<PokiService>();
+            if (poki != null)
+            {
+                poki.CommercialBreak(async () =>
+                {
+                    ServiceLocator.Get<AudioManager>().StopBGM();
+                    await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene);
+                });
+            }
+            else
+            {
+                ServiceLocator.Get<AudioManager>().StopBGM();
+                ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene).Forget();
+            }
         }
 
         private void Reset()
@@ -101,7 +126,7 @@ namespace ColorOrCrash.Features.UI
             redText.text = "0";
             greenText.text = "0";
             blueText.text = "0";
-            
+
             gameOverPanel.SetActive(false);
             buttonChoices.SetActive(false);
             title.SetActive(false);

@@ -18,13 +18,19 @@ namespace ColorOrCrash.Features.LootLocker.Components
             {
                 if (!response.success)
                 {
-                    Debug.Log("error starting guest session");
+                    Debug.LogWarning("LootLocker session failed, skipping leaderboard");
+                    ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene).Forget();
                     return;
                 }
 
-                PlayerPrefs.SetString(LeaderboardService.memberKey, response.player_id.ToString());
+                LeaderboardService.IsSessionActive = true;
 
-                string savedName = PlayerPrefs.GetString(LeaderboardService.playerNameKey, "");
+                try { PlayerPrefs.SetString(LeaderboardService.memberKey, response.player_id.ToString()); }
+                catch (System.Exception) { }
+
+                string savedName = "";
+                try { savedName = PlayerPrefs.GetString(LeaderboardService.playerNameKey, ""); }
+                catch (System.Exception) { }
 
                 if (!string.IsNullOrEmpty(savedName))
                 {

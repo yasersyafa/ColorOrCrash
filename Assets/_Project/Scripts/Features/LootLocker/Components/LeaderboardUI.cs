@@ -47,7 +47,9 @@ namespace ColorOrCrash
             foreach (Transform child in entriesContainer)
                 Destroy(child.gameObject);
 
-            string myMemberId = PlayerPrefs.GetString(LeaderboardService.memberKey, "");
+            string myMemberId = "";
+            try { myMemberId = PlayerPrefs.GetString(LeaderboardService.memberKey, ""); }
+            catch (System.Exception) { }
 
             LeaderboardService.GetLeaderboardEntries(10, entries =>
             {

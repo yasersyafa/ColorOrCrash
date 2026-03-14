@@ -95,7 +95,13 @@ namespace ColorOrCrash.Features.Player.Components
 
         private void Start()
         {
-            manager = ServiceLocator.Get<GameManager>();
+            manager = FindAnyObjectByType<GameManager>();
+            if (manager == null)
+            {
+                enabled = false;
+                return;
+            }
+
             cameraController = ServiceLocator.Get<CameraShakeController>();
 
             _initialPosition = transform.position;
@@ -110,8 +116,8 @@ namespace ColorOrCrash.Features.Player.Components
 
         private void SetupMobileControls()
         {
-            if (mobileControlsUI != null)
-                mobileControlsUI.SetActive(_isMobile);
+            if (_isMobile && mobileControlsUI != null)
+                mobileControlsUI.SetActive(true);
 
             if (_isMobile && mobileJumpButton != null)
             {
@@ -383,7 +389,8 @@ namespace ColorOrCrash.Features.Player.Components
                 mobileJumpButton.OnReleased -= HandleMobileJumpReleased;
             }
 
-            manager.OnGameStateChanged -= HandleGameStateChanged;
+            if (manager != null)
+                manager.OnGameStateChanged -= HandleGameStateChanged;
         }
     }
 }

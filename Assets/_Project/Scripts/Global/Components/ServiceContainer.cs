@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace ColorOrCrash.Global.Components
 {
+    // [DefaultExecutionOrder(-100)]
     public class ServiceContainer : MonoBehaviour
     {
         private static ServiceContainer _instance;
@@ -12,6 +13,7 @@ namespace ColorOrCrash.Global.Components
 
         private void Awake()
         {
+            PokiUnitySDK.Instance.init();
             if (_instance != null && _instance != this)
             {
                 Destroy(gameObject);
@@ -21,6 +23,11 @@ namespace ColorOrCrash.Global.Components
             _instance = this;
             
             DontDestroyOnLoad(gameObject);
+        }
+
+        private void Start()
+        {
+            PokiUnitySDK.Instance.gameLoadingFinished();
         }
     }
 }

@@ -138,8 +138,8 @@ namespace ColorOrCrash
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
             ServiceLocator.Get<AudioManager>().StopBGM(true);
             await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(
-                SaveManager.HasTutorial() ? 
-                ServiceContainer.Instance.Scenes.GameScene : 
+                SaveManager.HasTutorial() ?
+                ServiceContainer.Instance.Scenes.GameScene :
                 ServiceContainer.Instance.Scenes.TutorialScene
             );
         }
@@ -166,6 +166,7 @@ namespace ColorOrCrash
         /// </summary>
         public void HideCredits()
         {
+            ServiceLocator.Get<AudioManager>().PlaySFX("Click");
             if (creditsPanel != null)
             {
                 creditsPanel.SetActive(false);
@@ -177,19 +178,11 @@ namespace ColorOrCrash
             }
         }
         
-        /// <summary>
-        /// Fungsi untuk button Exit - Keluar dari game
-        /// </summary>
         public void ExitGame()
         {
-            ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            
             #if UNITY_EDITOR
-                // Jika di Unity Editor, stop play mode
-                UnityEditor.EditorApplication.isPlaying = false;
-            #else
-                // Jika di build, quit application
-                Application.Quit();
+            ServiceLocator.Get<AudioManager>().PlaySFX("Click");
+            UnityEditor.EditorApplication.isPlaying = false;
             #endif
         }
     }

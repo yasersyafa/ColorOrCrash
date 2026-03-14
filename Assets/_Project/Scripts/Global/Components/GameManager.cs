@@ -33,7 +33,6 @@ namespace ColorOrCrash.Global.Components
         private SaveManager _saveManager;
         private AudioManager _audioManager;
         private BallSpawner _ballSpawner;
-
         private void Start()
         {
             _saveManager = ServiceLocator.Get<SaveManager>();
@@ -52,12 +51,15 @@ namespace ColorOrCrash.Global.Components
             }
             else if(_currentState == GameState.GameOver)
             {
+                ServiceLocator.Get<PokiService>()?.GameplayStop();
 
                 if(Score >= _saveManager.Data.highScore)
                 {
                     _saveManager.Data.highScore = Score;
                     
-                    string memberId = PlayerPrefs.GetString(LeaderboardService.memberKey, "");
+                    string memberId = "";
+                    try { memberId = PlayerPrefs.GetString(LeaderboardService.memberKey, ""); }
+                    catch (System.Exception) { }
                     LeaderboardService.TrySubmitScore(memberId, Score);
                 }
             }
@@ -68,6 +70,7 @@ namespace ColorOrCrash.Global.Components
         public void TogglePause()
         {
             isPaused = true;
+            ServiceLocator.Get<PokiService>()?.GameplayStop();
             Time.timeScale = 0;
             OnGamePaused?.Invoke();
         }
@@ -101,10 +104,12 @@ namespace ColorOrCrash.Global.Components
         {
             isPaused = false;
             Time.timeScale = 1;
+            ServiceLocator.Get<PokiService>()?.GameplayStart();
         }
 
         public void StartGame()
         {
+            ServiceLocator.Get<PokiService>()?.GameplayStart();
             ChangeState(GameState.Playing);
         }
 

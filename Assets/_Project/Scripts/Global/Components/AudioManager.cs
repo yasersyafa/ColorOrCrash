@@ -162,6 +162,11 @@ namespace ColorOrCrash.Global.Components
         }
 
         public void SetMasterVolume(float volume) => audioMixer.SetFloat("MasterVol", Mathf.Log10(volume) * 20);
+
+        public void SetMute(bool mute)
+        {
+            audioMixer.SetFloat("MasterVol", mute ? -80f : 0f);
+        }
         
         #endregion
 

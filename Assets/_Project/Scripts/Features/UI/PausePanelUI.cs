@@ -1,4 +1,5 @@
 using ColorOrCrash.Global.Components;
+using Cysharp.Threading.Tasks;
 using NocturneThree.ServiceLocator;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,7 +10,7 @@ namespace ColorOrCrash
     {
         [SerializeField] private GameObject pausePanel;
         private GameManager manager;
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
+
         void Start()
         {
             manager = ServiceLocator.Get<GameManager>();
@@ -22,29 +23,56 @@ namespace ColorOrCrash
         public void OnResumeButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            manager.ResumeGame();
             pausePanel.SetActive(false);
+            var poki = ServiceLocator.Get<PokiService>();
+            if (poki != null)
+            {
+                poki.CommercialBreak(() => manager.ResumeGame());
+            }
+            else
+            {
+                manager.ResumeGame();
+            }
         }
 
-        public async void OnExitButtonPressed()
+        public void OnExitButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            ServiceLocator.Get<AudioManager>().StopBGM();
-            await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene);
+            var poki = ServiceLocator.Get<PokiService>();
+            if (poki != null)
+            {
+                poki.CommercialBreak(async () =>
+                {
+                    ServiceLocator.Get<AudioManager>().StopBGM();
+                    await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene);
+                });
+            }
+            else
+            {
+                ServiceLocator.Get<AudioManager>().StopBGM();
+                ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene).Forget();
+            }
         }
 
         public void OnRestartButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            manager.ChangeState(GameState.Countdown);
             pausePanel.SetActive(false);
+            var poki = ServiceLocator.Get<PokiService>();
+            if (poki != null)
+            {
+                poki.CommercialBreak(() => manager.ChangeState(GameState.Countdown));
+            }
+            else
+            {
+                manager.ChangeState(GameState.Countdown);
+            }
         }
 
-        // Update is called once per frame
         void Update()
         {
             var keyboard = Keyboard.current;
-            if(keyboard.escapeKey.wasPressedThisFrame && !manager.isPaused && manager.CurrentState == GameState.Playing)
+            if(keyboard != null && keyboard.escapeKey.wasPressedThisFrame && !manager.isPaused && manager.CurrentState == GameState.Playing)
             {
                 manager.TogglePause();
             }
