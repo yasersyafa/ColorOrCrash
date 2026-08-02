@@ -2,6 +2,7 @@
   "dependencies": {
     "com.nocturnethree.eventsystem": "https://github.com/Nocturne-Three/Event-Bus.git",
     "com.nocturnethree.servicelocator": "https://github.com/Nocturne-Three/Service-Locator.git",
+    "com.playgama.bridge": "https://github.com/playgama/bridge-unity.git",
     "com.unity.cinemachine": "3.1.7",
     "com.unity.collab-proxy": "2.12.4",
     "com.unity.feature.2d": "2.0.2",
