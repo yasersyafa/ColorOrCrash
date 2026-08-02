@@ -28,6 +28,7 @@ namespace ColorOrCrash.Global.Components
         private void Start()
         {
             PokiUnitySDK.Instance.gameLoadingFinished();
+            AdsBridge.NotifyGameReady();
         }
     }
 }

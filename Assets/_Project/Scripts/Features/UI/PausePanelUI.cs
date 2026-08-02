@@ -24,49 +24,24 @@ namespace ColorOrCrash
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
             pausePanel.SetActive(false);
-            var poki = ServiceLocator.Get<PokiService>();
-            if (poki != null)
-            {
-                poki.CommercialBreak(() => manager.ResumeGame());
-            }
-            else
-            {
-                manager.ResumeGame();
-            }
+            AdsBridge.CommercialBreak(() => manager.ResumeGame());
         }
 
         public void OnExitButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            var poki = ServiceLocator.Get<PokiService>();
-            if (poki != null)
-            {
-                poki.CommercialBreak(async () =>
-                {
-                    ServiceLocator.Get<AudioManager>().StopBGM();
-                    await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene);
-                });
-            }
-            else
+            AdsBridge.CommercialBreak(async () =>
             {
                 ServiceLocator.Get<AudioManager>().StopBGM();
-                ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene).Forget();
-            }
+                await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene);
+            });
         }
 
         public void OnRestartButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
             pausePanel.SetActive(false);
-            var poki = ServiceLocator.Get<PokiService>();
-            if (poki != null)
-            {
-                poki.CommercialBreak(() => manager.ChangeState(GameState.Countdown));
-            }
-            else
-            {
-                manager.ChangeState(GameState.Countdown);
-            }
+            AdsBridge.CommercialBreak(() => manager.ChangeState(GameState.Countdown));
         }
 
         void Update()

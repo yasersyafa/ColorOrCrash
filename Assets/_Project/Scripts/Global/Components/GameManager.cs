@@ -1,7 +1,7 @@
 using System;
 using ColorOrCrash.Features.Achievement.Events;
 using ColorOrCrash.Features.Ball.Components;
-using ColorOrCrash.Features.LootLocker.Services;
+using ColorOrCrash.Features.PlaygamaBridge.Services;
 using ColorOrCrash.Vin.Core;
 using NocturneThree.EventSystem;
 using NocturneThree.ServiceLocator;
@@ -51,16 +51,13 @@ namespace ColorOrCrash.Global.Components
             }
             else if(_currentState == GameState.GameOver)
             {
-                ServiceLocator.Get<PokiService>()?.GameplayStop();
+                AdsBridge.GameplayStop();
+                AdsBridge.NotifyLevelCompleted();
 
                 if(Score >= _saveManager.Data.highScore)
                 {
                     _saveManager.Data.highScore = Score;
-                    
-                    string memberId = "";
-                    try { memberId = PlayerPrefs.GetString(LeaderboardService.memberKey, ""); }
-                    catch (System.Exception) { }
-                    LeaderboardService.TrySubmitScore(memberId, Score);
+                    PlaygamaLeaderboardService.SubmitScore(Score);
                 }
             }
 
@@ -70,7 +67,7 @@ namespace ColorOrCrash.Global.Components
         public void TogglePause()
         {
             isPaused = true;
-            ServiceLocator.Get<PokiService>()?.GameplayStop();
+            AdsBridge.GameplayStop();
             Time.timeScale = 0;
             OnGamePaused?.Invoke();
         }
@@ -104,12 +101,13 @@ namespace ColorOrCrash.Global.Components
         {
             isPaused = false;
             Time.timeScale = 1;
-            ServiceLocator.Get<PokiService>()?.GameplayStart();
+            AdsBridge.GameplayStart();
         }
 
         public void StartGame()
         {
-            ServiceLocator.Get<PokiService>()?.GameplayStart();
+            AdsBridge.GameplayStart();
+            AdsBridge.NotifyLevelStarted();
             ChangeState(GameState.Playing);
         }
 

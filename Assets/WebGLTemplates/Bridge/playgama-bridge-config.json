@@ -1,0 +1,25 @@
+{
+    "$schema": "https://bridge.playgama.com/v2/stable/schema.json",
+    "advertisement": {
+        "interstitial": {
+            "preloadOnStart": true
+        },
+        "rewarded": {
+            "preloadOnStart": true
+        },
+        "useBuiltInErrorPopup": true,
+        "backfillId": ""
+    },
+    "payments": [
+        {
+            "id": "remove_ads",
+            "price": "1.99"
+        }
+    ],
+    "leaderboards": [
+        {
+            "id": "main"
+        }
+    ],
+    "sendAnalyticsEvents": true
+}

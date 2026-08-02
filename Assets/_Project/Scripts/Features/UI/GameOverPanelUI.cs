@@ -86,39 +86,21 @@ namespace ColorOrCrash.Features.UI
         public void OnRestartButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            var poki = ServiceLocator.Get<PokiService>();
-            if (poki != null)
-            {
-                poki.CommercialBreak(() =>
-                {
-                    manager.ChangeState(GameState.Countdown);
-                    Reset();
-                });
-            }
-            else
+            AdsBridge.CommercialBreak(() =>
             {
                 manager.ChangeState(GameState.Countdown);
                 Reset();
-            }
+            });
         }
 
         public void OnExitButtonPressed()
         {
             ServiceLocator.Get<AudioManager>().PlaySFX("Click");
-            var poki = ServiceLocator.Get<PokiService>();
-            if (poki != null)
-            {
-                poki.CommercialBreak(async () =>
-                {
-                    ServiceLocator.Get<AudioManager>().StopBGM();
-                    await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene);
-                });
-            }
-            else
+            AdsBridge.CommercialBreak(async () =>
             {
                 ServiceLocator.Get<AudioManager>().StopBGM();
-                ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene).Forget();
-            }
+                await ServiceLocator.Get<LoadSceneManager>().LoadSceneAsync(ServiceContainer.Instance.Scenes.MainMenuScene);
+            });
         }
 
         private void Reset()

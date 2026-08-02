@@ -1,4 +1,5 @@
-using ColorOrCrash.Features.LootLocker.Services;
+using System.Collections.Generic;
+using ColorOrCrash.Features.PlaygamaBridge.Services;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,6 +15,7 @@ namespace ColorOrCrash
         [Header("Entries")]
         [SerializeField] private Transform entriesContainer;
         [SerializeField] private GameObject entryPrefab;
+        [SerializeField] private GameObject notAvailableLabel;
 
         [Header("Colors")]
         [SerializeField] private Color highlightColor = Color.yellow;
@@ -24,7 +26,6 @@ namespace ColorOrCrash
         [Space]
         [SerializeField] private GameObject menuButtonContainer;
 
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
             leaderboardPanel.SetActive(false);
@@ -43,28 +44,46 @@ namespace ColorOrCrash
 
         private void LoadEntries()
         {
-            // Bersihkan entry lama
             foreach (Transform child in entriesContainer)
                 Destroy(child.gameObject);
 
-            string myMemberId = "";
-            try { myMemberId = PlayerPrefs.GetString(LeaderboardService.memberKey, ""); }
-            catch (System.Exception) { }
+            if (notAvailableLabel != null)
+                notAvailableLabel.SetActive(false);
 
-            LeaderboardService.GetLeaderboardEntries(10, entries =>
+            if (!PlaygamaLeaderboardService.IsAvailable)
             {
+                if (notAvailableLabel != null)
+                    notAvailableLabel.SetActive(true);
+                return;
+            }
+
+            string myId = PlaygamaPlayerService.Id;
+
+            PlaygamaLeaderboardService.GetEntries(10, (success, entries) =>
+            {
+                if (!success || entries == null)
+                {
+                    if (notAvailableLabel != null)
+                        notAvailableLabel.SetActive(true);
+                    return;
+                }
+
                 int index = 0;
                 foreach (var entry in entries)
                 {
                     var row = Instantiate(entryPrefab, entriesContainer);
                     var texts = row.GetComponentsInChildren<TMP_Text>();
 
-                    texts[0].text = $"#{entry.rank}";
-                    texts[1].text = entry.player.name;
-                    texts[2].text = entry.score.ToString();
+                    string rank = GetValue(entry, "rank", "position");
+                    string name = GetValue(entry, "name", "player_name", "playerName");
+                    string score = GetValue(entry, "score", "value");
+                    string id = GetValue(entry, "id", "player_id", "playerId", "memberId");
 
-                    // Highlight kalau ini player sendiri
-                    bool isMe = entry.member_id == myMemberId;
+                    texts[0].text = $"#{rank}";
+                    texts[1].text = name;
+                    texts[2].text = score;
+
+                    bool isMe = !string.IsNullOrEmpty(myId) && id == myId;
                     foreach (var t in texts)
                         t.color = isMe ? highlightColor : normalColor;
 
@@ -79,7 +98,17 @@ namespace ColorOrCrash
             });
         }
 
-        // Update is called once per frame
+        private static string GetValue(Dictionary<string, string> entry, params string[] keys)
+        {
+            foreach (var key in keys)
+            {
+                if (entry.TryGetValue(key, out var value) && !string.IsNullOrEmpty(value))
+                    return value;
+            }
+
+            return "";
+        }
+
         void Update()
         {
             var keyboard = Keyboard.current;
@@ -87,7 +116,6 @@ namespace ColorOrCrash
             if (keyboard != null && keyboard.escapeKey.wasPressedThisFrame && leaderboardPanel.activeInHierarchy)
             {
                 leaderboardPanel.SetActive(false);
-                // TODO: show menu buttons
                 menuButtonContainer.SetActive(true);
                 ShowMenuButtons();
             }
