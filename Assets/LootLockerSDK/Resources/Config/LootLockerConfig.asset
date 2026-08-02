@@ -11,23 +11,23 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 182cd195a28310e479cddf7ff82822f8, type: 3}
   m_Name: LootLockerConfig
-  m_EditorClassIdentifier: 
-  apiKey: dev_8594bd30a0fc433e9e4cf1e6d0f730a8
-  adminToken: aef17702e4b55b5c07bcb4b55f78c87b5c6fbe8d
-  domainKey: ss9l5g8s
+  m_EditorClassIdentifier: lootlocker.lootlockersdk.runtime::LootLocker.LootLockerConfig
+  apiKey: 
+  adminToken: 
+  domainKey: 
   game_version: 1.0.0.0
-  sdk_version: 7.1.1
+  sdk_version: 
   url: https://api.lootlocker.com/v1
-  adminUrl: https://ss9l5g8s.api.lootlocker.com/admin
-  playerUrl: https://ss9l5g8s.api.lootlocker.com/player
-  userUrl: https://ss9l5g8s.api.lootlocker.com/game
-  webSocketBaseUrl: wss://ss9l5g8s.api.lootlocker.com/game
-  baseUrl: https://ss9l5g8s.api.lootlocker.com
+  adminUrl: https://api.lootlocker.com/admin
+  playerUrl: https://api.lootlocker.com/player
+  userUrl: https://api.lootlocker.com/game
+  webSocketBaseUrl: wss://api.lootlocker.com/game
+  baseUrl: https://api.lootlocker.com
   clientSideRequestTimeOut: 180
-  logLevel: 0
+  logLevel: 2
   prettifyJson: 1
   obfuscateLogs: 1
-  logErrorsAsWarnings: 1
+  logErrorsAsWarnings: 0
   logInBuilds: 0
   allowTokenRefresh: 1
   enablePresence: 0
